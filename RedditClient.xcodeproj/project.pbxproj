@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		BB2791091BEF0407004166AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2791081BEF0407004166AC /* AppDelegate.swift */; };
-		BB27910B1BEF0407004166AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB27910A1BEF0407004166AC /* ViewController.swift */; };
+		BB27910B1BEF0407004166AC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB27910A1BEF0407004166AC /* SettingsViewController.swift */; };
 		BB27910E1BEF0407004166AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB27910C1BEF0407004166AC /* Main.storyboard */; };
 		BB2791101BEF0407004166AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB27910F1BEF0407004166AC /* Assets.xcassets */; };
 		BB2791131BEF0407004166AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB2791111BEF0407004166AC /* LaunchScreen.storyboard */; };
 		BB27911E1BEF0407004166AC /* RedditClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB27911D1BEF0407004166AC /* RedditClientTests.swift */; };
+		BB2791291BEF0CB5004166AC /* MultiRedditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2791281BEF0CB5004166AC /* MultiRedditsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +29,7 @@
 /* Begin PBXFileReference section */
 		BB2791051BEF0407004166AC /* RedditClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedditClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2791081BEF0407004166AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BB27910A1BEF0407004166AC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BB27910A1BEF0407004166AC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BB27910D1BEF0407004166AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB27910F1BEF0407004166AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB2791121BEF0407004166AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +37,7 @@
 		BB2791191BEF0407004166AC /* RedditClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedditClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB27911D1BEF0407004166AC /* RedditClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditClientTests.swift; sourceTree = "<group>"; };
 		BB27911F1BEF0407004166AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB2791281BEF0CB5004166AC /* MultiRedditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiRedditsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +80,9 @@
 			isa = PBXGroup;
 			children = (
 				BB2791081BEF0407004166AC /* AppDelegate.swift */,
-				BB27910A1BEF0407004166AC /* ViewController.swift */,
+				BB27910A1BEF0407004166AC /* SettingsViewController.swift */,
 				BB27910C1BEF0407004166AC /* Main.storyboard */,
+				BB2791281BEF0CB5004166AC /* MultiRedditsViewController.swift */,
 				BB27910F1BEF0407004166AC /* Assets.xcassets */,
 				BB2791111BEF0407004166AC /* LaunchScreen.storyboard */,
 				BB2791141BEF0407004166AC /* Info.plist */,
@@ -197,8 +200,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB27910B1BEF0407004166AC /* ViewController.swift in Sources */,
+				BB27910B1BEF0407004166AC /* SettingsViewController.swift in Sources */,
 				BB2791091BEF0407004166AC /* AppDelegate.swift in Sources */,
+				BB2791291BEF0CB5004166AC /* MultiRedditsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
