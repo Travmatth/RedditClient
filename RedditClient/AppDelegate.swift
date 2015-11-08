@@ -18,22 +18,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        // Roots views of the respective nav controllers
+        // Root views of the respective nav controllers
         let settingsViewController: UIViewController = storyBoard.instantiateViewControllerWithIdentifier("SettingsViewController")
+        let allRedditsViewController: UIViewController = storyBoard.instantiateViewControllerWithIdentifier("RedditsViewController")
         let multiRedditsViewController: UIViewController = storyBoard.instantiateViewControllerWithIdentifier("RedditsViewController")
         let frontRedditsViewController: UIViewController = storyBoard.instantiateViewControllerWithIdentifier("RedditsViewController")
-        let allRedditsViewController: UIViewController = storyBoard.instantiateViewControllerWithIdentifier("RedditsViewController")
         
         // TODO: Scaffolding, are these actually displaying correctly?
         settingsViewController.view.backgroundColor = UIColor.redColor()
+        allRedditsViewController.view.backgroundColor = UIColor.greenColor()
         multiRedditsViewController.view.backgroundColor = UIColor.blackColor()
         frontRedditsViewController.view.backgroundColor = UIColor.purpleColor()
-        allRedditsViewController.view.backgroundColor = UIColor.greenColor()
         
+        let allNavController: UINavigationController = UINavigationController.init(rootViewController: allRedditsViewController)
         let settingsNavController: UINavigationController = UINavigationController.init(rootViewController: settingsViewController)
         let multiNavController: UINavigationController = UINavigationController.init(rootViewController: multiRedditsViewController)
         let frontNavController: UINavigationController = UINavigationController.init(rootViewController: frontRedditsViewController)
-        let allNavController: UINavigationController = UINavigationController.init(rootViewController: allRedditsViewController)
         
         let userImage = UIImage(named: "circle-user-7")
         let multiRedditsImage = UIImage(named: "command-7")
@@ -44,12 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         frontNavController.tabBarItem = UITabBarItem(title: "Front", image: redditsImage, tag: 3)
         allNavController.tabBarItem = UITabBarItem(title: "All", image: redditsImage, tag: 4)
         
+        let tabBarController = UITabBarController()
         let controllers = [settingsNavController, multiNavController, frontNavController, allNavController]
         
-        let tabBarController = UITabBarController()
         tabBarController.viewControllers = controllers
         
-        self.window!.rootViewController = tabBarController
+        self.window?.rootViewController = tabBarController
         
         return true
     }
