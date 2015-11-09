@@ -6,14 +6,18 @@
 //  Copyright © 2015 Travis Matthews. All rights reserved.
 //
 
+import UIKit
 import XCTest
 @testable import RedditClient
 
 class RedditClientTests: XCTestCase {
+    var vc: LoginViewController!
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        var storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
     }
     
     override func tearDown() {

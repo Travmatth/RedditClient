@@ -8,12 +8,13 @@
 
 import UIKit
 
-class MultiRedditsViewController: UIViewController {
-
+class MultiRedditsViewController: UITableViewController {
+    let cellTitles = ["Test1", "", "Test2", "", "Test3", "", "Test4"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,15 +22,30 @@ class MultiRedditsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - Table View
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
     }
-    */
-
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cellTitles.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("Cell")
+        
+        if cell == nil {
+            cell = UITableViewCell.init(style: .Default, reuseIdentifier: "Cell")
+        }
+        
+        cell!.textLabel!.text = cellTitles[indexPath.row]
+        
+        return cell!
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let nextViewController = SettingsViewController()
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
 }
