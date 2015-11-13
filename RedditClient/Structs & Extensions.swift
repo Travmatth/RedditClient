@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 
-enum RedditPageTypes {
+enum RedditRequestType {
     case Front
     case All
+    case Account
 }
 
 enum TypePrefix: String {

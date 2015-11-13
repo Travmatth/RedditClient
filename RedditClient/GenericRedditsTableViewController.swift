@@ -8,11 +8,9 @@
 
 import UIKit
 
-class GenericRedditsViewController: UITableViewController {
+class GenericRedditsViewController: ListingsViewController {
 
-    var pageType: RedditPageTypes?
     var posts = [RedditPost]()
-    var apiManager: APIManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,28 +21,13 @@ class GenericRedditsViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        let apiManager = APIManager()
         
         tableView!.dataSource = self
         tableView!.delegate = self
         
-        guard pageType != nil else {
-            NSLog("pageType not set within GenericRedditControllers")
-            return
-        }
-        
-        switch pageType! {
-        case .All:
-            apiManager.getAllPosts {
-                [unowned self] (entries) in
-                
-                self.posts = entries
-                self.tableView!.reloadData()
-            }
-            
-        case .Front: fallthrough
-            
-        default: NSLog("default clause reached within .\(pageType).viewDidLoad")
+        apiManager.getAllPosts { [unowned self] (entries) in
+            self.posts = entries
+            self.tableView!.reloadData()
         }
         
         self.tableView!.reloadData()

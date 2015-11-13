@@ -1,0 +1,7 @@
+Next: SafariVC successfully redirects back to uri; handled correctly at the open url method;
+- need to parse return url and send post request back for the access token
+- client id: eDGbSVLzgyozTA
+- https://github.com/reddit/reddit/wiki/OAuth2-iOS-Example
+- http://stackoverflow.com/questions/27036233/how-to-post-json-data-using-nsurlsession-in-swift
+- https://github.com/reddit/reddit/wiki/OAuth2
+- https://apigee.com/console/reddit 
