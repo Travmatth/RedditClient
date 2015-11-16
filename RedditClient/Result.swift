@@ -11,25 +11,19 @@ import Foundation
 
 public enum Result<A> {
     case Success(A)
-    case Failure(NSError)
+    case Failure(String)
     
     init(value: A) {
         self = .Success(value)
     }
     
-    init(error: NSError?) {
-        if let error = error {
-            self = .Failure(error)
-        } else {
-            // .errorWithCode an extension of NSError, implements custom error codes - will investigate later
-            //self = .Failure(NSError.errorWithCode(0, "Fatal error"))
-            self = .Failure(NSError.errorWithCode(0, "Fatal error"))
-        }
+    init(error: String) {
+        self = .Failure(error)
     }
     
     // Conditionally returns some item B if self (set initially by optionaError / resultFromOptionalError is .Success ; workhorse of flatMap
     // H:(f:A->B), (g:C->B) -> B
-    func package<B>(@noescape ifSuccess ifSuccess: A -> B, @noescape ifFailure: NSError -> B) -> B {
+    func package<B>(@noescape ifSuccess ifSuccess: A -> B, @noescape ifFailure: String -> B) -> B {
         switch self {
             
         case .Success(let value):
@@ -48,7 +42,7 @@ public enum Result<A> {
         return package(ifSuccess: transform, ifFailure: Result<B>.Failure)
     }
     
-    var error: NSError? {
+    var error: String? {
         switch self {
             
         case .Failure(let error):
@@ -70,11 +64,30 @@ public enum Result<A> {
     }
 }
 
-func resultFromOptional<A>(value: A, optionalError: NSError? ) -> Result<A> {
+func resultFromOptionalError<A>(value: A, optionalError: NSError? ) -> Result<A> {
     if let error = optionalError {
-        return .Failure(error)
+        return .Failure("\(error)")
     } else {
         return .Success(value)
+    }
+}
+
+func acceptableStatusCode(response: Response) -> Result<NSData> {
+    let successRange = 200..<300
+    
+    if !successRange.contains(response.statusCode) {
+        return .Failure("status code of \(response.statusCode) outside of bounds")
+    }
+    
+    return .Success(response.data)
+}
+
+func fromDataToJSON(data: NSData) -> Result<Any> {
+    do {
+        let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+        return Result(value: json)
+    } catch {
+        return Result(error: "Failure while parsing JSON inside fromDataToJSON")
     }
 }
 
@@ -86,7 +99,7 @@ func resultFromOptional<A>(value: A, optionalError: NSError? ) -> Result<A> {
 
     // resultFromOptional unwraps the error and creates .failure enum, if no error then .success enum
     // .flatMap is called on the enum, it's passed the response2Data func, which creates fail or success enum in response to statuscode of request
-    // .flatmap then called on data2json, which creates either .Success<JSON> (JSON == [String: AnyObject] or [AnyObject]) or .Failure(code)
+    // .flatmap then called on data2json, which creates either .Success ([String: AnyObject] or [AnyObject]) or .Failure(code)
     // .flatMap then passed a closure to  convert JSON in [String: AnyObject]
     let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error).flatMap(response2Data).flatMap(data2Json).flatMap({(json:JSON) -> Result<[String:AnyObject]> in
         if let json = json as? [String:AnyObject] {
@@ -94,7 +107,7 @@ func resultFromOptional<A>(value: A, optionalError: NSError? ) -> Result<A> {
         }
         return Result(error: ReddiftError.Malformed.error)
     })
-    // with frior func complete, result now eqauls a .success enum w/ json = [string: anyobject]
+    // with prior func complete, result now equals a .success enum w/ json = [string: anyobject]
     switch result {
     case .Success(let json):
         // ...

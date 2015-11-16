@@ -14,9 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var responseURL: String!
-    var code: String!
     let accessTokenRequestURL: String = "https://www.reddit.com/api/v1/access_token"
+    
+    let sessionManager = APIManager()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -35,14 +35,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
         
-        responseURL = url.absoluteString
-        NSLog(responseURL)
         
+        sessionManager.login(url)
         // TODO: post a token access request w/ these params; need to parse callback url
         // grant_type=authorization_code&code=CODE&redirect_uri=URI
         // Header: user=client_id; password="";
         // travmatth://redditclient?state=TEST&code=J_Snx6-NMfZM3ngjVmkJOvy4NTI
         
+        loadMainTabBarContoller()
+        
+        return true
+    }
+    
+    func loadMainTabBarContoller() {
         
         // Root views of the respective nav controllers
         let settingsViewController: SettingsViewController = SettingsViewController()
@@ -51,9 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let frontRedditsViewController: GenericRedditsViewController = GenericRedditsViewController()
         
         // Manager networking when appropriate
-        let frontNetworkManager = APIManager(requestType: .Front)
-        let allNetworkManager = APIManager(requestType: .All)
-        let settingsNetworkManager = APIManager(requestType: .Account)
+        let frontNetworkManager = APIManager()
+        let allNetworkManager = APIManager()
+        let settingsNetworkManager = APIManager()
         
         allRedditsViewController.apiManager = allNetworkManager
         frontRedditsViewController.apiManager = frontNetworkManager
@@ -80,7 +85,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         tabBarController.viewControllers = controllers
         self.window!.rootViewController = tabBarController
-        return true
     }
 
     func applicationWillResignActive(application: UIApplication) {

@@ -10,7 +10,7 @@ import UIKit
 
 class GenericRedditsViewController: ListingsViewController {
 
-    var posts = [RedditPost]()
+    var posts = [Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +24,6 @@ class GenericRedditsViewController: ListingsViewController {
         
         tableView!.dataSource = self
         tableView!.delegate = self
-        
-        apiManager.getAllPosts { [unowned self] (entries) in
-            self.posts = entries
-            self.tableView!.reloadData()
-        }
         
         self.tableView!.reloadData()
     }
@@ -55,8 +50,8 @@ class GenericRedditsViewController: ListingsViewController {
             cell = UITableViewCell.init(style: .Subtitle, reuseIdentifier: "Cell")
         }
         
-        cell!.textLabel!.text = posts[indexPath.row].title
-        cell!.detailTextLabel!.text = posts[indexPath.row].author
+        //cell!.textLabel!.text = posts[indexPath.row].title
+        //cell!.detailTextLabel!.text = posts[indexPath.row].author
         
         return cell!
     }

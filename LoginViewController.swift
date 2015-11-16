@@ -12,19 +12,34 @@ import SafariServices
 class LoginViewController: UIViewController {
 
     var loginController: SFSafariViewController?
-    var prompt: UIButton!
+    var loginPrompt: UIButton!
+    var stackView: UIStackView!
+    var skipLoginPrompt: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
         NSLog("loginController Called")
-        let prompt = UIButton(frame: self.view.frame)
-        prompt.addTarget(self, action: "launchLoginController", forControlEvents: UIControlEvents.TouchUpInside)
-        prompt.setTitle("Press", forState: .Normal)
         
-        view.addSubview(prompt)
+        stackView = UIStackView(frame: self.view.bounds)
+        
+        stackView.axis = .Vertical
+        stackView.alignment = .Center
+        stackView.distribution = .FillEqually
+        
+        loginPrompt = UIButton()
+        loginPrompt.addTarget(self, action: "launchLoginController", forControlEvents: UIControlEvents.TouchUpInside)
+        loginPrompt.setTitle("Login", forState: .Normal)
+        
+        skipLoginPrompt = UIButton()
+        skipLoginPrompt.addTarget(self, action: "skipLoginController", forControlEvents: UIControlEvents.TouchUpInside)
+        skipLoginPrompt.setTitle("Skip", forState: .Normal)
+        
+        stackView.addArrangedSubview(loginPrompt)
+        stackView.addArrangedSubview(skipLoginPrompt)
+        
+        view.addSubview(stackView)
     }
 
     func launchLoginController() {
@@ -36,6 +51,11 @@ class LoginViewController: UIViewController {
         self.presentViewController(loginController!, animated: true, completion: nil)
         NSLog("safari exited")
         
+    }
+    
+    func skipLoginController() {
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        delegate.loadMainTabBarContoller()
     }
     
     override func didReceiveMemoryWarning() {

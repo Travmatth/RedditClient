@@ -8,23 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		BB1258E71BF24D89003D928A /* ListingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1258E61BF24D89003D928A /* ListingsViewController.swift */; };
-		BB1258E91BF306C6003D928A /* ParsingJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1258E81BF306C6003D928A /* ParsingJSON.swift */; };
-		BB1258EA1BF306C6003D928A /* ParsingJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1258E81BF306C6003D928A /* ParsingJSON.swift */; };
 		BB2791091BEF0407004166AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2791081BEF0407004166AC /* AppDelegate.swift */; };
 		BB27910B1BEF0407004166AC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB27910A1BEF0407004166AC /* SettingsViewController.swift */; };
 		BB2791101BEF0407004166AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB27910F1BEF0407004166AC /* Assets.xcassets */; };
 		BB27911E1BEF0407004166AC /* RedditClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB27911D1BEF0407004166AC /* RedditClientTests.swift */; };
 		BB2791291BEF0CB5004166AC /* MultiRedditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2791281BEF0CB5004166AC /* MultiRedditsViewController.swift */; };
 		BB2966EB1BF4E22000842542 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2966EA1BF4E22000842542 /* Result.swift */; };
-		BB2966ED1BF4E8F100842542 /* NSError+errorWithCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2966EC1BF4E8F100842542 /* NSError+errorWithCode.swift */; };
 		BB2966F11BF649FE00842542 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2966F01BF649FE00842542 /* LoginViewController.swift */; };
 		BB2966F21BF649FE00842542 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2966F01BF649FE00842542 /* LoginViewController.swift */; };
 		BB2966F41BF662FA00842542 /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = BB2966F31BF662FA00842542 /* Notes */; };
 		BB2966F51BF662FA00842542 /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = BB2966F31BF662FA00842542 /* Notes */; };
 		BB4BB2D81BF02D67003C8D49 /* GenericRedditsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2D71BF02D67003C8D49 /* GenericRedditsTableViewController.swift */; };
-		BB4BB2DB1BF02E2F003C8D49 /* Structs & Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2DA1BF02E2F003C8D49 /* Structs & Extensions.swift */; };
 		BB4BB2DE1BF0305B003C8D49 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2DD1BF0305B003C8D49 /* APIManager.swift */; };
-		BB4BB2E01BF04302003C8D49 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2DF1BF04302003C8D49 /* SwiftyJSON.swift */; };
+		BBDAF1061BF97D670030D3D3 /* OAuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */; };
+		BBDAF1081BF98F550030D3D3 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDAF1071BF98F550030D3D3 /* Response.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +36,6 @@
 
 /* Begin PBXFileReference section */
 		BB1258E61BF24D89003D928A /* ListingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsViewController.swift; sourceTree = "<group>"; };
-		BB1258E81BF306C6003D928A /* ParsingJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingJSON.swift; sourceTree = "<group>"; };
 		BB2791051BEF0407004166AC /* RedditClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedditClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2791081BEF0407004166AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB27910A1BEF0407004166AC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -50,13 +46,12 @@
 		BB27911F1BEF0407004166AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB2791281BEF0CB5004166AC /* MultiRedditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiRedditsViewController.swift; sourceTree = "<group>"; };
 		BB2966EA1BF4E22000842542 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		BB2966EC1BF4E8F100842542 /* NSError+errorWithCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+errorWithCode.swift"; sourceTree = "<group>"; };
 		BB2966F01BF649FE00842542 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = ../LoginViewController.swift; sourceTree = "<group>"; };
 		BB2966F31BF662FA00842542 /* Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 		BB4BB2D71BF02D67003C8D49 /* GenericRedditsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericRedditsTableViewController.swift; sourceTree = "<group>"; };
-		BB4BB2DA1BF02E2F003C8D49 /* Structs & Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Structs & Extensions.swift"; sourceTree = "<group>"; };
 		BB4BB2DD1BF0305B003C8D49 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		BB4BB2DF1BF04302003C8D49 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthToken.swift; sourceTree = "<group>"; };
+		BBDAF1071BF98F550030D3D3 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +94,11 @@
 			isa = PBXGroup;
 			children = (
 				BB4BB2D61BF02A00003C8D49 /* App */,
+				BB4BB2D51BF029DC003C8D49 /* View Controllers */,
 				BB4BB2D91BF02DF3003C8D49 /* Structs & Extensions */,
 				BB4BB2DC1BF03029003C8D49 /* Networking */,
-				BB4BB2D51BF029DC003C8D49 /* View Controllers */,
+				BB2966E91BF4E1F900842542 /* Parser */,
 				BB27910F1BEF0407004166AC /* Assets.xcassets */,
-				BB4BB2DF1BF04302003C8D49 /* SwiftyJSON.swift */,
-				BB2966E91BF4E1F900842542 /* Utility */,
 				BB2791141BEF0407004166AC /* Info.plist */,
 				BB2966F61BF6630100842542 /* Dev */,
 			);
@@ -120,13 +114,13 @@
 			path = RedditClientTests;
 			sourceTree = "<group>";
 		};
-		BB2966E91BF4E1F900842542 /* Utility */ = {
+		BB2966E91BF4E1F900842542 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
 				BB2966EA1BF4E22000842542 /* Result.swift */,
-				BB2966EC1BF4E8F100842542 /* NSError+errorWithCode.swift */,
+				BBDAF1071BF98F550030D3D3 /* Response.swift */,
 			);
-			name = Utility;
+			name = Parser;
 			sourceTree = "<group>";
 		};
 		BB2966F61BF6630100842542 /* Dev */ = {
@@ -160,7 +154,6 @@
 		BB4BB2D91BF02DF3003C8D49 /* Structs & Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BB4BB2DA1BF02E2F003C8D49 /* Structs & Extensions.swift */,
 			);
 			name = "Structs & Extensions";
 			sourceTree = "<group>";
@@ -169,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				BB4BB2DD1BF0305B003C8D49 /* APIManager.swift */,
-				BB1258E81BF306C6003D928A /* ParsingJSON.swift */,
+				BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -276,16 +269,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB2966F11BF649FE00842542 /* LoginViewController.swift in Sources */,
-				BB1258E91BF306C6003D928A /* ParsingJSON.swift in Sources */,
 				BB4BB2DE1BF0305B003C8D49 /* APIManager.swift in Sources */,
-				BB2966ED1BF4E8F100842542 /* NSError+errorWithCode.swift in Sources */,
+				BBDAF1061BF97D670030D3D3 /* OAuthToken.swift in Sources */,
 				BB27910B1BEF0407004166AC /* SettingsViewController.swift in Sources */,
+				BBDAF1081BF98F550030D3D3 /* Response.swift in Sources */,
 				BB4BB2D81BF02D67003C8D49 /* GenericRedditsTableViewController.swift in Sources */,
 				BB1258E71BF24D89003D928A /* ListingsViewController.swift in Sources */,
 				BB2791091BEF0407004166AC /* AppDelegate.swift in Sources */,
 				BB2966EB1BF4E22000842542 /* Result.swift in Sources */,
-				BB4BB2DB1BF02E2F003C8D49 /* Structs & Extensions.swift in Sources */,
-				BB4BB2E01BF04302003C8D49 /* SwiftyJSON.swift in Sources */,
 				BB2791291BEF0CB5004166AC /* MultiRedditsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,7 +286,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB2966F21BF649FE00842542 /* LoginViewController.swift in Sources */,
-				BB1258EA1BF306C6003D928A /* ParsingJSON.swift in Sources */,
 				BB27911E1BEF0407004166AC /* RedditClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
