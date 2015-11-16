@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
 
     func launchLoginController() {
 
-        let url: NSURL = NSURL(string: "https://ssl.reddit.com/api/v1/authorize.compact?client_id=eDGbSVLzgyozTA&response_type=code&state=TEST&redirect_uri=travMatth://RedditClient&duration=permanent&scope=read")!
+        let url: NSURL = NSURL(string: "https://ssl.reddit.com/api/v1/authorize.compact?client_id=eDGbSVLzgyozTA&response_type=code&state=TEST&redirect_uri=travMatth://RedditClient&duration=permanent&scope=read,identity,edit,flair,history,modconfig,modflair,modlog,modposts,modwiki,mysubreddits,privatemessages,report,save,submit,subscribe,vote,wikiedit,wikiread")!
         
         loginController = SFSafariViewController(URL: url)
         
