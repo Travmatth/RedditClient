@@ -10,6 +10,9 @@ import UIKit
 
 class SettingsViewController: ListingsViewController {
 
+    // TODO: Refactor; remove Settings as VC & subclass as popup; add launch icon to all navbar controllers; subclass navbar?
+    // also use her tip of typealias multi = <All, the, protocols, i, conform, to>
+    // http://natashatherobot.com/ios-taking-the-user-to-settings/ 
     let cellTitles = ["User", "Inbox", "Posts", "Comments", "Subscriptions", "Explore", "Settings"]
     
     override func viewDidLoad() {
@@ -49,6 +52,12 @@ class SettingsViewController: ListingsViewController {
         NSLog("indexPath: \(indexPath)")
         let nextViewController = MultiRedditsViewController()
         self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
+
+    
+    // Find retain cycles!
+    deinit {
+        NSLog("LoginViewController.deinit")
     }
 
 

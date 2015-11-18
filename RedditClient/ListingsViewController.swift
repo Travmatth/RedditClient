@@ -10,4 +10,9 @@ import UIKit
 
 class ListingsViewController: UITableViewController {
     var apiManager: APIManager!
+    
+    // Find retain cycles!
+    deinit {
+        NSLog("LoginViewController.deinit")
+    }
 }

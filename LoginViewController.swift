@@ -11,16 +11,21 @@ import SafariServices
 
 class LoginViewController: UIViewController {
 
+    // TODO: separate vars and methods into areas of responsibility & extensions
     var loginController: SFSafariViewController?
     var loginPrompt: UIButton!
     var stackView: UIStackView!
     var skipLoginPrompt: UIButton!
+    var sessionManager: APIManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+       sessionManager = APIManager()
+        
+        
         // Do any additional setup after loading the view.
-        NSLog("loginController Called")
+        NSLog("loginController.viewDidLoad Called")
         
         stackView = UIStackView(frame: self.view.bounds)
         
@@ -42,20 +47,27 @@ class LoginViewController: UIViewController {
         view.addSubview(stackView)
     }
 
-    func launchLoginController() {
-
-        let url: NSURL = NSURL(string: "https://ssl.reddit.com/api/v1/authorize.compact?client_id=eDGbSVLzgyozTA&response_type=code&state=TEST&redirect_uri=travMatth://RedditClient&duration=permanent&scope=read,identity,edit,flair,history,modconfig,modflair,modlog,modposts,modwiki,mysubreddits,privatemessages,report,save,submit,subscribe,vote,wikiedit,wikiread")!
-        
-        loginController = SFSafariViewController(URL: url)
-        
+    // TODO: move to APIManager
+    /*
+        Step 1 of the OAuth Flow: Authorization
+        Mark params for each step of flow and label; use enum for error handling? Result Monad to use as a flow??
+        can default to general access token if flow fails for any reason
+        better var names!
+    */
+    func startOAuthFlow() {
+        loginController = sessionManager.startOAuthFlow()
+        // should i grab login controller and parse output to customize experience?
         self.presentViewController(loginController!, animated: true, completion: nil)
         NSLog("safari exited")
-        
+        self.presentViewController(loginController!, animated: true, completion: nil)
+        NSLog("safari exited")
     }
     
     func skipLoginController() {
+        
         let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        delegate.loadMainTabBarContoller()
+        delegate.loadRootTabBarContoller()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -65,6 +77,9 @@ class LoginViewController: UIViewController {
         
     }
     
+    deinit {
+        NSLog("LoginViewController.deinit")
+    }
 
     /*
     // MARK: - Navigation

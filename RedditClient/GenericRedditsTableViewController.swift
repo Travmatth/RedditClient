@@ -55,4 +55,9 @@ class GenericRedditsViewController: ListingsViewController {
         
         return cell!
     }
+    
+    // Find retain cycles!
+    deinit {
+        NSLog("LoginViewController.deinit")
+    }
 }

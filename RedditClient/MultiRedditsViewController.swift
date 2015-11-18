@@ -48,4 +48,9 @@ class MultiRedditsViewController: UITableViewController {
         let nextViewController = SettingsViewController()
         self.navigationController?.pushViewController(nextViewController, animated: true)
     }
+    
+    // Find retain cycles!
+    deinit {
+        NSLog("LoginViewController.deinit")
+    }
 }

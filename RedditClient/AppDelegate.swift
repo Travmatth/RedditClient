@@ -37,17 +37,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         sessionManager.login(url)
+        
         // TODO: post a token access request w/ these params; need to parse callback url
         // grant_type=authorization_code&code=CODE&redirect_uri=URI
         // Header: user=client_id; password="";
         // travmatth://redditclient?state=TEST&code=J_Snx6-NMfZM3ngjVmkJOvy4NTI
         
-        loadMainTabBarContoller()
+        loadRootTabBarContoller()
         
         return true
     }
     
-    func loadMainTabBarContoller() {
+    func loadRootTabBarContoller() {
         
         // Root views of the respective nav controllers
         let settingsViewController: SettingsViewController = SettingsViewController()
