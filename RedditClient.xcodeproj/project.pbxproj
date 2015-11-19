@@ -21,6 +21,10 @@
 		BB4BB2D81BF02D67003C8D49 /* GenericRedditsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2D71BF02D67003C8D49 /* GenericRedditsTableViewController.swift */; };
 		BB4BB2DE1BF0305B003C8D49 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2DD1BF0305B003C8D49 /* APIManager.swift */; };
 		BB5F0F3B1BFCE8CA00096B5F /* Style Guide in Resources */ = {isa = PBXBuildFile; fileRef = BB5F0F3A1BFCE8CA00096B5F /* Style Guide */; };
+		BB614A2B1BFE219F00DFCC73 /* APIManager+OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB614A2A1BFE219F00DFCC73 /* APIManager+OAuth.swift */; };
+		BB614A2C1BFE219F00DFCC73 /* APIManager+OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB614A2A1BFE219F00DFCC73 /* APIManager+OAuth.swift */; };
+		BB614A311BFE37DA00DFCC73 /* APIManager+APIUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB614A301BFE37DA00DFCC73 /* APIManager+APIUsage.swift */; };
+		BB614A321BFE37DA00DFCC73 /* APIManager+APIUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB614A301BFE37DA00DFCC73 /* APIManager+APIUsage.swift */; };
 		BBDAF1061BF97D670030D3D3 /* OAuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */; };
 		BBDAF1081BF98F550030D3D3 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDAF1071BF98F550030D3D3 /* Response.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +56,8 @@
 		BB4BB2D71BF02D67003C8D49 /* GenericRedditsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericRedditsTableViewController.swift; sourceTree = "<group>"; };
 		BB4BB2DD1BF0305B003C8D49 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		BB5F0F3A1BFCE8CA00096B5F /* Style Guide */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Style Guide"; sourceTree = "<group>"; };
+		BB614A2A1BFE219F00DFCC73 /* APIManager+OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+OAuth.swift"; sourceTree = "<group>"; };
+		BB614A301BFE37DA00DFCC73 /* APIManager+APIUsage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+APIUsage.swift"; sourceTree = "<group>"; };
 		BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthToken.swift; sourceTree = "<group>"; };
 		BBDAF1071BF98F550030D3D3 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,6 +171,8 @@
 			isa = PBXGroup;
 			children = (
 				BB4BB2DD1BF0305B003C8D49 /* APIManager.swift */,
+				BB614A301BFE37DA00DFCC73 /* APIManager+APIUsage.swift */,
+				BB614A2A1BFE219F00DFCC73 /* APIManager+OAuth.swift */,
 				BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */,
 			);
 			name = Networking;
@@ -282,6 +290,8 @@
 				BB2791091BEF0407004166AC /* AppDelegate.swift in Sources */,
 				BB2966EB1BF4E22000842542 /* Result.swift in Sources */,
 				BB2791291BEF0CB5004166AC /* MultiRedditsViewController.swift in Sources */,
+				BB614A2B1BFE219F00DFCC73 /* APIManager+OAuth.swift in Sources */,
+				BB614A311BFE37DA00DFCC73 /* APIManager+APIUsage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,8 +299,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB614A2C1BFE219F00DFCC73 /* APIManager+OAuth.swift in Sources */,
 				BB2966F21BF649FE00842542 /* LoginViewController.swift in Sources */,
 				BB27911E1BEF0407004166AC /* RedditClientTests.swift in Sources */,
+				BB614A321BFE37DA00DFCC73 /* APIManager+APIUsage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
