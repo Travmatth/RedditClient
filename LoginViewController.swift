@@ -9,23 +9,31 @@
 import UIKit
 import SafariServices
 
-class LoginViewController: UIViewController {
-
+class LoginViewController: UIViewController, NetworkCommunication {
     // TODO: separate vars and methods into areas of responsibility & extensions
-    var loginController: SFSafariViewController?
+    var session: Session!
     var loginPrompt: UIButton!
     var stackView: UIStackView!
     var skipLoginPrompt: UIButton!
-    var sessionManager: APIManager!
+    var loginController: SFSafariViewController?
     
+    func startOAuthFlow() {
+        let loginController = session.startOAuthFlow()
+            // should i grab login controller and parse output to customize experience?
+            // Would need to switch SFSafariView -> WKWebView
+        self.presentViewController(loginController, animated: true, completion: nil)
+    }
+    
+    func skipLoginController() {
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        delegate.loadRootTabBarContoller()
+        
+    }
+    
+    // MARK: iOS ViewController lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       sessionManager = APIManager()
-        
-        
         // Do any additional setup after loading the view.
-        NSLog("loginController.viewDidLoad Called")
         
         stackView = UIStackView(frame: self.view.bounds)
         
@@ -34,7 +42,7 @@ class LoginViewController: UIViewController {
         stackView.distribution = .FillEqually
         
         loginPrompt = UIButton()
-        loginPrompt.addTarget(self, action: "launchLoginController", forControlEvents: UIControlEvents.TouchUpInside)
+        loginPrompt.addTarget(self, action: "startOAuthFlow", forControlEvents: UIControlEvents.TouchUpInside)
         loginPrompt.setTitle("Login", forState: .Normal)
         
         skipLoginPrompt = UIButton()
@@ -47,48 +55,12 @@ class LoginViewController: UIViewController {
         view.addSubview(stackView)
     }
 
-    // TODO: move to APIManager
-    /*
-        Step 1 of the OAuth Flow: Authorization
-        Mark params for each step of flow and label; use enum for error handling? Result Monad to use as a flow??
-        can default to general access token if flow fails for any reason
-        better var names!
-    */
-    func startOAuthFlow() {
-        loginController = sessionManager.startOAuthFlow()
-        // should i grab login controller and parse output to customize experience?
-        self.presentViewController(loginController!, animated: true, completion: nil)
-        NSLog("safari exited")
-        self.presentViewController(loginController!, animated: true, completion: nil)
-        NSLog("safari exited")
-    }
-    
-    func skipLoginController() {
-        
-        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        delegate.loadRootTabBarContoller()
-        
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-        
-        
     }
     
     deinit {
         NSLog("LoginViewController.deinit")
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

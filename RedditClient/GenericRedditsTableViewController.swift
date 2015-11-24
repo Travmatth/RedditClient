@@ -8,11 +8,15 @@
 
 import UIKit
 
-class GenericRedditsViewController: ListingsViewController {
+class GenericRedditsViewController: UITableViewController, NetworkCommunication {
 
     var posts = [Any]()
+    var session: Session!
+    
+    // MARK: iOS ViewController lifecycle methods
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
@@ -29,6 +33,7 @@ class GenericRedditsViewController: ListingsViewController {
     }
 
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -36,6 +41,7 @@ class GenericRedditsViewController: ListingsViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return 1
     }
 

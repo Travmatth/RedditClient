@@ -1,5 +1,5 @@
 //
-//  APIManager+OAuth.swift
+//  Session+OAuth.swift
 //  RedditClient
 //
 //  Created by Travis Matthews on 11/19/15.
@@ -15,13 +15,12 @@ protocol OAuthFlow {
     func startOAuthFlow() -> SFSafariViewController
     func login(url: NSURL)
     
-    
     // Cant declare stored property in extension; will write method to pull from plist as is needed
     // var scopes: String { get }
     
 }
 
-extension APIManager: OAuthFlow {
+extension Session: OAuthFlow {
     
     //let username = "another_test_acct"
     //let password = "thisisntatest"
@@ -49,14 +48,11 @@ extension APIManager: OAuthFlow {
         // Parse return URL
         var code: String!
         let responseUrl = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)
-        NSLog(responseUrl!.string!)
         
         if responseUrl!.scheme! == "travmatth" {
             let params: [NSURLQueryItem]! = responseUrl!.queryItems
             code = params.last?.value
         }
-        
-        NSLog("code: \(code)")
         
         // Post access token request
         
@@ -68,7 +64,7 @@ extension APIManager: OAuthFlow {
         let clientIdEncoded = clientId.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         
         
-        let url = NSURL(string: tokenRequestURL)!
+        let url = NSURL(string: tokenRequestUrl)!
         
         let request = NSMutableURLRequest(URL: url)
         
@@ -79,14 +75,8 @@ extension APIManager: OAuthFlow {
         let data = httpParams.dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPBody = data
         
-        
-        NSLog("clientID: \(clientIdEncoded)")
-
-
         // MARK: OAuth request for access token
         let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?)  -> Void in
-            NSLog("response: \(response)\ndata:\n\(NSString(data: data!, encoding: NSUTF8StringEncoding))\nerror: \(error)")
-            // let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError: error)
                 .flatMap(acceptableStatusCode)
                 .flatMap(fromDataToJSON)
@@ -102,54 +92,17 @@ extension APIManager: OAuthFlow {
                 // TODO: pull into own class / func / should probably throw error if parse fails, start guest code flow
                 let temp = object as! Dictionary<String, AnyObject>
                 
-                NSLog("temp:\n\(temp)")
-                
-                // if temp[invalidrequest]; abort
                 let accessToken = temp["access_token"] as! String
                 let expiresIn = temp["expires_in"] as! Int
                 let refreshToken = temp["refresh_token"] as! String
                 let scopes =  temp["scope"] as! String
                 let tokenType = temp["token_type"] as! String
                 
-                //self.responseToken = OAuthToken(accessToken, tokenType, expiresIn, refreshToken, scope)
                 self.oauthToken = OAuthToken(accessToken, tokenType, expiresIn, refreshToken, scopes)
-                //self.oauthToken.save()
-                /*
-                class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, method:String, token:Token?) -> NSMutableURLRequest? {
-                guard let URL = NSURL(string:baseURL + path) else { return nil }
-                let URLRequest = NSMutableURLRequest(URL: URL)
-                URLRequest.setOAuth2Token(token)
-                URLRequest.HTTPMethod = method
-                URLRequest.setUserAgentForReddit()
-                return URLRequest
-                }
-                
-                func setOAuth2Token(token:Token?) {
-                if let token = token {
-                setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
-                }
-                }
-                
-                */
-                
-                NSLog("token:\n\(self.oauthToken)")
+                self.oauthToken!.save()
                 
             case .Failure(let error): NSLog(error)
             }
-                    
-            //NSLog("Result:\n\(result)")
-            /*
-            token parsed into json
-            {
-                "access_token" = "46882130-3z9H1TRuyJRYVKa_4igrZkjSApQ";
-                "expires_in" = 3600;
-                "refresh_token" = "46882130-sAxNLtbvky0EYxWQn6BlJOUhzZY";
-                scope = read;
-                "token_type" = bearer;
-            }
-            */
-            
-            // Need to parse response and grab token to store
         }
         
         task.resume()

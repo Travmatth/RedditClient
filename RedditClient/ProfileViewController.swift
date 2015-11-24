@@ -8,13 +8,16 @@
 
 import UIKit
 
-class SettingsViewController: ListingsViewController {
+class ProfileViewController: UITableViewController, NetworkCommunication {
 
     // TODO: Refactor; remove Settings as VC & subclass as popup; add launch icon to all navbar controllers; subclass navbar?
     // also use her tip of typealias multi = <All, the, protocols, i, conform, to>
     // http://natashatherobot.com/ios-taking-the-user-to-settings/ 
+    
+    var session: Session!
     let cellTitles = ["User", "Inbox", "Posts", "Comments", "Subscriptions", "Explore", "Settings"]
     
+    // MARK: iOS ViewController lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -27,7 +30,6 @@ class SettingsViewController: ListingsViewController {
     }
     
     // MARK: - Table View
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -49,7 +51,6 @@ class SettingsViewController: ListingsViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        NSLog("indexPath: \(indexPath)")
         let nextViewController = MultiRedditsViewController()
         self.navigationController?.pushViewController(nextViewController, animated: true)
     }

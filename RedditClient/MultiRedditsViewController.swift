@@ -8,13 +8,20 @@
 
 import UIKit
 
-class MultiRedditsViewController: UITableViewController {
-    let cellTitles = ["Test1", "", "Test2", "", "Test3", "", "Test4"]
+class MultiRedditsViewController: UITableViewController, NetworkCommunication {
     
+    var session: Session!
+    var multiReddits: [Multi]?
+    
+    // MARK: iOS ViewController lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        session.getMultiReddits() { (multi) in
+            self.multiReddits = multi as? [Multi]
+            self.tableView.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,11 +32,15 @@ class MultiRedditsViewController: UITableViewController {
     // MARK: - Table View
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        guard multiReddits != nil else {return 1 }
+        
+        return multiReddits!.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellTitles.count
+        guard multiReddits != nil else { return 1 }
+        
+        return multiReddits![section].subreddits.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -39,14 +50,23 @@ class MultiRedditsViewController: UITableViewController {
             cell = UITableViewCell.init(style: .Default, reuseIdentifier: "Cell")
         }
         
-        cell!.textLabel!.text = cellTitles[indexPath.row]
+        let name = multiReddits?[indexPath.section].subreddits[indexPath.row]
+        cell!.textLabel!.text = name
         
         return cell!
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let nextViewController = SettingsViewController()
+        let nextViewController = ProfileViewController()
         self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if multiReddits != nil {
+            return multiReddits![section].name
+        }
+        
+        return nil
     }
     
     // Find retain cycles!

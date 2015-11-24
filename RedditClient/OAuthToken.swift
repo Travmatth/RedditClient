@@ -13,35 +13,36 @@ class OAuthToken {
     
     let defaults = NSUserDefaults.standardUserDefaults()
     
-    let accessToken: String
-    let tokenType: String
     let expiresIn: Int
-    let refreshToken: String
     let scopes: String
+    let tokenType: String
+    let accessToken: String
+    let refreshToken: String
     
     init(_ accessToken: String, _ tokenType: String, _ expiresIn: Int, _ refreshToken: String, _ scopes: String) {
-        self.accessToken = accessToken
-        self.tokenType = tokenType
-        self.expiresIn = expiresIn
-        self.refreshToken = refreshToken
-        self.scopes = scopes
         
-        self.save()
+        self.scopes = scopes
+        self.expiresIn = expiresIn
+        self.tokenType = tokenType
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
     }
     
     init() {
-        self.accessToken = defaults.stringForKey("accessToken")!
+        
+        self.scopes = defaults.stringForKey("scopes")!
         self.tokenType = defaults.stringForKey("tokenType")!
+        self.accessToken = defaults.stringForKey("accessToken")!
         self.expiresIn = Int(defaults.stringForKey("expiresIn")!)!
         self.refreshToken = defaults.stringForKey("refreshToken")!
-        self.scopes = defaults.stringForKey("scopes")!
     }
     
     func save() {
-        defaults.setValue(accessToken, forKey: "accessToken")
+        
+        defaults.setValue(scopes, forKey: "scopes")
         defaults.setValue(tokenType, forKey: "tokenType")
         defaults.setValue(expiresIn, forKey: "expiresIn")
+        defaults.setValue(accessToken, forKey: "accessToken")
         defaults.setValue(refreshToken, forKey: "refreshToken")
-        defaults.setValue(scopes, forKey: "scopes")
     }
 }

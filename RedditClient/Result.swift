@@ -72,25 +72,6 @@ func resultFromOptionalError<A>(value: A, optionalError: NSError? ) -> Result<A>
     }
 }
 
-func acceptableStatusCode(response: Response) -> Result<NSData> {
-    let successRange = 200..<300
-    
-    if !successRange.contains(response.statusCode) {
-        return .Failure("status code of \(response.statusCode) outside of bounds")
-    }
-    
-    return .Success(response.data)
-}
-
-func fromDataToJSON(data: NSData) -> Result<Any> {
-    do {
-        let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
-        return Result(value: json)
-    } catch {
-        return Result(error: "Failure while parsing JSON inside fromDataToJSON")
-    }
-}
-
 /**
     resultFromOptional Example:
 

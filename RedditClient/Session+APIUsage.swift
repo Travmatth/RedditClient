@@ -1,5 +1,5 @@
 //
-//  APIManager+APIUsage.swift
+//  Session+APIUsage.swift
 //  RedditClient
 //
 //  Created by Travis Matthews on 11/19/15.

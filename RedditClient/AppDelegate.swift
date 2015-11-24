@@ -13,18 +13,17 @@ import SafariServices
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    let accessTokenRequestURL: String = "https://www.reddit.com/api/v1/access_token"
-    
-    let sessionManager = APIManager()
+    var session: Session!
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         self.window = UIWindow.init(frame: UIScreen.mainScreen().bounds)
         
+        session = Session.sharedInstance
         
         let loginController = LoginViewController()
+        loginController.session = session
         
         self.window!.rootViewController = loginController
         self.window!.addSubview(loginController.view!)
@@ -34,43 +33,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        
-        
-        sessionManager.login(url)
-        
-        // TODO: post a token access request w/ these params; need to parse callback url
-        // grant_type=authorization_code&code=CODE&redirect_uri=URI
-        // Header: user=client_id; password="";
-        // travmatth://redditclient?state=TEST&code=J_Snx6-NMfZM3ngjVmkJOvy4NTI
-        
+        session.login(url)
         loadRootTabBarContoller()
         
         return true
     }
     
     func loadRootTabBarContoller() {
-        
         // Root views of the respective nav controllers
-        let settingsViewController: SettingsViewController = SettingsViewController()
+        let profileViewController: ProfileViewController = ProfileViewController()
         let multiRedditsViewController: MultiRedditsViewController = MultiRedditsViewController()
         let allRedditsViewController: GenericRedditsViewController = GenericRedditsViewController()
         let frontRedditsViewController: GenericRedditsViewController = GenericRedditsViewController()
         
-        // Manager networking when appropriate
-        let frontNetworkManager = APIManager()
-        let allNetworkManager = APIManager()
-        let settingsNetworkManager = APIManager()
-        
-        allRedditsViewController.apiManager = allNetworkManager
-        frontRedditsViewController.apiManager = frontNetworkManager
-        settingsViewController.apiManager = settingsNetworkManager
+        profileViewController.session = session
+        multiRedditsViewController.session = session
+        allRedditsViewController.session = session
+        frontRedditsViewController.session = session
         
         // Root nav controllers
-        let allNavController: UINavigationController = UINavigationController.init(rootViewController: allRedditsViewController)
-        let settingsNavController: UINavigationController = UINavigationController.init(rootViewController: settingsViewController)
-        let multiNavController: UINavigationController = UINavigationController.init(rootViewController: multiRedditsViewController)
-        let frontNavController: UINavigationController = UINavigationController.init(rootViewController: frontRedditsViewController)
-        
+        let allNavController = UINavigationController.init(rootViewController: allRedditsViewController)
+        let settingsNavController = UINavigationController.init(rootViewController: profileViewController)
+        let multiNavController = UINavigationController.init(rootViewController: multiRedditsViewController)
+        let frontNavController = UINavigationController.init(rootViewController: frontRedditsViewController)
         
         let userImage = UIImage(named: "circle-user-7")
         let multiRedditsImage = UIImage(named: "command-7")
