@@ -18,12 +18,15 @@ struct Response {
     init(data: NSData!, urlResponse: NSURLResponse!) {
         if let data = data {
             self.data = data
+            let string = NSString.init(data: data, encoding: NSUTF8StringEncoding)
+            NSLog("data: \(string)")
         }
         else {
             self.data = NSData()
         }
         if let httpResponse = urlResponse as? NSHTTPURLResponse {
             statusCode = httpResponse.statusCode
+            NSLog("status code: \(statusCode)")
         }
         else {
             statusCode = 500

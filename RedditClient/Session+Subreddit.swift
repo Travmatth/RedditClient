@@ -1,8 +1,8 @@
 //
-//  Session+Multi.swift
+//  Session+Subreddit.swift
 //  RedditClient
 //
-//  Created by Travis Matthews on 11/21/15.
+//  Created by Travis Matthews on 11/26/15.
 //  Copyright © 2015 Travis Matthews. All rights reserved.
 //
 
@@ -10,20 +10,19 @@ import Foundation
 
 extension Session {
     
-    func getMultiReddits(onCompletion: (Any) ->  ()) {
-        let myMulti = RequestProperties(path: "/api/multi/mine", httpMethod: .Get, params: ["expand_srs": "true"])
+    func getSubredditPosts(name: String!, onCompletion: (Any) ->  ()) {
+        let mySubreddit = RequestProperties(path: "/r/\(name)", httpMethod: .Get, params: nil)
         
         guard self.oauthToken != nil else {
             return
         }
         
-        if let request: NSMutableURLRequest = oauthAuthenticatedRequest(myMulti) {
-            
+        if let request: NSMutableURLRequest = oauthAuthenticatedRequest(mySubreddit) {
             let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                 let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError: error)
                              .flatMap(acceptableStatusCode)
-                             .flatMap(fromDataToJSONArray)
-                             .flatMap(fromJSONToMulti)
+                             .flatMap(fromDataToJSON)
+                             .flatMap(fromJSONToSubreddit)
                 
                 switch result {
                     
@@ -41,3 +40,4 @@ extension Session {
         }
     }
 }
+

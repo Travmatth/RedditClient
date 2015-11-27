@@ -13,8 +13,9 @@ import SafariServices
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var session: Session!
+    var session: Session?
     
+    // MARK: iOS Application Lifecycle events
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -33,45 +34,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        session.login(url)
+        session!.login(url)
         loadRootTabBarContoller()
         
         return true
     }
     
-    func loadRootTabBarContoller() {
-        // Root views of the respective nav controllers
-        let profileViewController: ProfileViewController = ProfileViewController()
-        let multiRedditsViewController: MultiRedditsViewController = MultiRedditsViewController()
-        let allRedditsViewController: GenericRedditsViewController = GenericRedditsViewController()
-        let frontRedditsViewController: GenericRedditsViewController = GenericRedditsViewController()
-        
-        profileViewController.session = session
-        multiRedditsViewController.session = session
-        allRedditsViewController.session = session
-        frontRedditsViewController.session = session
-        
-        // Root nav controllers
-        let allNavController = UINavigationController.init(rootViewController: allRedditsViewController)
-        let settingsNavController = UINavigationController.init(rootViewController: profileViewController)
-        let multiNavController = UINavigationController.init(rootViewController: multiRedditsViewController)
-        let frontNavController = UINavigationController.init(rootViewController: frontRedditsViewController)
-        
-        let userImage = UIImage(named: "circle-user-7")
-        let multiRedditsImage = UIImage(named: "command-7")
-        let redditsImage = UIImage(named: "layout-arrange-10-7")
-        
-        settingsNavController.tabBarItem = UITabBarItem(title: "User", image: userImage, tag: 1)
-        multiNavController.tabBarItem = UITabBarItem(title: "Multi", image: multiRedditsImage, tag: 2)
-        frontNavController.tabBarItem = UITabBarItem(title: "Front", image: redditsImage, tag: 3)
-        allNavController.tabBarItem = UITabBarItem(title: "All", image: redditsImage, tag: 4)
-        
-        let tabBarController = UITabBarController()
-        let controllers = [settingsNavController, multiNavController, frontNavController, allNavController]
-        
-        tabBarController.viewControllers = controllers
-        self.window!.rootViewController = tabBarController
-    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -95,6 +63,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // MARK: App root screen initilization
+    func loadRootTabBarContoller() {
+        // Root views of the respective nav controllers
+        let profileViewController: ProfileViewController = ProfileViewController()
+        let multiRedditsViewController: MultiRedditsViewController = MultiRedditsViewController()
+        let exploreRedditsViewController: ExploreRedditsViewController = ExploreRedditsViewController()
+        let frontRedditsViewController: SubredditViewController = SubredditViewController()
+        
+        profileViewController.session = session
+        multiRedditsViewController.session = session
+        exploreRedditsViewController.session = session
+        frontRedditsViewController.session = session
+        
+        // Root nav controllers
+        let exploreNavController = UINavigationController.init(rootViewController: exploreRedditsViewController)
+        let settingsNavController = UINavigationController.init(rootViewController: profileViewController)
+        let multiNavController = UINavigationController.init(rootViewController: multiRedditsViewController)
+        let frontNavController = UINavigationController.init(rootViewController: frontRedditsViewController)
+        
+        let userImage = UIImage(named: "circle-user-7")
+        let multiRedditsImage = UIImage(named: "command-7")
+        let redditsImage = UIImage(named: "layout-arrange-10-7")
+        
+        settingsNavController.tabBarItem = UITabBarItem(title: "User", image: userImage, tag: 1)
+        multiNavController.tabBarItem = UITabBarItem(title: "Multi", image: multiRedditsImage, tag: 2)
+        exploreNavController.tabBarItem = UITabBarItem(title: "Explore", image: redditsImage, tag: 3)
+        frontNavController.tabBarItem = UITabBarItem(title: "Front", image: redditsImage, tag: 4)
+        
+        let tabBarController = UITabBarController()
+        let controllers = [settingsNavController, multiNavController, exploreNavController, frontNavController]
+        
+        tabBarController.viewControllers = controllers
+        self.window!.rootViewController = tabBarController
+    }
 }
-

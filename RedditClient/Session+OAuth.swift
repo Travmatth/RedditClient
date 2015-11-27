@@ -27,8 +27,7 @@ extension Session: OAuthFlow {
     //let headers = [ "user-agent": "/u/another_test_acct reddit client app"]
     
     func startOAuthFlow() -> SFSafariViewController {
-        
-    let scopes = "read,identity,edit,flair,history,mysubreddits,privatemessages,report,save,submit,subscribe,vote,wikiedit,wikiread"
+        let scopes = "read,identity,edit,flair,history,mysubreddits,privatemessages,report,save,submit,subscribe,vote,wikiedit,wikiread"
     
         let url: NSURL = NSURL(string: "https://ssl.reddit.com/api/v1/authorize.compact?client_id=eDGbSVLzgyozTA&response_type=code&state=TEST&redirect_uri=travMatth://RedditClient&duration=permanent&scope=\(scopes)")!
         
@@ -44,6 +43,7 @@ extension Session: OAuthFlow {
         break into own protocol & extension?
     */
     func login(url: NSURL) {
+        NSLog("\(url)")
         
         // Parse return URL
         var code: String!
@@ -100,6 +100,7 @@ extension Session: OAuthFlow {
                 
                 self.oauthToken = OAuthToken(accessToken, tokenType, expiresIn, refreshToken, scopes)
                 self.oauthToken!.save()
+                NSNotificationCenter.defaultCenter().postNotificationName("Successful Login", object: nil)
                 
             case .Failure(let error): NSLog(error)
             }

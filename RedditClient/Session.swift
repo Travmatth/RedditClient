@@ -18,11 +18,16 @@ class Session {
     
     // Singleton
     static let sharedInstance = Session()
-    private init () {}
+    private init() {}
+    //override private init () { super.init() }
     
     // MARK: Essential Functions of Session
     var apiUse: APIUsage?
-    var oauthToken: OAuthToken?
+    var oauthToken: OAuthToken? {
+        didSet { NSLog("oauthToken created\n\(oauthToken)") }
+    }
+    var user: String?
+    
     let session = NSURLSession.sharedSession()
     
     // MARK: Constants to pull out?
@@ -31,11 +36,20 @@ class Session {
     let tokenRequestUrl = "https://www.reddit.com/api/v1/access_token"
     
     // MARK: API Calls
-    func oauthAuthenticatedRequest(target: RequestProperties) -> NSMutableURLRequest {
+    func oauthAuthenticatedRequest(target: RequestProperties) -> NSMutableURLRequest? {
+        guard oauthToken != nil else {
+            return nil
+        }
         let fullUrl: NSURL = NSURL(string: oauthAuthenticatedRequestUrl + target.path)!
+        NSLog("full url: \(fullUrl)")
         
         let request = NSMutableURLRequest(URL: fullUrl)
-        request.HTTPBody = target.httpParams
+        
+        if target.params != nil {
+            request.HTTPBody = target.httpParams
+            NSLog("HTTP Body: \(target.params)")
+        }
+        
         request.setValue("Bearer \(oauthToken!.accessToken)", forHTTPHeaderField: "Authorization")
         
         return request
