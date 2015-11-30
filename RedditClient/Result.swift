@@ -24,6 +24,7 @@ public enum Result<A> {
     // Conditionally returns some item B if self (set initially by optionaError / resultFromOptionalError is .Success ; workhorse of flatMap
     // H:(f:A->B), (g:C->B) -> B
     func package<B>(@noescape ifSuccess ifSuccess: A -> B, @noescape ifFailure: String -> B) -> B {
+        
         switch self {
             
         case .Success(let value):
@@ -43,6 +44,7 @@ public enum Result<A> {
     }
     
     var error: String? {
+        
         switch self {
             
         case .Failure(let error):
@@ -54,7 +56,9 @@ public enum Result<A> {
     }
     
     var value: A? {
+        
         switch self {
+            
         case .Success(let success):
             return success
             

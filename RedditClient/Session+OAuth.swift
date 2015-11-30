@@ -10,11 +10,9 @@ import Foundation
 import SafariServices
 
 protocol OAuthFlow {
-    
     //Finish fleshing out requirements of OAuthProtocol
     func startOAuthFlow() -> SFSafariViewController
     func login(url: NSURL)
-    
     // Cant declare stored property in extension; will write method to pull from plist as is needed
     // var scopes: String { get }
     
@@ -28,11 +26,8 @@ extension Session: OAuthFlow {
     
     func startOAuthFlow() -> SFSafariViewController {
         let scopes = "read,identity,edit,flair,history,mysubreddits,privatemessages,report,save,submit,subscribe,vote,wikiedit,wikiread"
-    
         let url: NSURL = NSURL(string: "https://ssl.reddit.com/api/v1/authorize.compact?client_id=eDGbSVLzgyozTA&response_type=code&state=TEST&redirect_uri=travMatth://RedditClient&duration=permanent&scope=\(scopes)")!
-        
         let authorizationPage: SFSafariViewController = SFSafariViewController(URL: url)
-        
         return authorizationPage
     }
     
@@ -43,10 +38,9 @@ extension Session: OAuthFlow {
         break into own protocol & extension?
     */
     func login(url: NSURL) {
-        NSLog("\(url)")
-        
         // Parse return URL
         var code: String!
+        
         let responseUrl = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)
         
         if responseUrl!.scheme! == "travmatth" {
@@ -59,15 +53,11 @@ extension Session: OAuthFlow {
         // for basic auth, header title == Authorization
         // header body = "basic " + "username:password" encoded in base64
         // username = clientID; password == "" for reddit api
-        
         let clientId = "eDGbSVLzgyozTA:".dataUsingEncoding(NSUTF8StringEncoding)!
         let clientIdEncoded = clientId.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         
-        
         let url = NSURL(string: tokenRequestUrl)!
-        
         let request = NSMutableURLRequest(URL: url)
-        
         request.HTTPMethod = "POST"
         request.setValue("Basic " + clientIdEncoded, forHTTPHeaderField: "Authorization")
         
@@ -91,21 +81,18 @@ extension Session: OAuthFlow {
                 // MARK: receiving OAuth access token
                 // TODO: pull into own class / func / should probably throw error if parse fails, start guest code flow
                 let temp = object as! Dictionary<String, AnyObject>
-                
                 let accessToken = temp["access_token"] as! String
                 let expiresIn = temp["expires_in"] as! Int
                 let refreshToken = temp["refresh_token"] as! String
                 let scopes =  temp["scope"] as! String
                 let tokenType = temp["token_type"] as! String
-                
                 self.oauthToken = OAuthToken(accessToken, tokenType, expiresIn, refreshToken, scopes)
                 self.oauthToken!.save()
-                NSNotificationCenter.defaultCenter().postNotificationName("Successful Login", object: nil)
-                
-            case .Failure(let error): NSLog(error)
+                NSNotificationCenter.defaultCenter().postNotificationName("SuccessfulLogin", object: nil)
+            case .Failure(let error):
+                NSLog(error)
             }
         }
-        
         task.resume()
     }
 }

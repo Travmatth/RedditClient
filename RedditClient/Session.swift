@@ -19,14 +19,11 @@ class Session {
     // Singleton
     static let sharedInstance = Session()
     private init() {}
-    //override private init () { super.init() }
     
     // MARK: Essential Functions of Session
-    var apiUse: APIUsage?
-    var oauthToken: OAuthToken? {
-        didSet { NSLog("oauthToken created\n\(oauthToken)") }
-    }
     var user: String?
+    var apiUse: APIUsage?
+    var oauthToken: OAuthToken?
     
     let session = NSURLSession.sharedSession()
     
@@ -40,14 +37,12 @@ class Session {
         guard oauthToken != nil else {
             return nil
         }
-        let fullUrl: NSURL = NSURL(string: oauthAuthenticatedRequestUrl + target.path)!
-        NSLog("full url: \(fullUrl)")
         
+        let fullUrl: NSURL = NSURL(string: oauthAuthenticatedRequestUrl + target.path)!
         let request = NSMutableURLRequest(URL: fullUrl)
         
         if target.params != nil {
             request.HTTPBody = target.httpParams
-            NSLog("HTTP Body: \(target.params)")
         }
         
         request.setValue("Bearer \(oauthToken!.accessToken)", forHTTPHeaderField: "Authorization")

@@ -9,95 +9,66 @@
 import Foundation
 
 extension Session {
-    
-    func getRecommendations(onCompletion: (recommendations: [String]) -> Void) {
-        throw fatalError("need to finish fleshing out recommendations, getSubmittedPosts not currently working? ")
-        NSLog("getRecommendations called")
-        var recommendations: [String]
-        /* Recommendations makes 4! api calls
-        1: who is current user?
-        2: get submitted posts
-        3: get submitted comments
-        4: get upvoted comments
+    // Needs to query api for recommendations against a reddit, return list of recommendations
+    func addRecommendations(seed: Recommendation, completed: Bool, onCompletion: ([Recommendation]) -> Void) {
+        let recommendationRequestProperties = RequestProperties(path: "/api/recommend/sr/\(seed)", httpMethod: .Get, params: nil, paramsList: nil)
         
-        GET /user/username/wherehistory
-        → /user/username/submitted
-        → /user/username/comments
-        → /user/username/upvoted
-        → /user/username/downvoted
-        */
-        
-        // 1: current user
-        if user == nil {
-            getUsername() { (user) -> Void in
-                self.user = user
-            }
-        }
-        
-        // 2: get submitted posts
-        var posts: [Post] = []
-        getSubmittedPosts() { (posts) -> Void in
-            NSLog("completed")
-        }
-        
-    }
-    
-    func getSubmittedPosts(onCompletion: (Any) -> Void) {
-        NSLog("getSubmittedPosts called")
-        let params: [String: String] = ["limit": "100", "sr_detail": "true", "show": "given", "sort": "new"]
-        //TODO: Testing with random user
-        //let myUsernameRequestTarget = RequestProperties(path: "/\(user)/submitted", httpMethod: .Get, params: params)
-        let myUsernameRequestTarget = RequestProperties(path: "/dxmzan/submitted", httpMethod: .Get, params: params)
-        if let myUsernameRequest: NSMutableURLRequest = oauthAuthenticatedRequest(myUsernameRequestTarget) {
-            
-            let task = session.dataTaskWithRequest(myUsernameRequest) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+        if let recommendationRequest: NSMutableURLRequest = oauthAuthenticatedRequest(recommendationRequestProperties) {
+            let task = session.dataTaskWithRequest(recommendationRequest) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                 let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError: error)
                              .flatMap(acceptableStatusCode)
                              .flatMap(fromDataToJSON)
-                             .flatMap(fromJSONToPosts)
+                             .flatMap(fromJSONToSubredditRecommendations)
                 
                 switch result {
                     
-                case .Success(let posts):
+                case .Success(let subs):
                     dispatch_async(dispatch_get_main_queue()) {
-                        //let posts = posts as! [Post]
-                        onCompletion(posts)
-                        NSLog("success!")
+                        let subs = subs as! [String]
+                        onCompletion(subs)
+                        if completed { NSNotificationCenter.defaultCenter().postNotificationName("RecommendationsReady", object: nil) }
                     }
                     
                 case .Failure(let error):
                     NSLog("\(error)")
                 }
             }
-        
             task.resume()
         }
+        
     }
     
-    func getUsername(onCompletion: (String) -> Void) {
-        let myUsernameRequestTarget = RequestProperties(path: "/api/v1/me", httpMethod: .Get, params: nil)
+    func seedsForRecommendations(onCompletion: ([Recommendation]) -> Void) {
+        var recommendations: [String] = []
+        
+        getUsernameKarma() { (karmaBreakdown) -> Void in
+            for subreddit in karmaBreakdown {
+                recommendations.append(subreddit.subreddit)
+            }
+            onCompletion(recommendations)
+        }
+    }
+    
+    func getUsernameKarma(onCompletion: ([Karma]) -> Void) {
+        let myUsernameRequestTarget = RequestProperties(path: "/api/v1/me/karma", httpMethod: .Get, params: nil, paramsList: nil)
+        
         if let myUsernameRequest: NSMutableURLRequest = oauthAuthenticatedRequest(myUsernameRequestTarget) {
-            
             let task = session.dataTaskWithRequest(myUsernameRequest) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                 let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError: error)
                              .flatMap(acceptableStatusCode)
                              .flatMap(fromDataToJSON)
-                             .flatMap(fromJSONToUser)
+                             .flatMap(fromJSONToKarmaBreakdown)
                 
                 switch result {
-                    
-                case .Success(let user):
+                case .Success(let data):
                     dispatch_async(dispatch_get_main_queue()) {
-                        NSLog("user: \(self.user)")
-                        let name = user as! String
-                        onCompletion(name)
+                        let data = data as! [Karma]
+                        onCompletion(data)
                     }
-                    
                 case .Failure(let error):
                     NSLog("\(error)")
                 }
             }
-        
             task.resume()
         }
     }

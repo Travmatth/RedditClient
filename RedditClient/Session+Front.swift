@@ -1,33 +1,33 @@
 //
-//  Session+Subreddit.swift
+//  Session+Listing.swift
 //  RedditClient
 //
-//  Created by Travis Matthews on 11/26/15.
+//  Created by Travis Matthews on 11/29/15.
 //  Copyright © 2015 Travis Matthews. All rights reserved.
 //
 
 import Foundation
 
 extension Session {
-    
-    func getSubredditPosts(name: String!, onCompletion: (Any) ->  ()) {
-        let mySubreddit = RequestProperties(path: "/r/\(name)", httpMethod: .Get, params: nil, paramsList: nil)
+    func getFrontListing(onCompletion: ([Post]) -> Void) {
+        let listingTarget = RequestProperties(path: "", httpMethod:  .Get, params: nil, paramsList: nil)
+        guard self.oauthToken != nil else {
+            return
+        }
         
-        guard self.oauthToken != nil else { return }
-        
-        if let request: NSMutableURLRequest = oauthAuthenticatedRequest(mySubreddit) {
+        if let request: NSMutableURLRequest = oauthAuthenticatedRequest(listingTarget) {
             let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                 let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError: error)
                              .flatMap(acceptableStatusCode)
-                             .flatMap(fromDataToJSON)
+                             .flatMap(fromDataToJSONArray)
                              .flatMap(fromJSONToSubreddit)
                 
                 switch result {
                     
                 case .Success(let val):
-                    dispatch_async(dispatch_get_main_queue()) {
-                        onCompletion(val)
-                    }
+                    let val = val as! [Post]
+                    dispatch_async(dispatch_get_main_queue()) { onCompletion(val) }
+                    
                 case .Failure(let error):
                     NSLog("\(error)")
                 }

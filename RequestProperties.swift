@@ -12,6 +12,14 @@ struct RequestProperties {
     let path: String!
     let httpMethod: HTTPMethod!
     let params: [String: String]?
+    let paramsList: [String]?
+    
+    var delimitedParams: String {
+        if paramsList != nil {
+            return paramsList!.joinWithSeparator(",")
+        }
+        return ""
+    }
     
     var httpParams: NSData {
         var urlQuery =  [String]()
@@ -21,7 +29,6 @@ struct RequestProperties {
                 urlQuery.append("\(key)=\(val)")
             }
         }
-        
         return urlQuery.joinWithSeparator("&").dataUsingEncoding(NSUTF8StringEncoding)!
     }
     

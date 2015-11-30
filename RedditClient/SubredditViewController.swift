@@ -26,8 +26,8 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
         
         session = Session.sharedInstance
         
-        session.getSubredditPosts(name) { (posts) in
-            self.posts = posts as! [Post]
+        session.getFrontListing() { posts in
+            self.posts = posts
             self.tableView.reloadData()
         }
     }
@@ -44,7 +44,6 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        NSLog("listing cellForRowAtIndexPath called")
         var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("Cell")
         
         if cell == nil {

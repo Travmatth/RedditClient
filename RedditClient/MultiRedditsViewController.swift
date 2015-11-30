@@ -57,7 +57,6 @@ class MultiRedditsViewController: UITableViewController, NetworkCommunication {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        NSLog("\(indexPath)\n\(multiReddits)")
         let nextViewController = SubredditViewController()
         //let nextViewController = SubredditViewController()
         nextViewController.name = multiReddits![indexPath.section].subreddits[indexPath.row]

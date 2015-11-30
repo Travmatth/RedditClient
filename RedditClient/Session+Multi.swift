@@ -11,14 +11,11 @@ import Foundation
 extension Session {
     
     func getMultiReddits(onCompletion: (Any) ->  ()) {
-        let myMulti = RequestProperties(path: "/api/multi/mine", httpMethod: .Get, params: ["expand_srs": "true"])
-        
+        let myMulti = RequestProperties(path: "/api/multi/mine", httpMethod:  .Get, params: ["expand_srs": "true"], paramsList: nil)
         guard self.oauthToken != nil else {
             return
         }
-        
         if let request: NSMutableURLRequest = oauthAuthenticatedRequest(myMulti) {
-            
             let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                 let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError: error)
                              .flatMap(acceptableStatusCode)
@@ -28,15 +25,12 @@ extension Session {
                 switch result {
                     
                 case .Success(let val):
-                    dispatch_async(dispatch_get_main_queue()) {
-                        onCompletion(val)
-                    }
+                    dispatch_async(dispatch_get_main_queue()) { onCompletion(val) }
                     
                 case .Failure(let error):
                     NSLog("\(error)")
                 }
             }
-            
             task.resume()
         }
     }
