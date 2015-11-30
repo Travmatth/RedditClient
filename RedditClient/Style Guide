@@ -1,7 +1,0 @@
-I've been playing around with much of this project trying to find the 'best' formatting possible
-
-In general I conform to github's swift style guide
-
-I try to place a space before if / case / guard's, and a space before and after switch'
-
-I try to organize lines by length when order agnostic, or group according to function when order gnostic
