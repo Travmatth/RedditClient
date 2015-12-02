@@ -10,4 +10,8 @@ import Foundation
 
 enum RedditClientError: ErrorType {
     case StackError(String)
+    
+    enum Recommendations: ErrorType {
+        case UserHasNoKarma
+    }
 }

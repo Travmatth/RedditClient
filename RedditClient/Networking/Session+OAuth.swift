@@ -81,11 +81,11 @@ extension Session: OAuthFlow {
                 // MARK: receiving OAuth access token
                 // TODO: pull into own class / func / should probably throw error if parse fails, start guest code flow
                 let temp = object as! Dictionary<String, AnyObject>
-                let accessToken = temp["access_token"] as! String
-                let expiresIn = temp["expires_in"] as! Int
-                let refreshToken = temp["refresh_token"] as! String
-                let scopes =  temp["scope"] as! String
-                let tokenType = temp["token_type"] as! String
+                let accessToken = temp["access_token"] as? String ?? ""
+                let expiresIn = temp["expires_in"] as? Int ?? 0
+                let refreshToken = temp["refresh_token"] as? String ?? ""
+                let scopes =  temp["scope"] as? String ?? ""
+                let tokenType = temp["token_type"] as? String ?? ""
                 self.oauthToken = OAuthToken(accessToken, tokenType, expiresIn, refreshToken, scopes)
                 self.oauthToken!.save()
                 NSNotificationCenter.defaultCenter().postNotificationName("SuccessfulLogin", object: nil)

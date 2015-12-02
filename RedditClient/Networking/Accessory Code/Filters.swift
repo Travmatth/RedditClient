@@ -21,6 +21,7 @@ func acceptableStatusCode(response: Response) -> Result<NSData> {
 func fromDataToJSON(data: NSData) -> Result<AnyObject> {
     do {
         let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+        //NSLog("json: \(json)")
         return Result(value: json)
     } catch {
         return Result(error: "Failure while parsing JSON inside fromDataToJSON")
@@ -36,11 +37,11 @@ func fromJSONToMulti(json: AnyObject) -> Result<Any> {
                 if kind == "LabeledMulti" {
                     if let data = child["data"] as? NSDictionary {
                         var subscriptions = [String]()
-                        let name = data["name"] as! String
-                        let displayName = data["display_name"] as! String
-                        let descriptionHTML = data["description_html"] as! String
+                        let name = data["name"] as? String ?? ""
+                        let displayName = data["display_name"] as? String ?? ""
+                        let descriptionHTML = data["description_html"] as? String ?? ""
                         if let subs = data["subreddits"] as? NSArray {
-                            for sub in subs { subscriptions.append(sub["name"] as! String) }
+                            for sub in subs { subscriptions.append(sub["name"] as? String ?? "") }
                         multiReddits.append(Multi(subscriptions, descriptionHTML, displayName, name))
                         }
                     }
@@ -71,6 +72,7 @@ func fromJSONToSubreddit(json: AnyObject) -> Result<Any> {
                                 let clicked = subredditPost["clicked"] as? Bool ?? false
                                 let author = subredditPost["author"] as? String ?? ""
                                 let media = subredditPost["media"]
+                                NSLog("media of subreddit: \(media)")
                                 let nsfw = subredditPost["nsfw"] as? Bool ?? false
                                 let hidden = subredditPost["hidden"] as? Bool ?? false
                                 let numComments = subredditPost["numComments"] as? Int ?? 0
@@ -127,9 +129,9 @@ func fromJSONToKarmaBreakdown(json: AnyObject) -> Result<Any> {
         if kind == "KarmaList" {
             if let nodes = json["data"] as? NSArray {
                 for node in nodes {
-                    let subreddit = node["sr"] as! String
-                    let commentKarma = node["comment_karma"] as! Int
-                    let linkKarma = node["link_karma"] as! Int
+                    let subreddit = node["sr"] as? String ?? ""
+                    let commentKarma = node["comment_karma"] as? Int ?? 0
+                    let linkKarma = node["link_karma"] as? Int ?? 0
                     let subKarma = Karma(subreddit, commentKarma + linkKarma)
                     subredditKarmaBreakdown.append(subKarma)
                 }
@@ -144,8 +146,11 @@ func fromJSONToSubredditRecommendations(json: AnyObject) -> Result<Any> {
     var subRecommends: [String] = []
     
     if let json = json as? NSArray {
+        if json.count == 0 { NSLog("no subreddits to recommend") }
         for node in json {
-            let sub = node["sr_name"] as! String
+            let sub = node["sr_name"] as? String ?? "No Reddits Found"
+            NSLog("Subreddit recommendation: \(sub)")
+            //subRecommends.append(node["sr_name"] as? String ?? "No Reddits Found")
             subRecommends.append(sub)
         }
     }

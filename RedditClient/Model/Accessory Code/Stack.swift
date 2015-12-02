@@ -40,7 +40,8 @@ class Stack<T>: NSObject {
             return nil
         }
         
-        return array.removeLast()
+        let val = array.removeLast()
+        return val
     }
 }
 

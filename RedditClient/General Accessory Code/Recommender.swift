@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Recommender {
-    var next: Recommendation? { get }
+    //var next: Recommendation? { get }
 }

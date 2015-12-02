@@ -40,11 +40,18 @@ class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
     // .postNotificationName chain: login -> create seeds -> consume seeds into recommendation
     private let threshold: Int = 20 //How many recommendations should I keep on hand?
     var session: Session! = Session.sharedInstance
-    private var recommendations = Stack<Recommendation>()
+    //private var recommendations = Stack<Recommendation>()
+    private var recommendations: [Recommendation] = []
     private var seeds = IntelligentStack<Seed>(stackPreparedMessage: "SeedStackReady")
     
+    /*
     var next: Recommendation? {
         return recommendations.pop
+    }
+    */
+    
+    func retrieveRecommendations(onCompletion: [Recommendation] -> Void) {
+        onCompletion(recommendations)
     }
     
     func shouldSeekSeeds(_: NSNotification) {
@@ -54,18 +61,15 @@ class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
     }
     
     func shouldSeekRecommendations(_: NSNotification) {
+        //fatalError("If no subscriptions, no seed values to push")
         // If recommendations needed and seeds available
-        if (recommendations.size < threshold) && (recommendations.size <= seeds.size) {
-            for i in 0..<(threshold - recommendations.size) {
-                if i < threshold - recommendations.size - 1 {
-                    session.addRecommendations(seeds.pop!, completed: false) { newRecommendation in
-                        self.recommendations.push(newRecommendation)
-                    }
-                } else {
-                    session.addRecommendations(seeds.pop!, completed: true) { newRecommendation in
-                        self.recommendations.push(newRecommendation)
-                    }
-                }
+        if (recommendations.count < threshold) && (recommendations.count <= seeds.size) {
+            var recommendationsNeeded: [Recommendation] = []
+            for _ in 0..<(threshold - recommendations.count) {
+                if let nextRecommendation = seeds.pop { recommendationsNeeded.append(nextRecommendation) }
+            }
+            session.addRecommendations(recommendationsNeeded) { newRecommendations in
+                self.recommendations += newRecommendations
             }
         }
     }
@@ -78,7 +82,5 @@ class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "shouldSeekRecommendations:", name: "SeedStackReady", object: nil)
     }
     
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
+    deinit { NSNotificationCenter.defaultCenter().removeObserver(self) }
 }
