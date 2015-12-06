@@ -11,7 +11,7 @@ import SafariServices
 
 class LoginViewController: UIViewController, NetworkCommunication {
     // TODO: separate vars and methods into areas of responsibility & extensions
-    var session: Session!
+    weak var session: Session!
     var loginPrompt: UIButton!
     var stackView: UIStackView!
     var skipLoginPrompt: UIButton!

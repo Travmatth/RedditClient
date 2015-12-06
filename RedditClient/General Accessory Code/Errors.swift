@@ -14,4 +14,8 @@ enum RedditClientError: ErrorType {
     enum Recommendations: ErrorType {
         case UserHasNoKarma
     }
+    
+    enum ListingError: ErrorType {
+        case TreeWithIdentifierNotFound
+    }
 }

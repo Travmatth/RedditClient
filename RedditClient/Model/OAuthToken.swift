@@ -19,30 +19,30 @@ class OAuthToken {
     let accessToken: String
     let refreshToken: String
     
-    init(_ accessToken: String, _ tokenType: String, _ expiresIn: Int, _ refreshToken: String, _ scopes: String) {
-        
-        self.scopes = scopes
-        self.expiresIn = expiresIn
-        self.tokenType = tokenType
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
+    init(_ accessToken: String?, _ tokenType: String?, _ expiresIn: Int?, _ refreshToken: String?, _ scopes: String?) {
+        self.scopes = scopes ?? ""
+        self.expiresIn = expiresIn ?? 0
+        self.tokenType = tokenType ?? ""
+        self.accessToken = accessToken ?? ""
+        self.refreshToken = refreshToken ?? ""
+    }
+    
+    
+    init(json: Dictionary<String, AnyObject>?) {
+        accessToken = json?["access_token"] as? String ?? ""
+        expiresIn = json?["expires_in"] as? Int ?? 0
+        refreshToken = json?["refresh_token"] as? String ?? ""
+        scopes =  json?["scope"] as? String ?? ""
+        tokenType = json?["token_type"] as? String ?? ""
     }
     
     init() {
         
-        self.scopes = defaults.stringForKey("scopes")!
-        self.tokenType = defaults.stringForKey("tokenType")!
-        self.accessToken = defaults.stringForKey("accessToken")!
-        self.expiresIn = Int(defaults.stringForKey("expiresIn")!)!
-        self.refreshToken = defaults.stringForKey("refreshToken")!
+        self.scopes = ""
+        self.tokenType = ""
+        self.accessToken = ""
+        self.expiresIn = 0
+        self.refreshToken = ""
     }
     
-    func save() {
-        
-        defaults.setValue(scopes, forKey: "scopes")
-        defaults.setValue(tokenType, forKey: "tokenType")
-        defaults.setValue(expiresIn, forKey: "expiresIn")
-        defaults.setValue(accessToken, forKey: "accessToken")
-        defaults.setValue(refreshToken, forKey: "refreshToken")
-    }
 }

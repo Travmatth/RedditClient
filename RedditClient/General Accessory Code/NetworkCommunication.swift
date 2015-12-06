@@ -10,5 +10,5 @@ import UIKit
 
 
 protocol NetworkCommunication {
-    var session: Session! { get set }
+    weak var session: Session! { get }
 }

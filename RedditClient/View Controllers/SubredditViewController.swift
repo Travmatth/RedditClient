@@ -12,7 +12,7 @@ import UIKit
 class SubredditViewController: UITableViewController, NetworkCommunication {
 
     var name: String!
-    var session: Session!
+    weak var session: Session!
     var posts: [Post] = []
     
     override func viewDidLoad() {

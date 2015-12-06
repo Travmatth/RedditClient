@@ -12,7 +12,7 @@ extension Session {
     
     func getMultiReddits(onCompletion: (Any) ->  ()) {
         let myMulti = RequestProperties(path: "/api/multi/mine", httpMethod:  .Get, params: ["expand_srs": "true"], paramsList: nil)
-        guard self.oauthToken != nil else {
+        guard self.user?.oauthToken != nil else {
             return
         }
         if let request: NSMutableURLRequest = oauthAuthenticatedRequest(myMulti) {

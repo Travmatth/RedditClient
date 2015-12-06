@@ -21,9 +21,8 @@ class Session {
     private init() {}
     
     // MARK: Essential Functions of Session
-    var user: String?
+    var user: User?
     var apiUse: APIUsage?
-    var oauthToken: OAuthToken?
     
     let session = NSURLSession.sharedSession()
     
@@ -34,18 +33,15 @@ class Session {
     
     // MARK: API Calls
     func oauthAuthenticatedRequest(target: RequestProperties) -> NSMutableURLRequest? {
-        guard oauthToken != nil else {
-            return nil
-        }
+        guard user != nil else { return nil }
+        guard user!.oauthToken != nil else { return nil }
         
         let fullUrl: NSURL = NSURL(string: oauthAuthenticatedRequestUrl + target.path)!
         let request = NSMutableURLRequest(URL: fullUrl)
         
-        if target.params != nil {
-            request.HTTPBody = target.httpParams
-        }
+        if target.params != nil { request.HTTPBody = target.httpParams }
         
-        request.setValue("Bearer \(oauthToken!.accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(user!.oauthToken!.accessToken)", forHTTPHeaderField: "Authorization")
         
         return request
     }

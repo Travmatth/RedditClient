@@ -11,7 +11,7 @@ import Foundation
 extension Session {
     func getFrontListing(onCompletion: ([Post]) -> Void) {
         let listingTarget = RequestProperties(path: "", httpMethod:  .Get, params: nil, paramsList: nil)
-        guard self.oauthToken != nil else {
+        guard self.user?.oauthToken != nil else {
             return
         }
         

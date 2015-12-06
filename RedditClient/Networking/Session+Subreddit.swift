@@ -13,7 +13,7 @@ extension Session {
     func getSubredditPosts(name: String!, onCompletion: (Any) ->  ()) {
         let mySubreddit = RequestProperties(path: "/r/\(name)", httpMethod: .Get, params: nil, paramsList: nil)
         
-        guard self.oauthToken != nil else { return }
+        guard self.user?.oauthToken != nil else { return }
         
         if let request: NSMutableURLRequest = oauthAuthenticatedRequest(mySubreddit) {
             let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in

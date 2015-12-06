@@ -7,11 +7,56 @@
 //
 
 import Foundation
-
-struct User {
+class User: NSObject, NetworkCommunication {
     
+    weak var session: Session!
+    
+    var state: State
+    var oauthToken: OAuthToken?
+    var karmaBreakDown: [Karma] = []    // Karma(subreddit: String, commentKarma: Int, linkKarma: Int)
+    
+    enum State {
+        case User
+        case Guest
+    }
+    
+    // Mark: RecommendationEngine functionality
+    func getSubredditKarmaListings(_: NSNotification) {
+        if oauthToken != nil {
+            session!.getUsernameKarma() { karmaListing in
+                self.karmaBreakDown = karmaListing
+                NSNotificationCenter.defaultCenter().postNotificationName("SubredditsListReady", object: nil)
+            }
+        }
+    }
+    
+    func getSubreddits(onCompletion: ([Recommendation]) -> Void) {
+        onCompletion(karmaBreakDown.map( { $0.subreddit } ))
+    }
+    
+    // MARK: Lifecycle Methods
+    init(session: Session?, state: State, token: OAuthToken) {
+        self.state = state
+        self.session = session
+        self.oauthToken = token
+        
+        super.init()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "getSubredditKarmaListings:", name: "SuccessfulLogin", object: nil)
+    }
+    
+    
+    deinit { NSNotificationCenter.defaultCenter().removeObserver(self) }
 }
+
 /* Do i want to implement this?
+
+                //self.user = User(OAuthToken(json: object as? Dictionary<String, AnyObject>)
+                self.oauthToken = OAuthToken(json: object as? Dictionary<String, AnyObject>)
+                //self.oauthToken = OAuthToken(accessToken, tokenType, expiresIn, refreshToken, scopes)
+                self.oauthToken!.save()
+                NSNotificationCenter.defaultCenter().postNotificationName("SuccessfulLogin", object: nil)
+
 received in the api call for username in recommendationpipeline
 has_mail	:	false
 

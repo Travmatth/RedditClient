@@ -13,7 +13,8 @@ func acceptableStatusCode(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     
     if !successRange.contains(response.statusCode) {
-        return .Failure("status code of \(response.statusCode) outside of bounds")
+        let data = NSString(data: response.data, encoding: NSUTF8StringEncoding)
+        return .Failure("status code of \(response.statusCode) outside of bounds\ndata: \(data)")
     }
     return .Success(response.data)
 }
@@ -21,7 +22,6 @@ func acceptableStatusCode(response: Response) -> Result<NSData> {
 func fromDataToJSON(data: NSData) -> Result<AnyObject> {
     do {
         let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
-        //NSLog("json: \(json)")
         return Result(value: json)
     } catch {
         return Result(error: "Failure while parsing JSON inside fromDataToJSON")
@@ -121,7 +121,7 @@ func fromJSONToUser(json: AnyObject) -> Result<AnyObject> {
     return Result(value: user)
 }
 
-typealias Karma = (subreddit: String, karma: Int)
+typealias Karma = (subreddit: String, commentKarma: Int, linkKarma: Int)
 
 func fromJSONToKarmaBreakdown(json: AnyObject) -> Result<Any> {
     var subredditKarmaBreakdown: [Karma] = []
@@ -132,13 +132,13 @@ func fromJSONToKarmaBreakdown(json: AnyObject) -> Result<Any> {
                     let subreddit = node["sr"] as? String ?? ""
                     let commentKarma = node["comment_karma"] as? Int ?? 0
                     let linkKarma = node["link_karma"] as? Int ?? 0
-                    let subKarma = Karma(subreddit, commentKarma + linkKarma)
+                    let subKarma = Karma(subreddit, commentKarma, linkKarma)
                     subredditKarmaBreakdown.append(subKarma)
                 }
             }
         }
     }
-    subredditKarmaBreakdown.sortInPlace({$0.karma > $1.karma})
+    subredditKarmaBreakdown.sortInPlace({$0.commentKarma > $1.commentKarma})
     return Result(value: subredditKarmaBreakdown)
 }
 
@@ -146,10 +146,8 @@ func fromJSONToSubredditRecommendations(json: AnyObject) -> Result<Any> {
     var subRecommends: [String] = []
     
     if let json = json as? NSArray {
-        if json.count == 0 { NSLog("no subreddits to recommend") }
         for node in json {
             let sub = node["sr_name"] as? String ?? "No Reddits Found"
-            NSLog("Subreddit recommendation: \(sub)")
             //subRecommends.append(node["sr_name"] as? String ?? "No Reddits Found")
             subRecommends.append(sub)
         }

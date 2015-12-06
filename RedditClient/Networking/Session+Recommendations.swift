@@ -73,8 +73,6 @@ extension Session {
                 switch result {
                     
                 case .Success(let data):
-                    
-                    
                     dispatch_async(dispatch_get_main_queue()) {
                         let data = data as! [Karma]
                         onCompletion(data)

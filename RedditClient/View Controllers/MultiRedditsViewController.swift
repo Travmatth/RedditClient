@@ -10,7 +10,7 @@ import UIKit
 
 class MultiRedditsViewController: UITableViewController, NetworkCommunication {
     
-    var session: Session!
+    weak var session: Session!
     var multiReddits: [Multi]?
     
     // MARK: iOS ViewController lifecycle methods

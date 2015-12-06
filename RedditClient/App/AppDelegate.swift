@@ -34,8 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        loadRootTabBarContoller()
         session!.login(url)
+        loadRootTabBarContoller()
         
         return true
     }

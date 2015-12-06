@@ -39,7 +39,7 @@ class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
     
     // .postNotificationName chain: login -> create seeds -> consume seeds into recommendation
     private let threshold: Int = 20 //How many recommendations should I keep on hand?
-    var session: Session! = Session.sharedInstance
+    weak var session: Session! = Session.sharedInstance
     //private var recommendations = Stack<Recommendation>()
     private var recommendations: [Recommendation] = []
     private var seeds = IntelligentStack<Seed>(stackPreparedMessage: "SeedStackReady")
@@ -55,7 +55,7 @@ class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
     }
     
     func shouldSeekSeeds(_: NSNotification) {
-        session.seedsForRecommendations() { newSeed in
+        session!.user?.getSubreddits() { newSeed in
             self.seeds.push(newSeed)
         }
     }
@@ -78,8 +78,8 @@ class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
     override init() {
         super.init()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "shouldSeekSeeds:", name: "SuccessfulLogin", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "shouldSeekRecommendations:", name: "SeedStackReady", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "shouldSeekSeeds:", name: "SubredditsListReady", object: nil)
     }
     
     deinit { NSNotificationCenter.defaultCenter().removeObserver(self) }

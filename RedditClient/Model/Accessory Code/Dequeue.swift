@@ -1,16 +1,19 @@
 //
-//  Stack.swift
+//  Dequeue.swift
 //  RedditClient
 //
-//  Created by Travis Matthews on 11/29/15.
+//  Created by Travis Matthews on 12/6/15.
 //  Copyright © 2015 Travis Matthews. All rights reserved.
 //
 
 import Foundation
 
-class Stack<T>: NSObject {
+class Dequeue<T> {
     
     private var array: [T] = []
+    
+    // Mark: Lifecycle
+    init() {}
     
     var size: Int {
         return array.count
@@ -20,12 +23,8 @@ class Stack<T>: NSObject {
         return array.isEmpty
     }
     
-    override init() {
-        super.init()
-    }
-    
     // MARK: Stack Operations
-    func push(value: T) {
+    func dequeueOntoBottom(value: T) {
         array.append(value)
     }
     
@@ -35,13 +34,12 @@ class Stack<T>: NSObject {
         }
     }
     
-    var pop: T? {
+    var dequeueFromTop: T? {
         guard !array.isEmpty else {
             return nil
         }
         
-        let val = array.removeLast()
+        let val = array.removeAtIndex(0)
         return val
     }
 }
-

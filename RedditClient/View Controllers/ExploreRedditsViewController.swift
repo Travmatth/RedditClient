@@ -23,7 +23,7 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
         http://jademind.com/blog/posts/swipe-gestures-on-uitableview/
     */
 
-    var session: Session!
+    weak var session: Session!
     var reddits: [String] = []
     var recommender = RecommendationEngine()
     
@@ -68,7 +68,7 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
         
         refreshTableData()
         
-        fatalError("See Todo")
+        //fatalError("See Todo")
         //TODO: Current situation:
         /*
         - oauth login flow posts token retrieval

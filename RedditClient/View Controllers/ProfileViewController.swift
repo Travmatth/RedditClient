@@ -14,7 +14,7 @@ class ProfileViewController: UITableViewController, NetworkCommunication {
     // also use her tip of typealias multi = <All, the, protocols, i, conform, to>
     // http://natashatherobot.com/ios-taking-the-user-to-settings/ 
     
-    var session: Session!
+    weak var session: Session!
     let cellTitles = ["User", "Inbox", "Posts", "Comments", "Subscriptions", "Explore", "Settings"]
     
     // MARK: iOS ViewController lifecycle methods
