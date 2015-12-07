@@ -8,43 +8,69 @@
 
 import Foundation
 
-struct More {
-    let id: String
-    let count: Int
-    let name: String
-    let parentId: String
-    let replyIds: [AnyObject]?
-    /* Fuck it I'll use a library */
-}
+func == (lhs: CommentData, rhs: CommentData) -> Bool { return lhs.id == rhs.id }
 
-struct CommentData {
-    let author: String
-    let body: String
-    let name: String
-    let replies: [AnyObject]?
+struct CommentData: Equatable {
+    /* Fuck it I'll use a library */
     
-    let edited: Bool
-    let score: Int
-    let ups: Int
-    let downs: Int
-    let created: Int
-    let saved: Bool
-    
-    let subreddit: String
-    let subredditId: String
-    let id: String
-    let linkId: String
-    let parentId: String
-    
-    let scoreHidden: Bool
-    
-    let bodyHtml: String
-    let authorFlairCssClass: String
-    let authorFlairText: String
-    
-    let kind: TypePrefix
+    /*
+    init(json: JSON) {
+        self.author =
+        self.body =
+        self.name =
+        self.kind =
+        self.replies =
+        self.edited =
+        self.score =
+        self.ups =
+        self.downs =
+        self.created =
+        self.saved =
+        self.subreddit =
+        self.subredditId =
+        self.id = id
+        self.linkId =
+        self.parentId =
+        self.scoreHidden =
+        self.bodyHtml =
+        self.authorFlairCssClass =
+        self.authorFlairText =
+    }
+    */
     
     var more: More?
     
-    /* Fuck it I'll use a library */
+    let ups: Int
+    let score: Int
+    let downs: Int
+    let created: Int
+    
+    let saved: Bool
+    let edited: Bool
+    let scoreHidden: Bool
+    
+    let id: String
+    let body: String
+    let name: String
+    let author: String
+    let linkId: String
+    let parentId: String
+    let bodyHtml: String
+    let subreddit: String
+    let subredditId: String
+    let authorFlairText: String
+    let authorFlairCssClass: String
+    
+    let replies: [String] = []
+    
+    let kind: TypePrefix
+
+    struct More {
+        let id: String
+        let count: Int
+        let name: String
+        let parentId: String
+        let replyIds: [AnyObject]?
+        /* Fuck it I'll use a library */
+    }
 }

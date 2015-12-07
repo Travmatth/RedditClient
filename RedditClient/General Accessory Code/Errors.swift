@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RedditClientError: ErrorType {
+public enum RedditClientError: ErrorType {
     case StackError(String)
     
     enum Recommendations: ErrorType {

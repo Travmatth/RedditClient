@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedditClientTests/TreeNodeTests.swift"
-            timestampString = "470896503.004447"
+            filePath = "RedditClientTests/TreeTest.swift"
+            timestampString = "471133386.777248"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "testNullInitializer()"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "testDescendantCount()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedditClientTests/CommentNodeTests.swift"
-            timestampString = "470968863.190306"
+            filePath = "RedditClientTests/ParseListingTests.swift"
+            timestampString = "471157366.135079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "testJsonInitializerFor()"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "testPostParse()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,14 +41,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedditClientTests/TreeTest.swift"
-            timestampString = "471077173.198274"
+            filePath = "RedditClientTests/ParseListingTests.swift"
+            timestampString = "471157366.135079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11"
-            endingLineNumber = "11"
-            landmarkName = "TreeTest"
-            landmarkType = "3">
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "testPostParse()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -57,13 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedditClientTests/TreeTest.swift"
-            timestampString = "471090965.231912"
+            filePath = "RedditClientTests/ParseListingTests.swift"
+            timestampString = "471156605.029751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "testIsEqual()"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "testPostParse()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -8,11 +8,87 @@
 
 import XCTest
 
-class TreeNodeTests: XCTestCase {
+class ParseListingTests: XCTestCase {
+    
+    var testData: NSData!
+    var testJson: AnyObject?
+    var mut: ParseListing?
+    
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        let bundle: NSBundle =  NSBundle(forClass: self.dynamicType)
+        let sampleJson: String! = bundle.pathForResource("SampleJsonLinkListing", ofType: nil)
+        
+        do { testData = try! NSData(contentsOfFile: sampleJson, options: NSDataReadingOptions.DataReadingMappedIfSafe ) }
+        //print(String.init(data: testData, encoding: NSUTF8StringEncoding)!)
+    }
+    
+    func testPostParse() {
+        mut = ParseListing(dataFromNetworking: testData!)
+        
+        var postsUnderTest: PostData = mut!.post!
+        
+        let domain = "cnn.com"
+        let subreddit = "news"
+        let id = "3vfaji"
+        let author = "aresef"
+        let name = "t3_3vfaji"
+        let score = 5467
+        let thumbnail = "http=//b.thumbs.redditmedia.com/BEl8EvVenkUs3jYW1wK6Ok0yTNMlst-jRMbq6C1-FCw.jpg"
+        let subreddit_id = "t5_2qh3l"
+        let downs = 0
+        let post_hint = "link"
+        let permalink = "/r/news/comments/3vfaji/san_bernardino_shooting_attacker_pledged/"
+        let created	= 1449271555
+        let url = "http=//www.cnn.com/2015/12/04/us/san-bernardino-shooting/index.html"
+        let title = "San Bernardino shooting: Attacker pledged allegiance to ISIS, officials say"
+        let created_utc	= 1449242755
+        let ups	= 5467
+        let upvote_ratio: Float = 0.95
+        let num_comments = 6019
+        
+        XCTAssertEqual(postsUnderTest.domain, domain, "Should be equal")
+        XCTAssertEqual(postsUnderTest.subreddit, subreddit, "Should be equal")
+        XCTAssertEqual(postsUnderTest.id, id, "Should be equal")
+        XCTAssertEqual(postsUnderTest.author, author, "Should be equal")
+        XCTAssertEqual(postsUnderTest.name, name, "Should be equal")
+        XCTAssertEqual(postsUnderTest.score, score, "Should be equal")
+        XCTAssertEqual(postsUnderTest.thumbnail, thumbnail, "Should be equal")
+        XCTAssertEqual(postsUnderTest.subredditId, subreddit_id, "Should be equal")
+        XCTAssertEqual(postsUnderTest.downs, downs, "Should be equal")
+        XCTAssertEqual(postsUnderTest.postHint, post_hint, "Should be equal")
+        XCTAssertEqual(postsUnderTest.permalink, permalink, "Should be equal")
+        XCTAssertEqual(postsUnderTest.created, created, "Should be equal")
+        XCTAssertEqual(postsUnderTest.url, url, "Should be equal")
+        XCTAssertEqual(postsUnderTest.title, title, "Should be equal")
+        XCTAssertEqual(postsUnderTest.createdUtc, created_utc, "Should be equal")
+        XCTAssertEqual(postsUnderTest.ups, ups, "Should be equal")
+        XCTAssertEqual(postsUnderTest.upvoteRatio, upvote_ratio, "Should be equal")
+        XCTAssertEqual(postsUnderTest.numComments, num_comments, "Should be equal")
+        XCTAssertNotNil(mut, "ParseListing should initliaze")
+        XCTAssertNil(postsUnderTest.selfTextHtml, " should be nil")
+        XCTAssertNil(postsUnderTest.selfText, " should be nil")
+        XCTAssertNil(postsUnderTest.likes, "should be nil")
+        XCTAssertNil(postsUnderTest.sort, "should be nil")
+        XCTAssertNil(postsUnderTest.linkFlairText , "should be nil")
+        XCTAssertNil(postsUnderTest.linkFlairCssClass , "should be nil")
+        XCTAssertNil(postsUnderTest.authorFlairCssClass, "should be nil")
+        XCTAssertNil(postsUnderTest.authorFlairText , "should be nil")
+        XCTAssertNil(postsUnderTest.fromId, "should be nil")
+        XCTAssertFalse(postsUnderTest.archived!, "should be false")
+        XCTAssertFalse(postsUnderTest.clicked!, "should be false")
+        XCTAssertFalse(postsUnderTest.nsfw!, "should be false")
+        XCTAssertFalse(postsUnderTest.hidden!, "should be false")
+        XCTAssertFalse(postsUnderTest.edited!, "should be false")
+        XCTAssertFalse(postsUnderTest.saved!, "should be false")
+        XCTAssertFalse(postsUnderTest.stickied!, "should be false")
+        XCTAssertFalse(postsUnderTest.locked!, "should be false")
+        XCTAssertFalse(postsUnderTest.hideScore!, "should be false")
+        XCTAssertFalse(postsUnderTest.isSelf!, "should be false")
+        XCTAssertFalse(postsUnderTest.visited!, "should be false")
+        
     }
     
     override func tearDown() {
@@ -56,16 +132,6 @@ class TreeNodeTests: XCTestCase {
  
     func testJsonInitializerFor() {
         /*
-        let bundle: NSBundle =  NSBundle(forClass: self.dynamicType)
-        let sampleJson: String! = bundle.pathForResource("SampleJsonLinkListing", ofType: nil)
-        var testData: NSData
-        
-        NSLog("sample: \(sampleJson)")
-        
-        do { testData = try! NSData(contentsOfFile: sampleJson, options:[] ) }
-        
-        var testJson: AnyObject?
-        do { testJson = try! NSJSONSerialization.JSONObjectWithData(testData, options: NSJSONReadingOptions.MutableContainers) as! NSArray }
         
         //print("test: \(testJson![1]))")
         let modelUnderTest: CommentTree = CommentTree(json: testJson![1])!

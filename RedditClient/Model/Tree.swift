@@ -9,55 +9,63 @@
 import Foundation
 
 
-/* http://nshipster.com/swift-default-protocol-implementations/
-http://stackoverflow.com/questions/33189018/extend-existing-generic-swift-class-to-be-hashable
+/* 
+    When T is equatable, comparison for like items is easier
+    http://nshipster.com/swift-default-protocol-implementations/
+    http://stackoverflow.com/questions/33189018/extend-existing-generic-swift-class-to-be-hashable
 */
-
 func ==<T: Equatable> (lhs: Tree<T>, rhs: Tree<T>) -> Bool { return unsafeAddressOf(lhs) == unsafeAddressOf(rhs) }
 
 
 class Tree<T: Equatable>: Hashable  {
     
-    // MARK: Operators
-    /* Normally I detest custom operators for their added mental complexity
-    But I must if i'm to implement equatable on self
-    */
     // MARK: Lifecycle Methods
     init() {}
     
     init(withValue val: T) { self.value = val }
     
     // MARK: Lifecycle Methods + Hashable Conformance
+    /* Needed so that self may be added to a set */
     var uid: Int?
     var hashableName: String?
+    
     init(uid: Int, name: String) {
         self.uid = uid
         self.hashableName = name
     }
     
     var hashValue: Int {
-        if let _uid = self.uid {
-            return _uid
-        }
+        if let _uid = self.uid { return _uid }
         return 0
     }
     
     // MARK: Class Variables
     var value: T?
-    var depth: Int?
+    var depth: Int = 0
     var parent: Tree?
-    var isRoot = false
-    var visible: Bool = false
+    var visible: Bool = true
     var children: [Tree] = []
     var flattenedTreeCache: [Tree]?
 
     // MARK: Computed properties; mostly queries on the children
     var flatten: [T] { return flattenTreeWithCache(toBeFlushed: false).flatMap() { $0.value } }
     
+    var isRoot: Bool { if self.parent == nil { return true } else { return false } }
+    
+    /* not being accessed? */
     var description: String {
-        guard value != nil else { return "Error" }
+        NSLog("Description accessed")
+        var _location: [String] = []
         if let value = value as? String { return value }
-        fatalError("Need to implement an actual description")
+        else {
+            var next = self
+            while !next.isRoot {
+                _location.append("depth: \(self.depth) index: \(self.indexInChildren)")
+                next = next.parent!
+            }
+            _location.append("root")
+        }
+        return _location.reverse().joinWithSeparator(" ")
     }
     
     var descendants: [Tree]? {
@@ -72,9 +80,7 @@ class Tree<T: Equatable>: Hashable  {
         for child in self.children {
             if self.visible {
                 _cnt += 1
-                if child.children.count > 0 {
-                    _cnt += child.descendantCount
-                }
+                if child.children.count > 0 { _cnt += child.descendantCount }
             }
         }
         return _cnt
@@ -94,26 +100,24 @@ class Tree<T: Equatable>: Hashable  {
     
     
     func addChild(newChild: Tree, atIndex index: Int) {
-        if self.depth != nil { newChild.depth = self.depth! + 1 }
-        else { newChild.depth = 1 }
+        newChild.depth = self.depth + 1
         newChild.parent = self
         self.children.insert(newChild, atIndex: index)
     }
     
         
     func addChild(newChild: Tree) {
-        if self.depth != nil { newChild.depth = self.depth! + 1 }
-        else { newChild.depth = 1 }
         newChild.parent = self
+        newChild.depth = self.depth + 1
         self.children.append(newChild)
     }
     
     func flattenTreeWithCache(toBeFlushed flushing: Bool) -> [Tree] {
         var allComments: [Tree] = []
         
-        if flattenedTreeCache == nil || flushing {
-            if flattenedTreeCache != nil { flattenedTreeCache = nil }
-            for child in self.children {
+        if (flattenedTreeCache == nil || flushing) {
+            if (flattenedTreeCache != nil) { flattenedTreeCache = nil }
+            for child in self.children  where (child.visible == true) {
                 allComments.append(child)
                 allComments += child.flattenTreeWithCache(toBeFlushed: flushing)
             }
@@ -125,19 +129,53 @@ class Tree<T: Equatable>: Hashable  {
     }
     
     func isEquatable(to val: T) -> Bool {
-        guard self.value != nil else {
+        guard (self.value != nil) else {
             return false
         }
         return self.value! == val
+    }
+    /* Iterates over children in a breadth-first fashion until childNode found, retrieves
+       Throws .TreeWithIdentifierNotFound if no suitable tree found
+    
+    */
+    func retrieveNodeWithIdentifier(id: T) throws -> Tree  {
+        if self.isEquatable(to: id) { return self }
+        
+        let open = Dequeue<Tree>()
+        var closed = Set<Tree>()
+        
+        open.dequeueOntoBottom(self)
+        
+        while !open.isEmpty {
+            if let current = open.dequeueFromTop {
+                closed.insert(current)
+                for child in current.children where child.hasChildren {
+                    if (closed.contains(child)) { continue }
+                    
+                    closed.insert(child)
+                    
+                    if id == child.value {
+                        return child
+                    }
+                    
+                    for next in child.children {
+                        if !closed.contains(next) { open.dequeueOntoBottom(next) }
+                    }
+                }
+            }
+        }
+        
+        throw RedditClientError.ListingError.TreeWithIdentifierNotFound
     }
     
     /* Iterates over children in a breadth-first fashion until childNode found, inserts at position
        Throws .TreeWithIdentifierNotFound if no suitable tree foujnd
     
     */
-    func insertAfterNodeWithIdentifier(id: T, withTree tree: Tree, atIndex index: Int = 0) /*throws*/ {
+    func insertAfterNodeWithIdentifier(id: T, withTree tree: Tree, atIndex index: Int = 0) throws {
         if self.isEquatable(to: id) { self.addChild(tree) }
         
+        var found = false
         let open = Dequeue<Tree>()
         open.dequeueOntoBottom(self)
         
@@ -146,24 +184,24 @@ class Tree<T: Equatable>: Hashable  {
             if let current = open.dequeueFromTop {
                 closed.insert(current)
                 for child in current.children where child.hasChildren {
-                    if closed.contains(child) {
-                        continue
-                    }
+                    if (closed.contains(child)) { continue }
+                    
                     closed.insert(child)
+                    
                     if id == child.value {
                         //Add node to child tree
                         child.addChild(tree, atIndex: index)
-                        
+                        found = true
+                        continue
                     }
-                    for _child in child.children {
-                        if !closed.contains(_child) {
-                            open.dequeueOntoBottom(_child)
-                        }
+                    
+                    for next in child.children {
+                        if !closed.contains(next) { open.dequeueOntoBottom(next) }
                     }
                 }
             }
         }
-        //fatalError("Need to implement throw if not found")
-        //throw RedditClientError.ListingError.TreeWithIdentifierNotFound
+        if !found { throw RedditClientError.ListingError.TreeWithIdentifierNotFound }
+        else { flushCache() }
     }
 }
