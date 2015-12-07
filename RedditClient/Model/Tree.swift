@@ -191,6 +191,7 @@ class Tree<T: Equatable>: Hashable  {
                     if id == child.value {
                         //Add node to child tree
                         child.addChild(tree, atIndex: index)
+                        child.flushCache()
                         found = true
                         continue
                     }
@@ -201,7 +202,7 @@ class Tree<T: Equatable>: Hashable  {
                 }
             }
         }
+        
         if !found { throw RedditClientError.ListingError.TreeWithIdentifierNotFound }
-        else { flushCache() }
     }
 }

@@ -8,29 +8,36 @@
 
 import Foundation
 
+typealias JsonDict = Dictionary<String, JSON>
 class ParseListing {
     //MARK: Class lifecycle
     init(dataFromNetworking: NSData) {
         self.json = JSON(data: dataFromNetworking)
-        startParse()
+        
+        startParse(self.json/*.array*/)
     }
     
     //MARK: Class variables
     let json: JSON!
     var post: PostData?
     var comments: Tree<CommentData> = Tree<CommentData>()
+    var root: [JSON]!
     
     //MARK: Class parsing func's
-    func startParse() {
-        if (json[0].isExists() && json[1].isExists()) {
+    func startParse(json: JSON) {
+        let head = json.array?[0].dictionary
+        let tail = json.array?[1].dictionary
+        
+        if (head != nil && tail != nil) {
+            print("startparse called")
             // Parse head and tail
-            post = PostData(json: json[0])
+            post = PostData(json: head!)
             print("sent data to post")
-            parseComments(json[1])
+            parseComments(tail!)
         }
     }
     
-    func parseComments(json: JSON) {
+    func parseComments(json: JsonDict) {
     }
 }
 

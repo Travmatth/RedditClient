@@ -28,6 +28,10 @@ class ParseListingTests: XCTestCase {
     func testPostParse() {
         mut = ParseListing(dataFromNetworking: testData!)
         
+        XCTAssertNotNil(mut!, "Should init with data properly")
+        XCTAssertNotNil(mut?.json!, "json should be !nil")
+        XCTAssertNotNil(mut?.post!, "json should be !nil")
+        //print(type(mut?.post))
         var postsUnderTest: PostData = mut!.post!
         
         let domain = "cnn.com"
@@ -67,7 +71,6 @@ class ParseListingTests: XCTestCase {
         XCTAssertEqual(postsUnderTest.ups, ups, "Should be equal")
         XCTAssertEqual(postsUnderTest.upvoteRatio, upvote_ratio, "Should be equal")
         XCTAssertEqual(postsUnderTest.numComments, num_comments, "Should be equal")
-        XCTAssertNotNil(mut, "ParseListing should initliaze")
         XCTAssertNil(postsUnderTest.selfTextHtml, " should be nil")
         XCTAssertNil(postsUnderTest.selfText, " should be nil")
         XCTAssertNil(postsUnderTest.likes, "should be nil")
@@ -77,17 +80,17 @@ class ParseListingTests: XCTestCase {
         XCTAssertNil(postsUnderTest.authorFlairCssClass, "should be nil")
         XCTAssertNil(postsUnderTest.authorFlairText , "should be nil")
         XCTAssertNil(postsUnderTest.fromId, "should be nil")
-        XCTAssertFalse(postsUnderTest.archived!, "should be false")
-        XCTAssertFalse(postsUnderTest.clicked!, "should be false")
-        XCTAssertFalse(postsUnderTest.nsfw!, "should be false")
-        XCTAssertFalse(postsUnderTest.hidden!, "should be false")
-        XCTAssertFalse(postsUnderTest.edited!, "should be false")
-        XCTAssertFalse(postsUnderTest.saved!, "should be false")
-        XCTAssertFalse(postsUnderTest.stickied!, "should be false")
-        XCTAssertFalse(postsUnderTest.locked!, "should be false")
-        XCTAssertFalse(postsUnderTest.hideScore!, "should be false")
-        XCTAssertFalse(postsUnderTest.isSelf!, "should be false")
-        XCTAssertFalse(postsUnderTest.visited!, "should be false")
+        XCTAssertFalse(postsUnderTest.archived, "should be false")
+        XCTAssertFalse(postsUnderTest.clicked, "should be false")
+        XCTAssertFalse(postsUnderTest.nsfw, "should be false")
+        XCTAssertFalse(postsUnderTest.hidden, "should be false")
+        XCTAssertFalse(postsUnderTest.edited, "should be false")
+        XCTAssertFalse(postsUnderTest.saved, "should be false")
+        XCTAssertFalse(postsUnderTest.stickied, "should be false")
+        XCTAssertFalse(postsUnderTest.locked, "should be false")
+        XCTAssertFalse(postsUnderTest.hideScore, "should be false")
+        XCTAssertFalse(postsUnderTest.isSelf, "should be false")
+        XCTAssertFalse(postsUnderTest.visited, "should be false")
         
     }
     
