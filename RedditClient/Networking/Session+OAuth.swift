@@ -72,7 +72,7 @@ extension Session: OAuthFlow {
                 .flatMap(fromDataToJSON)
                 .flatMap({ (json: Any) -> Result<Any> in
                     if let json = json as? Dictionary<String, AnyObject> { return Result(value: json) }
-                    else { return Result(error: "failed to parse json") }
+                    else { return .Failure(RedditClientError.NetworkError.FailedAccessTokenRequest) }
                 })
             
             switch result {
@@ -84,8 +84,8 @@ extension Session: OAuthFlow {
                 self.user = User(session: self, state: .User, token: OAuthToken(json: object as? Dictionary<String, AnyObject>))
                 NSNotificationCenter.defaultCenter().postNotificationName("SuccessfulLogin", object: nil)
                 
-            case .Failure(let error):
-                NSLog(error)
+            case .Failure(_):
+                fatalError("Request guest access token")
             }
         }
         task.resume()

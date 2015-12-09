@@ -13,8 +13,8 @@ func acceptableStatusCode(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     
     if !successRange.contains(response.statusCode) {
-        let data = NSString(data: response.data, encoding: NSUTF8StringEncoding)
-        return .Failure("status code of \(response.statusCode) outside of bounds\ndata: \(data)")
+        let data = String(data: response.data, encoding: NSUTF8StringEncoding)
+        return .Failure(RedditClientError.NetworkError.StatusCodeOutOfRange(code: data))
     }
     return .Success(response.data)
 }
@@ -24,7 +24,7 @@ func fromDataToJSON(data: NSData) -> Result<AnyObject> {
         let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
         return Result(value: json)
     } catch {
-        return Result(error: "Failure while parsing JSON inside fromDataToJSON")
+        return .Failure(RedditClientError.ParsingError.FailedJsonConversion)
     }
 }
 
@@ -108,7 +108,7 @@ func fromDataToJSONArray(data: NSData) -> Result<AnyObject> {
         let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
         return Result(value: json)
     } catch {
-        return Result(error:"Failed to convert JSON to NSArray")
+        return .Failure(RedditClientError.ParsingError.FailedJsonConversion)
     }
 }
 

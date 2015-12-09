@@ -17,19 +17,21 @@ import Foundation
 class RedditPost {
     //MARK: Class variables
     let post: PostData?
-    let comments: CommentTree
+    let comments: CommentTree?
     
     //MARK: Class lifecycle
     init?(dataFromNetworking data: NSData) {
         var json: Array<Any>
         var head: [String: AnyObject]
-        var tail: [String: Any]
+        var tail: [String: AnyObject]
         
         do {
             json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! Array<AnyObject>
             head = json[0] as? [String: AnyObject] ?? [:]
             tail = json[1] as? [String: AnyObject] ?? [:]
         } catch {
+            post = nil
+            comments = nil
             return nil
         }
         post = PostData(json: head)
@@ -37,12 +39,181 @@ class RedditPost {
     }
 }
 
+enum ListingParse {
+    
+    case Error(ErrorType)
+    case JsonDictionary([String: AnyObject])
+    case JsonArray([AnyObject])
+    case Unknown(AnyObject)
+    
+    init(value: AnyObject) {
+        self = .Unknown(value)
+    }
+    
+    var toJsonDictionary: ListingParse {
+        switch self {
+        case .JsonDictionary/*(let dictionary)*/: return self
+        case .Unknown(let json):
+            if let success = json as? [String: AnyObject] {
+                return .JsonDictionary(success)
+            }
+            fallthrough
+        default: return .Error(RedditClientError.ParsingError.FailedDictionaryCast)
+        }
+    }
+    
+    var toJsonArray: ListingParse {
+        switch self {
+        case .JsonArray/*(let dictionary)*/: return self
+        case .Unknown(let json):
+            if let success = json as? [AnyObject] {
+                return .JsonArray(success)
+            }
+            fallthrough
+        default: return .Error(RedditClientError.ParsingError.FailedArrayCast)
+        }
+    }
+    
+    func ifArray(value: AnyObject) -> ListingParse {
+        if let success = value as? [String] {
+            return .JsonArray(success)
+        }
+        return .Error(RedditClientError.ParsingError.FailedArrayCast)
+    }
+    
+    func valueExistsInDictionary(value: String) -> ListingParse {
+        switch self {
+        case .JsonDictionary(let dict):
+            if let _ = dict[value] {
+                return self
+            }
+            fallthrough
+        default: return .Error(RedditClientError.ParsingError.FailedDictLookup)
+        }
+    }
+    
+    func transformDictKeyToArray(value: String) -> ListingParse {
+        switch self {
+        case .JsonDictionary(let dict):
+            if let success = dict[value] as? Array<AnyObject> {
+                return .JsonArray((success))
+            }
+            fallthrough
+        default: return .Error(RedditClientError.ParsingError.FailedCastFromDictKeyToArray)
+        }
+    }
+    
+    func jsonInDictIsOfKind(kind: TypePrefix) -> Bool {
+        switch self {
+        case .JsonDictionary(let dict):
+            if let test = TypePrefix(rawValue: dict["kind"] as? String ?? "") {
+                if test.rawValue == kind.rawValue {
+                    return true
+                }
+            }
+            fallthrough
+        default: return false
+        }
+    }
+    
+    var toDictionary: [String: AnyObject]? {
+        switch self {
+        case .JsonDictionary(let dict): return dict
+        default: return nil
+        }
+    }
+    
+    var toArray: [AnyObject]? {
+        switch self {
+        case .JsonArray(let seq): return seq
+        default: return nil
+        }
+    }
+    
+    func retrieveNestedDictWithKey(value: String) -> ListingParse {
+        switch self {
+        case .JsonDictionary(let dict):
+            if let success = dict[value] as? [String: AnyObject] {
+                return .JsonDictionary(success)
+            }
+            fallthrough
+        default: return .Error(RedditClientError.ParsingError.FailedNestedDictionaryRetrievalWithKey(key: value))
+        }
+    }
+    
+    func retrieveNestedArrayWithKey(value: String) -> ListingParse {
+        switch self {
+        case .JsonDictionary(let dict):
+            if let success = dict[value] as? [AnyObject] {
+                return .JsonArray(success)
+            }
+            fallthrough
+        default: return .Error(RedditClientError.ParsingError.FailedNestedDictionaryRetrievalWithKey(key: value))
+        }
+    }
+    
+    //MARK: Json Parsing
+    var getListing: ListingParse {
+        return self.toJsonDictionary.valueExistsInDictionary("kind").retrieveNestedDictWithKey("data").retrieveNestedArrayWithKey("children")
+    }
+}
+
+
 class CommentTree {
-    init(json: [String: Any]) { }
+    var tree: Tree<CommentData>?
+    
+    init?(json: [String: AnyObject]) {
+        if let tree = initTreeWithJson(json) {
+            self.tree = tree
+            return
+        }
+        return nil
+    }
+    
+    /* A Depth First Traversal of the prospective comment tree */
+    func initTreeWithJson(json: [String: AnyObject]) -> Tree<CommentData>? {
+        
+        var closed: Set<Tree<CommentData>> = []
+        let tree : Tree<CommentData> = Tree<CommentData>()
+        let listing = ListingParse(value: json).getListing
+        typealias Stage = (tree: Tree<CommentData>, listing: ListingParse)
+        let open: Stack<Stage> = Stack<Stage>()
+        
+        /* I need to split the json into init array; add to tree as children */
+        let current = Stage(tree, listing)
+        open.push(current)
+        
+        fatalError("NeedToImplement!")
+        /*
+        var topLevelComments: [[String: AnyObject]]
+        
+        for child in topLevelComments {
+            tree.addChild(Tree<CommentData>(withJson: child)
+        }
+        
+        open.push(tree)
+        while !open.isEmpty {
+            var current = open.pop!
+            closed.insert(current)
+            while current.hasUnprocessed
+        }
+        /* Add comment listings to tree */
+        case .Listing(let modhash: String, let children: [CommentData], let before: String, let after: String):
+            
+            
+            /* Add replies to children of self */
+            //case .Comment:
+            /* Post */
+        }
+        
+        return tree
+    }
+    */
+    
+}
 }
 
 class PostDataFromJson {
-    var member: [String: AnyObject]
     
     init?(json: [String: AnyObject]) {
         let kind = TypePrefix(rawValue: json["kind"] as? String ?? "")
@@ -64,15 +235,17 @@ class PostDataFromJson {
         default: return nil
         }
     }
+    var member: [String: AnyObject] = [:]
 }
+
 
 func == (lhs: PostData, rhs: PostData) -> Bool { return lhs.id == rhs.id }
 
 struct PostData {
     init?(json: [String: AnyObject]) {
-        let potentialData = PostDataFromJson(json: json)
-        if potentialData == nil { return nil }
-        let data = potentialData!
+        guard let data = PostDataFromJson(json: json) else {
+            return nil
+        }
 
         id =  data.member["id"] as? String ?? ""
         url =  data.member["url"] as? String ?? ""
@@ -113,24 +286,16 @@ struct PostData {
         createdUtc =  data.member["created_utc"] as? Int ?? 0
         numComments =  data.member["numComments"] as? Int ?? 0
 
-        previews =  [Image]
+        //TODO: Need to implement previews array
+        //let previews: [Image] = []
 
         upvoteRatio  =  data.member["upvoteRatio "] as? Float ?? 0.0
 
         if let potential =  Sort(rawValue: data.member["sort"] as? String ?? "") {
             sort = potential
+        } else {
+            sort = Sort.Blank
         }
-    
-    //MARK: Helper Struct
-    struct Image {
-        let url: String?
-        let height: Int?
-        let width: Int?
-        var resolution: Int? {
-            if (width != nil && height != nil) { return width! * height! }
-            else { return nil }
-        }
-    }
     }
     
      let id: String
@@ -172,7 +337,7 @@ struct PostData {
      let createdUtc: Int
      let numComments: Int
      
-     let previews: [Image]
+    //let previews: [Image]
      
      let upvoteRatio: Float
     

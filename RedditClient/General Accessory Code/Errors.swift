@@ -18,4 +18,18 @@ public enum RedditClientError: ErrorType {
     enum ListingError: ErrorType {
         case TreeWithIdentifierNotFound
     }
+    
+    enum ParsingError: ErrorType {
+        case FailedDictionaryCast
+        case FailedArrayCast
+        case FailedJsonConversion
+        case FailedDictLookup
+        case FailedCastFromDictKeyToArray
+        case FailedNestedDictionaryRetrievalWithKey(key: String)
+    }
+    
+    enum NetworkError: ErrorType {
+        case StatusCodeOutOfRange(code: String?)
+        case FailedAccessTokenRequest
+    }
 }

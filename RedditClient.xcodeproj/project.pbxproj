@@ -120,12 +120,12 @@
 		BB27911D1BEF0407004166AC /* RedditClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditClientTests.swift; sourceTree = "<group>"; };
 		BB27911F1BEF0407004166AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB2791281BEF0CB5004166AC /* MultiRedditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MultiRedditsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		BB2966EA1BF4E22000842542 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		BB2966EA1BF4E22000842542 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = Result.swift; path = "../Networking/Accessory Code/Result.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2966F01BF649FE00842542 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LoginViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2966F31BF662FA00842542 /* Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 		BB2A30B51C11479400117C43 /* ParseListingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseListingTests.swift; sourceTree = "<group>"; };
 		BB2DD4FC1C07623E00A6B0BE /* SubredditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditViewController.swift; sourceTree = "<group>"; };
-		BB2DD4FF1C0763C500A6B0BE /* Session+Subreddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Subreddit.swift"; sourceTree = "<group>"; };
+		BB2DD4FF1C0763C500A6B0BE /* Session+Subreddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+Subreddit.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2DD5021C07746F00A6B0BE /* Subreddit JSON Example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Subreddit JSON Example"; sourceTree = "<group>"; };
 		BB2DD5051C07785B00A6B0BE /* Subreddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subreddit.swift; sourceTree = "<group>"; };
 		BB2DD50A1C07FF0300A6B0BE /* RecommendationPipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RecommendationPipeline.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -134,18 +134,18 @@
 		BB2DD5141C0831DF00A6B0BE /* IntelligentStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntelligentStack.swift; sourceTree = "<group>"; };
 		BB2DD5181C0832DF00A6B0BE /* Session+Recommendations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+Recommendations.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2DD51B1C083D4D00A6B0BE /* user submitted example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "user submitted example"; sourceTree = "<group>"; };
-		BB44CD851C14F3F90022D875 /* ParseListing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseListing.swift; sourceTree = "<group>"; };
+		BB44CD851C14F3F90022D875 /* ParseListing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseListing.swift; path = "../Networking/Accessory Code/ParseListing.swift"; sourceTree = "<group>"; };
 		BB4BB2D71BF02D67003C8D49 /* ExploreRedditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ExploreRedditsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB4BB2DD1BF0305B003C8D49 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		BB5D95F41C14B81F00E26489 /* testCommentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testCommentData.swift; sourceTree = "<group>"; };
 		BB5F0F3A1BFCE8CA00096B5F /* Style Guide */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Style Guide"; sourceTree = "<group>"; };
 		BB5F4B141C114F23009287D9 /* ListingEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingEnums.swift; sourceTree = "<group>"; };
-		BB614A2A1BFE219F00DFCC73 /* Session+OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+OAuth.swift"; sourceTree = "<group>"; };
+		BB614A2A1BFE219F00DFCC73 /* Session+OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+OAuth.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB614A301BFE37DA00DFCC73 /* Session+APIUsage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+APIUsage.swift"; sourceTree = "<group>"; };
 		BB67771C1C0BF4550099BF1B /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		BB67771E1C0BF49A0099BF1B /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		BB6777211C0C03D60099BF1B /* Recommender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recommender.swift; sourceTree = "<group>"; };
-		BB6777231C0C06640099BF1B /* Session+Front.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Front.swift"; sourceTree = "<group>"; };
+		BB6777231C0C06640099BF1B /* Session+Front.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+Front.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB915E041C120E8D00D80F30 /* SampleJsonLinkListing */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; name = SampleJsonLinkListing; path = "../RedditClient/General Accessory Code/SampleJsonLinkListing"; sourceTree = "<group>"; };
 		BB915E071C1271F900D80F30 /* testsample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testsample; sourceTree = "<group>"; };
 		BBA4AE201C142C2D002F115F /* Dequeue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dequeue.swift; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 		BBFA3C6E1BFF8498001F1138 /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Filters.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BBFA3C731C001C2A001F1138 /* MultiReddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiReddit.swift; sourceTree = "<group>"; };
 		BBFA3C761C002E96001F1138 /* RequestProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProperties.swift; sourceTree = "<group>"; };
-		BBFA3C791C00440E001F1138 /* Session+Multi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Multi.swift"; sourceTree = "<group>"; };
+		BBFA3C791C00440E001F1138 /* Session+Multi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+Multi.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,8 +246,6 @@
 				BBFA3C6E1BFF8498001F1138 /* Filters.swift */,
 				BBFA3C761C002E96001F1138 /* RequestProperties.swift */,
 				BBDAF1071BF98F550030D3D3 /* Response.swift */,
-				BB2966EA1BF4E22000842542 /* Result.swift */,
-				BB44CD851C14F3F90022D875 /* ParseListing.swift */,
 			);
 			path = "Accessory Code";
 			sourceTree = "<group>";
@@ -339,6 +337,8 @@
 				BB5F4B141C114F23009287D9 /* ListingEnums.swift */,
 				BB0C14FD1C13D9860006905C /* CommentData.swift */,
 				BB0C15001C13DB1B0006905C /* Tree.swift */,
+				BB2966EA1BF4E22000842542 /* Result.swift */,
+				BB44CD851C14F3F90022D875 /* ParseListing.swift */,
 				BB0463721C1536A0009A95AD /* PostData.swift */,
 			);
 			path = Model;
