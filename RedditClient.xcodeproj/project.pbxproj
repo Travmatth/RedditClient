@@ -105,7 +105,7 @@
 
 /* Begin PBXFileReference section */
 		BB0463721C1536A0009A95AD /* PostData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
-		BB0463781C153E27009A95AD /* PostDataTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostDataTest.swift; path = RedditClientTests/PostDataTest.swift; sourceTree = SOURCE_ROOT; };
+		BB0463781C153E27009A95AD /* PostDataTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDataTest.swift; sourceTree = "<group>"; };
 		BB0C14FD1C13D9860006905C /* CommentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
 		BB0C15001C13DB1B0006905C /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		BB0C15031C13EE4F0006905C /* TreeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeTest.swift; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 		BB27911D1BEF0407004166AC /* RedditClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditClientTests.swift; sourceTree = "<group>"; };
 		BB27911F1BEF0407004166AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB2791281BEF0CB5004166AC /* MultiRedditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MultiRedditsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		BB2966EA1BF4E22000842542 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = Result.swift; path = "../Networking/Accessory Code/Result.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		BB2966EA1BF4E22000842542 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Result.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2966F01BF649FE00842542 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LoginViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2966F31BF662FA00842542 /* Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 		BB2A30B51C11479400117C43 /* ParseListingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseListingTests.swift; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 		BB2DD5141C0831DF00A6B0BE /* IntelligentStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntelligentStack.swift; sourceTree = "<group>"; };
 		BB2DD5181C0832DF00A6B0BE /* Session+Recommendations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+Recommendations.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2DD51B1C083D4D00A6B0BE /* user submitted example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "user submitted example"; sourceTree = "<group>"; };
-		BB44CD851C14F3F90022D875 /* ParseListing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseListing.swift; path = "../Networking/Accessory Code/ParseListing.swift"; sourceTree = "<group>"; };
+		BB44CD851C14F3F90022D875 /* ParseListing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseListing.swift; sourceTree = "<group>"; };
 		BB4BB2D71BF02D67003C8D49 /* ExploreRedditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ExploreRedditsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB4BB2DD1BF0305B003C8D49 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		BB5D95F41C14B81F00E26489 /* testCommentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testCommentData.swift; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 		BB67771E1C0BF49A0099BF1B /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		BB6777211C0C03D60099BF1B /* Recommender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recommender.swift; sourceTree = "<group>"; };
 		BB6777231C0C06640099BF1B /* Session+Front.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+Front.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		BB915E041C120E8D00D80F30 /* SampleJsonLinkListing */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; name = SampleJsonLinkListing; path = "../RedditClient/General Accessory Code/SampleJsonLinkListing"; sourceTree = "<group>"; };
+		BB915E041C120E8D00D80F30 /* SampleJsonLinkListing */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = SampleJsonLinkListing; sourceTree = "<group>"; };
 		BB915E071C1271F900D80F30 /* testsample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testsample; sourceTree = "<group>"; };
 		BBA4AE201C142C2D002F115F /* Dequeue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dequeue.swift; sourceTree = "<group>"; };
 		BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthToken.swift; sourceTree = "<group>"; };
@@ -213,11 +213,11 @@
 			children = (
 				BB915E061C120E9D00D80F30 /* Samples */,
 				BB27911F1BEF0407004166AC /* Info.plist */,
-				BB0463781C153E27009A95AD /* PostDataTest.swift */,
-				BB5D95F41C14B81F00E26489 /* testCommentData.swift */,
-				BB27911D1BEF0407004166AC /* RedditClientTests.swift */,
 				BB2A30B51C11479400117C43 /* ParseListingTests.swift */,
+				BB0463781C153E27009A95AD /* PostDataTest.swift */,
+				BB27911D1BEF0407004166AC /* RedditClientTests.swift */,
 				BB0C15031C13EE4F0006905C /* TreeTest.swift */,
+				BB5D95F41C14B81F00E26489 /* testCommentData.swift */,
 			);
 			path = RedditClientTests;
 			sourceTree = "<group>";
@@ -263,9 +263,9 @@
 		BB2DD5171C0831EF00A6B0BE /* Accessory Code */ = {
 			isa = PBXGroup;
 			children = (
+				BBA4AE201C142C2D002F115F /* Dequeue.swift */,
 				BB2DD5141C0831DF00A6B0BE /* IntelligentStack.swift */,
 				BB67771E1C0BF49A0099BF1B /* Stack.swift */,
-				BBA4AE201C142C2D002F115F /* Dequeue.swift */,
 			);
 			path = "Accessory Code";
 			sourceTree = "<group>";
@@ -322,24 +322,24 @@
 				BB915E041C120E8D00D80F30 /* SampleJsonLinkListing */,
 				BB915E071C1271F900D80F30 /* testsample */,
 			);
-			name = Samples;
+			path = Samples;
 			sourceTree = "<group>";
 		};
 		BBFA3C721C001C15001F1138 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				BB2DD5171C0831EF00A6B0BE /* Accessory Code */,
+				BB0C14FD1C13D9860006905C /* CommentData.swift */,
+				BB5F4B141C114F23009287D9 /* ListingEnums.swift */,
 				BBFA3C731C001C2A001F1138 /* MultiReddit.swift */,
 				BBDAF1051BF97D670030D3D3 /* OAuthToken.swift */,
-				BB2DD50A1C07FF0300A6B0BE /* RecommendationPipeline.swift */,
-				BB2DD5051C07785B00A6B0BE /* Subreddit.swift */,
-				BB2DD5111C08318E00A6B0BE /* User.swift */,
-				BB5F4B141C114F23009287D9 /* ListingEnums.swift */,
-				BB0C14FD1C13D9860006905C /* CommentData.swift */,
-				BB0C15001C13DB1B0006905C /* Tree.swift */,
-				BB2966EA1BF4E22000842542 /* Result.swift */,
 				BB44CD851C14F3F90022D875 /* ParseListing.swift */,
 				BB0463721C1536A0009A95AD /* PostData.swift */,
+				BB2DD50A1C07FF0300A6B0BE /* RecommendationPipeline.swift */,
+				BB2966EA1BF4E22000842542 /* Result.swift */,
+				BB2DD5051C07785B00A6B0BE /* Subreddit.swift */,
+				BB0C15001C13DB1B0006905C /* Tree.swift */,
+				BB2DD5111C08318E00A6B0BE /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
