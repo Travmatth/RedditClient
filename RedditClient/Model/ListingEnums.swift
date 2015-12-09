@@ -16,6 +16,7 @@ enum TypePrefix: String {
     case Subreddit = "t5"
     case Award = "t6"
     case PromoCampaign = "t8"
+    case Listing = "Listing"
     case Null = ""
 }
 

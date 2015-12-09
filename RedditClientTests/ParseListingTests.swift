@@ -11,8 +11,8 @@ import XCTest
 class ParseListingTests: XCTestCase {
     
     var testData: NSData!
-    var testJson: AnyObject?
     var mut: ParseListing?
+    var testJson: AnyObject?
     
     
     override func setUp() {

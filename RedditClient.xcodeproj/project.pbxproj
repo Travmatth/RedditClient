@@ -16,6 +16,7 @@
 		BB0C15021C13DB1B0006905C /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C15001C13DB1B0006905C /* Tree.swift */; };
 		BB0C15041C13EE4F0006905C /* TreeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C15031C13EE4F0006905C /* TreeTest.swift */; };
 		BB1258E71BF24D89003D928A /* NetworkCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1258E61BF24D89003D928A /* NetworkCommunication.swift */; };
+		BB1832F11C16B05800C82DA3 /* PostDataNotes in Resources */ = {isa = PBXBuildFile; fileRef = BB1832F01C16B05800C82DA3 /* PostDataNotes */; };
 		BB2791091BEF0407004166AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2791081BEF0407004166AC /* AppDelegate.swift */; };
 		BB27910B1BEF0407004166AC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB27910A1BEF0407004166AC /* ProfileViewController.swift */; };
 		BB2791101BEF0407004166AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB27910F1BEF0407004166AC /* Assets.xcassets */; };
@@ -55,8 +56,6 @@
 		BB2DD51D1C083D4D00A6B0BE /* user submitted example in Resources */ = {isa = PBXBuildFile; fileRef = BB2DD51B1C083D4D00A6B0BE /* user submitted example */; };
 		BB44CD861C14F3F90022D875 /* ParseListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB44CD851C14F3F90022D875 /* ParseListing.swift */; };
 		BB44CD871C14F3F90022D875 /* ParseListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB44CD851C14F3F90022D875 /* ParseListing.swift */; };
-		BB44CD901C14FDAE0022D875 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB44CD8F1C14FDAE0022D875 /* SwiftyJSON.swift */; };
-		BB44CD911C14FDAE0022D875 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB44CD8F1C14FDAE0022D875 /* SwiftyJSON.swift */; };
 		BB4BB2D81BF02D67003C8D49 /* ExploreRedditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2D71BF02D67003C8D49 /* ExploreRedditsViewController.swift */; };
 		BB4BB2DE1BF0305B003C8D49 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4BB2DD1BF0305B003C8D49 /* Session.swift */; };
 		BB5D95F31C149C6700E26489 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67771C1C0BF4550099BF1B /* Errors.swift */; };
@@ -108,9 +107,10 @@
 		BB0463721C1536A0009A95AD /* PostData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
 		BB0463781C153E27009A95AD /* PostDataTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostDataTest.swift; path = RedditClientTests/PostDataTest.swift; sourceTree = SOURCE_ROOT; };
 		BB0C14FD1C13D9860006905C /* CommentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
-		BB0C15001C13DB1B0006905C /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tree.swift; path = ../Tree.swift; sourceTree = "<group>"; };
+		BB0C15001C13DB1B0006905C /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		BB0C15031C13EE4F0006905C /* TreeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeTest.swift; sourceTree = "<group>"; };
 		BB1258E61BF24D89003D928A /* NetworkCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkCommunication.swift; sourceTree = "<group>"; };
+		BB1832F01C16B05800C82DA3 /* PostDataNotes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostDataNotes; sourceTree = "<group>"; };
 		BB2791051BEF0407004166AC /* RedditClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedditClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2791081BEF0407004166AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB27910A1BEF0407004166AC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -135,7 +135,6 @@
 		BB2DD5181C0832DF00A6B0BE /* Session+Recommendations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Session+Recommendations.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB2DD51B1C083D4D00A6B0BE /* user submitted example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "user submitted example"; sourceTree = "<group>"; };
 		BB44CD851C14F3F90022D875 /* ParseListing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseListing.swift; sourceTree = "<group>"; };
-		BB44CD8F1C14FDAE0022D875 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		BB4BB2D71BF02D67003C8D49 /* ExploreRedditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ExploreRedditsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BB4BB2DD1BF0305B003C8D49 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		BB5D95F41C14B81F00E26489 /* testCommentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testCommentData.swift; sourceTree = "<group>"; };
@@ -197,7 +196,6 @@
 		BB2791071BEF0407004166AC /* RedditClient */ = {
 			isa = PBXGroup;
 			children = (
-				BB44CD8B1C14F42A0022D875 /* Libraries */,
 				BB4BB2D61BF02A00003C8D49 /* App */,
 				BB2966F61BF6630100842542 /* Dev */,
 				BB6777201C0C03800099BF1B /* General Accessory Code */,
@@ -229,6 +227,7 @@
 			children = (
 				BB2DD5101C08314300A6B0BE /* JSON Examples */,
 				BB2966F31BF662FA00842542 /* Notes */,
+				BB1832F01C16B05800C82DA3 /* PostDataNotes */,
 				BB5F0F3A1BFCE8CA00096B5F /* Style Guide */,
 			);
 			path = Dev;
@@ -269,17 +268,8 @@
 				BB2DD5141C0831DF00A6B0BE /* IntelligentStack.swift */,
 				BB67771E1C0BF49A0099BF1B /* Stack.swift */,
 				BBA4AE201C142C2D002F115F /* Dequeue.swift */,
-				BB0C15001C13DB1B0006905C /* Tree.swift */,
 			);
 			path = "Accessory Code";
-			sourceTree = "<group>";
-		};
-		BB44CD8B1C14F42A0022D875 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				BB44CD8F1C14FDAE0022D875 /* SwiftyJSON.swift */,
-			);
-			name = Libraries;
 			sourceTree = "<group>";
 		};
 		BB4BB2D51BF029DC003C8D49 /* View Controllers */ = {
@@ -348,6 +338,7 @@
 				BB2DD5111C08318E00A6B0BE /* User.swift */,
 				BB5F4B141C114F23009287D9 /* ListingEnums.swift */,
 				BB0C14FD1C13D9860006905C /* CommentData.swift */,
+				BB0C15001C13DB1B0006905C /* Tree.swift */,
 				BB0463721C1536A0009A95AD /* PostData.swift */,
 			);
 			path = Model;
@@ -434,6 +425,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB1832F11C16B05800C82DA3 /* PostDataNotes in Resources */,
 				BB2DD50E1C08313200A6B0BE /* User request json example in Resources */,
 				BB2966F41BF662FA00842542 /* Notes in Resources */,
 				BB2DD51C1C083D4D00A6B0BE /* user submitted example in Resources */,
@@ -466,7 +458,6 @@
 				BB2966F11BF649FE00842542 /* LoginViewController.swift in Sources */,
 				BB67771D1C0BF4550099BF1B /* Errors.swift in Sources */,
 				BB44CD861C14F3F90022D875 /* ParseListing.swift in Sources */,
-				BB44CD901C14FDAE0022D875 /* SwiftyJSON.swift in Sources */,
 				BB6777241C0C06640099BF1B /* Session+Front.swift in Sources */,
 				BB4BB2DE1BF0305B003C8D49 /* Session.swift in Sources */,
 				BBDAF1061BF97D670030D3D3 /* OAuthToken.swift in Sources */,
@@ -507,7 +498,6 @@
 				BB5F4B0F1C114E96009287D9 /* AppDelegate.swift in Sources */,
 				BB2DD5131C08318E00A6B0BE /* User.swift in Sources */,
 				BB2A30B61C11479400117C43 /* ParseListingTests.swift in Sources */,
-				BB44CD911C14FDAE0022D875 /* SwiftyJSON.swift in Sources */,
 				BB5F4B161C114F23009287D9 /* ListingEnums.swift in Sources */,
 				BBFA3C7B1C00440E001F1138 /* Session+Multi.swift in Sources */,
 				BB2A30BB1C114E0500117C43 /* NetworkCommunication.swift in Sources */,

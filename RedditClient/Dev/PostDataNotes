@@ -1,0 +1,57 @@
+
+
+                    /*
+                    archived = base![15].bool ?? true
+                    author = base?["author"]?.stringValue ?? ""
+                    authorFlairCssClass = base?["author_flair_css_class"]?.stringValue ?? ""
+                    authorFlairText = base?["author_flair_text"]?.stringValue ?? ""
+                    clicked = base?["clicked"]?.boolValue ?? false
+                    created = base?["created"]?.intValue ?? 0
+                    createdUtc = base?["created_utc"]?.intValue ?? 0
+                    domain = base?["domain"]?.stringValue ?? ""
+                    downs = base?["downs"]?.intValue ?? 0
+                    edited = base?["edited"]?.boolValue ?? false
+                    fromId = base?["from_id"]?.stringValue ?? ""
+                    hidden = base?["hidden"]?.boolValue ?? false
+                    hideScore = base?["hide_score"]?.boolValue ?? false
+                    id = base?["id"]?.stringValue ?? ""
+                    isSelf = base?["is_self"]?.boolValue ?? false
+                    likes = base?["likes"]?.stringValue ?? ""
+                    linkFlairText = base?["link_flair_text"]?.stringValue ?? ""
+                    linkFlairCssClass = base?["link_flair_css_class"]?.stringValue ?? ""
+                    locked = base?["locked"]?.boolValue ?? false
+                    name = base?["]name"]?.stringValue ?? ""
+                    numComments = base?["num_comments"]?.intValue ?? 0
+                    nsfw = base?["over_18"]?.boolValue ?? false
+                    permalink = base?["permalink"]?.stringValue ?? ""
+                    postHint = base?["post_hint"]?.stringValue ?? ""
+                    saved = base?["saved"]?.boolValue ?? false
+                    selfText = base?["selftext"]?.stringValue ?? ""
+                    selfTextHtml = base?["selftext_html"]?.stringValue ?? ""
+                    score = base?["score"]?.intValue ?? 0
+                    stickied = base?["stickied"]?.boolValue ?? false
+                    subreddit = base?["subreddit"]?.stringValue ?? ""
+                    subredditId = base?["subreddit_id"]?.stringValue ?? ""
+                    title = base?["title"]?.stringValue ?? ""
+                    thumbnail = base?["]thumbnail"]?.stringValue ?? ""
+                    url = base?["url"]?.stringValue ?? ""
+                    ups = base?["ups"]?.intValue ?? 0
+                    upvoteRatio = base?["upvote_ratio"]?.floatValue ?? 0.0
+                    visited = base?["visited"]?.boolValue ?? false
+                    
+                    if let _sort = base?["suggested_sort"]?.stringValue {
+                        self.sort = Sort(rawValue: _sort)!
+                    } else { self.sort = .Top }
+                    
+                    /* Parse the preview */
+                    if let resolutions = base?["preview"]?["images"][0]["resolutions"].array {
+                        var _temp: [Image] = []
+                        for pic in resolutions {
+                            let img = Image(url: pic["url"].stringValue, height: pic["height"].intValue, width: pic["width"].intValue)
+                            _temp.append(img)
+                        }
+                        self.previews = _temp
+                        
+                    } else { self.previews = [] }
+                    return
+                    */

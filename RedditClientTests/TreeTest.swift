@@ -211,16 +211,16 @@ class TreeTest: XCTestCase {
     }
     
     func flattenTreeWithCache(toBeFlushed flushing: Bool) -> [Tree] {
-        var allComments: [Tree] = []
+        var allTrees: [Tree] = []
         
         if flattenedTreeCache == nil || flushing {
             if flattenedTreeCache != nil { flattenedTreeCache = nil }
             for child in self.children {
-                allComments.append(child)
-                allComments += child.flattenTreeWithCache(toBeFlushed: flushing)
+                allTrees.append(child)
+                allTrees += child.flattenTreeWithCache(toBeFlushed: flushing)
             }
             
-            flattenedTreeCache = allComments
+            flattenedTreeCache = allTrees
         }
         
         return flattenedTreeCache!
