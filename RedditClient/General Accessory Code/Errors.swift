@@ -26,6 +26,8 @@ public enum RedditClientError: ErrorType {
         case FailedDictLookup
         case FailedCastFromDictKeyToArray
         case FailedNestedDictionaryRetrievalWithKey(key: String)
+        case FailedToParseJson
+        case FailedArrayLookup
     }
     
     enum NetworkError: ErrorType {
