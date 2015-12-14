@@ -63,28 +63,21 @@ enum Parse {
             
             switch type! {
             case .Listing:
-                print(".Listing")
                 let replies = self.toJsonDictionary.retrieveNestedDictionaryWithKey("data").retrieveNestedArrayWithKey("children").toArrayOfDictionaries
-                print("adding \(replies.count) to the tree")
                 return .Listing(replies: replies)
             case .Comment:
-                print(".Comment")
                 let root = self.toJsonDictionary.retrieveNestedDictionaryWithKey("data")
                 let data = CommentData(withJson: root.toDictionary)
-                print("\(data.author)")
-                let replies = root.retrieveNestedArrayWithKey("replies").toArrayOfDictionaries
+                let replies = root.retrieveNestedDictionaryWithKey("replies").retrieveNestedDictionaryWithKey("data").retrieveNestedArrayWithKey("children").toArrayOfDictionaries
                 return .Comment(comment: data, replies: replies)
             /*
             case .Link:
-                print(".Link")
                 return .Post(info: self.toJsonDictionary.retrieveNestedDictionaryWithKey("data").toDictionary)
             */
             case .More:
-                print(".More")
                 let data = self.toJsonDictionary.retrieveNestedDictionaryWithKey("data").toDictionary
                 return .More(more: MoreReplies(json: data))
             default:
-                print("default")
                 return .Error(RedditClientError.ParsingError.FailedToParseJson)
             }
         default: return .Error(RedditClientError.ParsingError.FailedToParseJson)
@@ -96,10 +89,8 @@ enum Parse {
     var toDictionary: [String: AnyObject] {
         switch self {
         case .JsonDictionary(let success):
-            print("toDictionary")
             return success
         default:
-            print("toDictionary failed")
             return [:]
         }
     }
@@ -114,23 +105,20 @@ enum Parse {
                 }
             }
             return _temp
-        default: return [[:]]
+        default: return []
         }
     }
     
     var toJsonDictionary: Parse {
         switch self {
         case .JsonDictionary/*(let dictionary)*/:
-            print("toJsonDictionary .JsonDictionary")
             return self
         case .Unknown(let json):
             if let success = json as? [String: AnyObject] {
-                print("toJsonDictionary .Unknown")
                 return .JsonDictionary(success)
             }
             fallthrough
         default:
-            print("toJsonDictionary Default")
             return .Error(RedditClientError.ParsingError.FailedDictionaryCast)
         }
     }
@@ -172,13 +160,16 @@ enum Parse {
     func retrieveNestedDictionaryWithKey(value: String) -> Parse {
         switch self {
         case .JsonDictionary(let dict):
+            /*
+            guard let success
+            */
             if let success = dict[value] as? [String: AnyObject] {
-                print("retrieveNestedDictionaryWithKey .JsonDictionary")
                 return .JsonDictionary(success)
             }
-            fallthrough
+            else {
+                return .JsonDictionary([:])
+            }
         default:
-            print("retrieveNestedDictionaryWithKey .JsonDictionary failed")
             return .Error(RedditClientError.ParsingError.FailedNestedDictionaryRetrievalWithKey(key: value))
         }
     }
@@ -187,12 +178,12 @@ enum Parse {
         switch self {
         case .JsonDictionary(let dict):
             if let success = dict[value] as? [AnyObject] {
-                print("retrieveNestedArrayWithKey .JsonDictionary")
                 return .JsonArray(success)
             }
-            fallthrough
+            else {
+                return .JsonArray([])
+            }
         default:
-            print("retrieveNestedArrayWithKey .JsonDictionary failed")
             return .Error(RedditClientError.ParsingError.FailedNestedDictionaryRetrievalWithKey(key: value))
         }
     }
@@ -201,11 +192,11 @@ enum Parse {
         switch self {
         case .Unknown(let seq):
             if let success = seq[value] as? [String: AnyObject] {
-                print("retrieveDictionaryAtArrayIndex .Unknown")
                 return .JsonDictionary(success)
             }
             fallthrough
-        default: return .Error(RedditClientError.ParsingError.FailedArrayLookup)
+        default:
+            return .Error(RedditClientError.ParsingError.FailedArrayLookup)
         }
     }
 }

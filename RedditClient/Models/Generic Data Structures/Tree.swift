@@ -21,6 +21,7 @@ class Tree<T: Equatable>: Hashable  {
     
     // MARK: Lifecycle Methods
     init() {}
+    deinit { print("tree node being lost") }
     
     init(withValue val: T) { self.value = val }
     
@@ -60,7 +61,7 @@ class Tree<T: Equatable>: Hashable  {
     var descendantCount: Int {
         var _cnt: Int = 0
         for child in self.children {
-            if self.visible {
+            if child.visible {
                 _cnt += 1
                 if child.children.count > 0 { _cnt += child.descendantCount }
             }

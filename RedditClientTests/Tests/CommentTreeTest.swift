@@ -41,7 +41,9 @@ class CommentTreeTest: XCTestCase {
         //THEN
         let mut = CommentTree(json: testJsonDictionary)
         
-        XCTAssertEqual(mut?.tree?.descendantCount, 6, "Tree should have correct number of parent comments")
+        XCTAssertEqual(mut?.tree?.children.count, 6, "Tree should have correct number of parent comments")
+        print(mut?.tree?.flatten.map() { $0.id })
+        XCTAssertEqual(mut?.tree?.descendantCount, 14, "Tree should have correct number of parent comments")
         
     }
     

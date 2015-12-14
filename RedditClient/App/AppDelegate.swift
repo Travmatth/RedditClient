@@ -26,15 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let loginController = LoginViewController()
         loginController.session = session
         
-        self.window!.rootViewController = loginController
-        self.window!.addSubview(loginController.view!)
-        self.window!.makeKeyAndVisible()
+        self.window?.rootViewController = loginController
+        self.window?.addSubview(loginController.view!)
+        self.window?.makeKeyAndVisible()
         
         return true
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        session!.login(url)
+        session?.login(url)
         loadRootTabBarContoller()
         
         return true
@@ -95,6 +95,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let controllers = [settingsNavController, multiNavController, exploreNavController, frontNavController]
         
         tabBarController.viewControllers = controllers
-        self.window!.rootViewController = tabBarController
+        self.window?.rootViewController = tabBarController
     }
 }

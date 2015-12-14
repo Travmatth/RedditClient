@@ -75,7 +75,7 @@ class PostDataTest: XCTestCase {
         json = json["data"] as! [String: AnyObject]
         var js = json["children"] as! [AnyObject]
         sampleJson = js[0] as! [String: AnyObject]
-        XCTAssertNotNil(testJson)
+        XCTAssertNotNil(sampleJson)
     }
     
     
