@@ -25,13 +25,13 @@ class ParseTests: XCTestCase {
     
     func testCommentWithNoChildren() {
         //WHEN
-        let sampleJson: String! = bundle.pathForResource("ParseCommentTestSample", ofType: nil)
+        let sampleJson: String! = bundle.pathForResource("SampleComment", ofType: nil)
         
         do {
             testData = try NSData(contentsOfFile: sampleJson, options: NSDataReadingOptions.DataReadingMappedIfSafe )
-            if testData == nil { print("nil here too") }
+            if testData == nil { fatalError("ParseCommentTestSample could not be read into data") }
             testJsonDictionary = try NSJSONSerialization.JSONObjectWithData(testData, options: NSJSONReadingOptions.MutableContainers) as! [String:AnyObject]
-            if testData == nil { print("nil here too") }
+            if testData == nil { fatalError("ParseCommentTestSample could not be read into json") }
         }
         catch let error {
             print("\(error)")
@@ -43,18 +43,18 @@ class ParseTests: XCTestCase {
         let author = "Asti_"
         let body = "Nice job using python to explain how to solve the types of challenges!"
         let name = "t1_cxw1461"
-        let edited = false
-        let score = 1
-        let ups = 1
-        let downs = 0
+        let edited = true
+        let score = 10
+        let ups = 10
+        let downs = 10
         let created = 1449913333
-        let saved = false
+        let saved = true
         let subreddit = "ReverseEngineering"
         let subreddit_id = "t5_2qmd0"
         let id = "cxw1461"
         let link_id = "t3_3wg5fx"
         let parent_id = "t3_3wg5fx"
-        let score_hidden = false
+        let score_hidden = true
         let body_html = "&lt;div class=\"md\"&gt;&lt;p&gt;Nice job using python to explain how to solve the types of challenges!&lt;/p&gt;\n&lt;/div&gt;"
         let author_flair_css_class = "test"
         let author_flair_text = "test"
@@ -141,45 +141,6 @@ class ParseTests: XCTestCase {
         }
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     func testPostParse() {/*
         mut = ParseListing(dataFromNetworking: testData!)

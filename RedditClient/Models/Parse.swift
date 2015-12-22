@@ -23,10 +23,10 @@ enum Parse {
     }
     
     //MARK: Public cases
-    case Post(info: [String: AnyObject]?) //DONE
-    case Listing(replies: [[String: AnyObject]]) //DONE
-    case Comment(comment: CommentData, replies: [[String: AnyObject]]) //DONE
-    case More(more: MoreReplies) //DONE
+    case Post(info: PostData)
+    case Listing(replies: [[String: AnyObject]])
+    case Comment(comment: CommentData, replies: [[String: AnyObject]])
+    case More(more: MoreReplies)
     
     //MARK: Internal cases
     case Error(ErrorType)
@@ -61,37 +61,38 @@ enum Parse {
                 return .Error(RedditClientError.ParsingError.FailedToParseJson)
             }
             
+            //fatalError("design decision: let classes handle own json scraping, minimize code in parse enum")
             switch type! {
             case .Listing:
                 let replies = self.toJsonDictionary.retrieveNestedDictionaryWithKey("data").retrieveNestedArrayWithKey("children").toArrayOfDictionaries
                 return .Listing(replies: replies)
             case .Comment:
-                let root = self.toJsonDictionary.retrieveNestedDictionaryWithKey("data")
-                let data = CommentData(withJson: root.toDictionary)
-                let replies = root.retrieveNestedDictionaryWithKey("replies").retrieveNestedDictionaryWithKey("data").retrieveNestedArrayWithKey("children").toArrayOfDictionaries
+                let data = CommentData(withJson: self.toJsonDictionary.toDictionary)
+                /* Drill down into json and extract replies */
+                let replies = self.toJsonDictionary
+                    .retrieveNestedDictionaryWithKey("data")
+                    .retrieveNestedDictionaryWithKey("replies")
+                    .retrieveNestedDictionaryWithKey("data")
+                    .retrieveNestedArrayWithKey("children")
+                    .toArrayOfDictionaries
+                
                 return .Comment(comment: data, replies: replies)
-            /*
             case .Link:
-                return .Post(info: self.toJsonDictionary.retrieveNestedDictionaryWithKey("data").toDictionary)
-            */
+                return .Post(info: PostData(withJson: self.toDictionary))
             case .More:
-                let data = self.toJsonDictionary.retrieveNestedDictionaryWithKey("data").toDictionary
-                return .More(more: MoreReplies(json: data))
+                return .More(more: MoreReplies(json: self.toJsonDictionary.toDictionary))
             default:
                 return .Error(RedditClientError.ParsingError.FailedToParseJson)
             }
         default: return .Error(RedditClientError.ParsingError.FailedToParseJson)
         }
-        /*return */
     }
     
     //MARK: Navigating Json
     var toDictionary: [String: AnyObject] {
         switch self {
-        case .JsonDictionary(let success):
-            return success
-        default:
-            return [:]
+        case .JsonDictionary(let success): return success
+        default: return [:]
         }
     }
     
@@ -160,9 +161,6 @@ enum Parse {
     func retrieveNestedDictionaryWithKey(value: String) -> Parse {
         switch self {
         case .JsonDictionary(let dict):
-            /*
-            guard let success
-            */
             if let success = dict[value] as? [String: AnyObject] {
                 return .JsonDictionary(success)
             }
@@ -200,67 +198,3 @@ enum Parse {
         }
     }
 }
-
-
-
-/* Deprecated */
-    /*
-    var toArray: [AnyObject] {
-        switch self {
-        case .JsonArray(let success): return success
-        default: return []
-        }
-    }
-    */
-    
-    /*
-    func retrieveDictFromArrayIndex(index: Int) -> Parse {
-        switch self {
-        case .JsonArray(let seq):
-            if let arrayElement = seq[0] as? [String: AnyObject] {
-                return .JsonDictionary(arrayElement)
-            }
-            fallthrough
-        default: return .Error(RedditClientError.ParsingError.FailedDictLookup)
-        }
-    }
-    */
-    
-    /*
-    var isListing: Bool {
-        switch self {
-        case .JsonDictionary(let test):
-            if let _ = test["Listing"] as? String {
-                return true
-            }
-        default: return false
-        }
-        return false
-    }
-    */
-    
-    /*
-    func transformToArrayFromDictKey(value: String) -> Parse {
-        switch self {
-        case .JsonDictionary(let dict):
-            if let success = dict[value] as? Array<AnyObject> {
-                return .JsonArray((success))
-            }
-            fallthrough
-        default: return .Error(RedditClientError.ParsingError.FailedCastFromDictKeyToArray)
-        }
-    }
-    */
-    
-    /*
-    func transformToDictFromDictKey(value: String) -> Parse {
-        switch self {
-        case .JsonDictionary(let dict):
-            if let success = dict[value] as? [String: AnyObject] {
-                return .JsonDictionary(success)
-            }
-            fallthrough
-        default: return .Error(RedditClientError.ParsingError.FailedCastFromDictKeyToArray)
-        }
-    }
-    */

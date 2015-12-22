@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class CommentTree {
     var tree: Tree<CommentData>?
     
@@ -20,16 +19,14 @@ class CommentTree {
         return nil
     }
     
-    /* A Depth First Traversal of the prospective comment tree */
+    /* A Depth First creation of the prospective comment tree from received Json */
     func initTreeWithJson(json: [String: AnyObject]) -> Tree<CommentData>? {
         
-        let tree : Tree<CommentData> = Tree<CommentData>()
+        let root : Tree<CommentData> = Tree<CommentData>()
         typealias Stage = (tree: Tree<CommentData>, rawJson: [String: AnyObject])
         let open: Stack<Stage> = Stack<Stage>()
         
-        /* I need to split the json into init array; add to tree as children */
-        let currentStage = Stage(tree, json)
-        open.push(currentStage)
+        open.push(Stage(root,json))
         
         while !open.isEmpty {
             let currentStage = open.pop!
@@ -57,14 +54,21 @@ class CommentTree {
                 }
                 
             case .More(let more):
+                /*
+                Move "more" to own node, implement common
+                HasIdentity protocol for comparison purposes
+                btw More & Comment nodes
+
+                let nextTree = Tree<CommentData>()
+                node.addChild(nextTree)
+                */
                 node.value?.addReplies(more)
-            
+
             case .Error(let error):
-                print("\(error)")
-                fatalError()
+                print("failed to create comment tree: \(error)")
             default: continue
             }
         }
-        return tree
+        return root
     }
 }

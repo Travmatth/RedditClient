@@ -33,6 +33,9 @@ class CommentTreeTest: XCTestCase {
             if testData == nil { print("nil here too") }
             testJsonDictionary = try NSJSONSerialization.JSONObjectWithData(testData, options: NSJSONReadingOptions.MutableContainers) as! [String: AnyObject]
             if testData == nil { print("nil here too") }
+            //testJsonArray = []
+            //testJsonArray.append(testJsonDictionary)
+            
         }
         catch let error {
             print("\(error)")

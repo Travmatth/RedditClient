@@ -11,50 +11,7 @@ import XCTest
 class PostDataTest: XCTestCase {
     
     var testData: NSData!
-    var testJson: [AnyObject]!
-    
-    let domain = "codesigning.guide"
-    let subreddit = "iOSProgramming"
-    let selftext_html = "test"
-    let selftext = "test"
-    let likes = 10
-    let suggested_sort = "top"
-    let link_flair_text = "Website"
-    let id = "3w9e9a"
-    let from_kind = "test"
-    let archived = true
-    let clicked = true
-    let author = "felixkk"
-    //let media = "test"
-    let post_name = "t3_3w9e9a"
-    let score = 18
-    let over_18 = true
-    let hidden = true
-    let thumbnail = "default"
-    let subreddit_id = "t5_2s61a"
-    let edited = true
-    let link_flair_css_class = "tutorial"
-    let author_flair_css_class = "test"
-    let downs = 10
-    let saved = true
-    let stickied = true
-    //let from = "test"
-    let is_self = true
-    let from_id = "test"
-    let permalink = "/r/iOSProgramming/comments/3w9e9a/a_new_approach_to_ios_code_signing_easily_sync/"
-    //let locked = true
-    let hide_score = true
-    let created = 1449802653
-    let url = "https://codesigning.guide/"
-    let author_flair_text = "test"
-    let title = "A new approach to iOS code signing: Easily sync your certificates and profiles across your team using git"
-    let created_utc = 1449773853
-    let ups = 18
-    let upvote_ratio: NSDecimalNumber = 0.78
-    let num_comments = 8
-    let visited = true
-    
-    var sampleJson: [String: AnyObject]!
+    var testJson: [String: AnyObject]!
     
     override func setUp() {
         super.setUp()
@@ -65,24 +22,60 @@ class PostDataTest: XCTestCase {
         do {
             testData = try NSData(contentsOfFile: jsonFile, options: NSDataReadingOptions.DataReadingMappedIfSafe )
             if testData == nil { print("here") }
-            testJson = try NSJSONSerialization.JSONObjectWithData(testData, options: NSJSONReadingOptions.MutableContainers) as! [AnyObject]
+            testJson = try NSJSONSerialization.JSONObjectWithData(testData, options: NSJSONReadingOptions.MutableContainers) as! [String: AnyObject]
         }
         catch let error {
             print(error)
         }
-        
-        var json = testJson[0] as! [String: AnyObject]
-        json = json["data"] as! [String: AnyObject]
-        var js = json["children"] as! [AnyObject]
-        sampleJson = js[0] as! [String: AnyObject]
-        XCTAssertNotNil(sampleJson)
+        XCTAssertNotNil(testJson)
     }
     
     
     
     func testPostData() {
         
-        var mut = PostData(withJson: sampleJson)!
+        let mut = PostData(withJson: testJson)
+    
+        let domain = "codesigning.guide"
+        let subreddit = "iOSProgramming"
+        let selftext_html = "test"
+        let selftext = "test"
+        let likes = 10
+        let suggested_sort = "top"
+        let link_flair_text = "Website"
+        let id = "3w9e9a"
+        let from_kind = "test"
+        let archived = true
+        let clicked = true
+        let author = "felixkk"
+        //let media = "test"
+        let post_name = "t3_3w9e9a"
+        let score = 18
+        let over_18 = true
+        let hidden = true
+        let thumbnail = "default"
+        let subreddit_id = "t5_2s61a"
+        let edited = true
+        let link_flair_css_class = "tutorial"
+        let author_flair_css_class = "test"
+        let downs = 10
+        let saved = true
+        let stickied = true
+        //let from = "test"
+        let is_self = true
+        let from_id = "test"
+        let permalink = "/r/iOSProgramming/comments/3w9e9a/a_new_approach_to_ios_code_signing_easily_sync/"
+        //let locked = true
+        let hide_score = true
+        let created = 1449802653
+        let url = "https://codesigning.guide/"
+        let author_flair_text = "test"
+        let title = "A new approach to iOS code signing: Easily sync your certificates and profiles across your team using git"
+        let created_utc = 1449773853
+        let ups = 18
+        let upvote_ratio: NSDecimalNumber = 0.78
+        let num_comments = 8
+        let visited = true
         
         XCTAssertEqual(mut.domain, domain, "Domain should be correct")
         XCTAssertEqual(mut.subreddit, subreddit, "Subreddit should be correct")

@@ -1,4 +1,4 @@
-[{"kind": "Listing", "data":
+{"kind": "Listing", "data":
     {"modhash": "p13e43jfjib2db282002d831190ebb1e345ca6da0d71fc109b",
     "children":
         [{"kind": "t3", "data": {
@@ -43,4 +43,4 @@
         "num_comments": 8,
         "visited": true}}],
     "after": null,
-    "before": null}}]
+    "before": null}}

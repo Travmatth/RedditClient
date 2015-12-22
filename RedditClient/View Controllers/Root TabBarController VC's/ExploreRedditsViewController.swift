@@ -68,7 +68,7 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
         
         refreshTableData()
         
-        //fatalError("See Todo")
+        fatalError("See Todo")
         //TODO: Current situation:
         /*
         - oauth login flow posts token retrieval
@@ -134,5 +134,10 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
         //cell!.detailTextLabel!.text = posts[indexPath.row].author
         
         return cell!
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        /* Should show some information on the chosen subreddit?
+        */
     }
 }

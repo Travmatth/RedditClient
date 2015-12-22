@@ -55,4 +55,9 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
         
         return cell!
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let nextViewController = RedditPostViewController()
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
 }

@@ -9,29 +9,58 @@
 import Foundation
 
 func == (lhs: CommentData, rhs: CommentData) -> Bool { return lhs.id == rhs.id }
+/*
+I want to add MoreReplies as they're own node on the comment tree; but this appears to be a nontrivial problem. To do so I would need to 
+func == (lhs: MoreReplies, rhs: CommentData) -> Bool { return lhs.id == rhs.id }
+func == (lhs: CommentData, rhs: MoreReplies) -> Bool { return lhs.id == rhs.id }
+func == (lhs: MoreReplies, rhs: MoreReplies) -> Bool { return lhs.id == rhs.id }
+*/
+
+/* Should I implement this? */
+protocol Identifiable {
+    var id: String { get }
+}
+
+struct CommentDataFromJson {
+    let member: [String: AnyObject]
+    
+    init?(withJson json: [String: AnyObject]) {
+        if let
+            type = json["kind"] as? String,
+            data = json["data"] as? [String: AnyObject] {
+                if type == "t1" {
+                    member = data
+                    return
+                }
+        }
+        return nil
+    }
+}
 
 struct CommentData: Equatable {
     /* Fuck it I'll use a library */
     
     init(withJson json: [String: AnyObject]) {
-        self.author = json["author"] as? String ?? ""
-        self.body = json["body"] as? String ?? ""
-        self.name = json["name"] as? String ?? ""
-        self.edited = json["edited"] as? Bool ?? false
-        self.score = json["score"] as? Int ?? 0
-        self.ups = json["ups"] as? Int ?? 0
-        self.downs = json["downs"] as? Int ?? 0
-        self.created = json["created"] as? Int ?? 0
-        self.saved = json["saved"] as? Bool ?? false
-        self.subreddit = json["subreddit"] as? String ?? ""
-        self.subredditId = json["subreddit_id"] as? String ?? ""
-        self.id = json["id"] as? String ?? ""
-        self.linkId = json["link_id"] as? String ?? ""
-        self.parentId = json["parent_id"] as? String ?? ""
-        self.scoreHidden = json["score_hidden"] as? Bool ?? false
-        self.bodyHtml = json["body_html"] as? String ?? ""
-        self.authorFlairCssClass = json["author_flair_css_class"] as? String ?? ""
-        self.authorFlairText = json["author_flair_text"] as? String ?? ""
+        let data = CommentDataFromJson(withJson: json)
+        
+        self.author = data?.member["author"] as? String ?? ""
+        self.body = data?.member["body"] as? String ?? ""
+        self.name = data?.member["name"] as? String ?? ""
+        self.edited = data?.member["edited"] as? Bool ?? false
+        self.score = data?.member["score"] as? Int ?? 0
+        self.ups = data?.member["ups"] as? Int ?? 0
+        self.downs = data?.member["downs"] as? Int ?? 0
+        self.created = data?.member["created"] as? Int ?? 0
+        self.saved = data?.member["saved"] as? Bool ?? false
+        self.subreddit = data?.member["subreddit"] as? String ?? ""
+        self.subredditId = data?.member["subreddit_id"] as? String ?? ""
+        self.id = data?.member["id"] as? String ?? ""
+        self.linkId = data?.member["link_id"] as? String ?? ""
+        self.parentId = data?.member["parent_id"] as? String ?? ""
+        self.scoreHidden = data?.member["score_hidden"] as? Bool ?? false
+        self.bodyHtml = data?.member["body_html"] as? String ?? ""
+        self.authorFlairCssClass = data?.member["author_flair_css_class"] as? String ?? ""
+        self.authorFlairText = data?.member["author_flair_text"] as? String ?? ""
     }
     
     let ups: Int
@@ -55,9 +84,9 @@ struct CommentData: Equatable {
     let authorFlairText: String
     let authorFlairCssClass: String
     
-    var more: MoreReplies?
+    var moreReplies: MoreReplies?
     
-    mutating func addReplies(replies: MoreReplies) {
-        self.more = replies
+    mutating func addReplies(key: MoreReplies) {
+        moreReplies = key
     }
 }

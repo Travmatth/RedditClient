@@ -14,7 +14,7 @@ import Foundation
     http://nshipster.com/swift-default-protocol-implementations/
     http://stackoverflow.com/questions/33189018/extend-existing-generic-swift-class-to-be-hashable
 */
-func ==<T: Equatable> (lhs: Tree<T>, rhs: Tree<T>) -> Bool { return unsafeAddressOf(lhs) == unsafeAddressOf(rhs) }
+func == <T: Equatable> (lhs: Tree<T>, rhs: Tree<T>) -> Bool { return unsafeAddressOf(lhs) == unsafeAddressOf(rhs) }
 
 
 class Tree<T: Equatable>: Hashable  {

@@ -28,7 +28,7 @@ class OAuthToken {
     }
     
     
-    init(json: Dictionary<String, AnyObject>?) {
+    init(json: [String: AnyObject]?) {
         accessToken = json?["access_token"] as? String ?? ""
         expiresIn = json?["expires_in"] as? Int ?? 0
         refreshToken = json?["refresh_token"] as? String ?? ""
