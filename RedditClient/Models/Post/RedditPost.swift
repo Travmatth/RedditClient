@@ -20,7 +20,9 @@ class RedditPost {
         
         do {
             json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! [AnyObject]
-        } catch {
+        }
+        catch let error {
+            NSLog("\(error)")
             post = nil
             comments = nil
             return nil

@@ -68,7 +68,7 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
         
         refreshTableData()
         
-        fatalError("See Todo")
+        //fatalError("See Todo")
         //TODO: Current situation:
         /*
         - oauth login flow posts token retrieval

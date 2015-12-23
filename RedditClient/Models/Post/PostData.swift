@@ -10,11 +10,30 @@ import Foundation
 
 func == (lhs: PostData, rhs: PostData) -> Bool { return lhs.id == rhs.id }
 
-struct PostDataFromJson {
-    let member: [String: AnyObject]
+
+class PostDataFromJson {
+    var member: [String: AnyObject] = [:]
+    /* Need to implement system of convenience initializers
+       w/ ability to discriminate btw json passed from Reddit Post
+        - kind = Listing
+       and posts from LinkListing
+        - kind = t3
+       init below refers exclusively to first case
+       convenience init should split the data into two paths depending on the value of kind
+       should change this from struct -> class
+    */
+    init?(fromLinkListing json: [String: AnyObject]) {
+        if let type = json["kind"] as? String {
+            if type == "t3" {
+                if let data = json["children"] as? [String: AnyObject] {
+                    self.member = data
+                }
+            }
+        }
+    }
     
-    init?(withJson json: [String: AnyObject]) {
-        if let /* Unwrap json response */
+    init?(fromRedditPost json: [String: AnyObject]) {
+        if let
             type = json["kind"] as? String,
             data = json["data"] as? [String: AnyObject],
             children = data["children"] as? [[String: AnyObject]],
@@ -25,6 +44,18 @@ struct PostDataFromJson {
                 if type == "Listing" && postType == "t3" {
                     self.member = postData
                     return
+                }
+            }
+    }
+    
+    convenience init?(withJson json: [String: AnyObject]) {
+        if let
+            type = json["kind"] as? String {
+                if type == "Listing"  {
+                    self.init(fromRedditPost: json)
+                }
+                else if type == "t3" {
+                    self.init(fromLinkListing: json)
                 }
         }
         return nil

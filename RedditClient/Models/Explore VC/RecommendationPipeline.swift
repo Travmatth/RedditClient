@@ -61,7 +61,7 @@ class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
     }
     
     func shouldSeekRecommendations(_: NSNotification) {
-        fatalError("Refactor")
+        //fatalError("Refactor")
         /*
         nhgrif: basically my session class handles all networking for the app. i want session to be able to query reddit's api with a subreddit, and have the recommended subreddit it return added into an array which is then available to the viewcontroller
         

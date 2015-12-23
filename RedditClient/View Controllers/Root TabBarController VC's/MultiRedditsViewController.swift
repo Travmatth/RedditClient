@@ -32,13 +32,17 @@ class MultiRedditsViewController: UITableViewController, NetworkCommunication {
     // MARK: - Table View
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        guard multiReddits != nil else {return 1 }
+        guard multiReddits != nil else {
+            return 1
+        }
         
         return multiReddits!.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard multiReddits != nil else { return 1 }
+        guard multiReddits != nil else {
+            return 0
+        }
         
         return multiReddits![section].subreddits.count
     }
@@ -58,9 +62,10 @@ class MultiRedditsViewController: UITableViewController, NetworkCommunication {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let nextViewController = SubredditViewController()
-        //let nextViewController = SubredditViewController()
+        
         nextViewController.name = multiReddits![indexPath.section].subreddits[indexPath.row]
         nextViewController.session = session
+        
         self.navigationController?.pushViewController(nextViewController, animated: true)
     }
     
@@ -70,10 +75,5 @@ class MultiRedditsViewController: UITableViewController, NetworkCommunication {
         }
         
         return nil
-    }
-    
-    // Find retain cycles!
-    deinit {
-        NSLog("LoginViewController.deinit")
     }
 }

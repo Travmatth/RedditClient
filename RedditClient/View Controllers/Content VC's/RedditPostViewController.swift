@@ -16,12 +16,13 @@ class RedditPostViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        mainView?.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
+
         mainView = UITableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         mainView?.dataSource = self
         mainView?.delegate = self
+
         view.addSubview(mainView!)
-        mainView?.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,6 +36,7 @@ extension RedditPostViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as? RedditPostCommentTableViewCell
         cell?.frame = CGRect(x: 0, y: 0, width: 320, height: 44)
         cell?.test("is this working")
+        
         return cell!
     }
     

@@ -13,7 +13,8 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
 
     var name: String!
     weak var session: Session!
-    var posts: [Post] = []
+    var linkListing: LinkListing?
+    var posts: [PostData]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +27,8 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
         
         session = Session.sharedInstance
         
-        session.getFrontListing() { posts in
-            self.posts = posts
+        session.getFrontListing() { linkListing in
+            self.linkListing = linkListing
             self.tableView.reloadData()
         }
     }
@@ -40,7 +41,10 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        guard linkListing != nil else {
+            return 0
+        }
+        return linkListing!.listing.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -50,8 +54,8 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
             cell = UITableViewCell.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         }
         
-        cell!.textLabel!.text = posts[indexPath.row].title
-        cell!.detailTextLabel!.text = posts[indexPath.row].author
+        cell!.textLabel!.text = linkListing?.listing[indexPath.row].title ?? ""
+        cell!.detailTextLabel!.text = linkListing?.listing[indexPath.row].author ?? ""
         
         return cell!
     }

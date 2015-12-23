@@ -27,6 +27,7 @@ enum Parse {
     case Listing(replies: [[String: AnyObject]])
     case Comment(comment: CommentData, replies: [[String: AnyObject]])
     case More(more: MoreReplies)
+    case LinkListing(posts: [PostData])
     
     //MARK: Internal cases
     case Error(ErrorType)
@@ -78,7 +79,9 @@ enum Parse {
                 
                 return .Comment(comment: data, replies: replies)
             case .Link:
-                return .Post(info: PostData(withJson: self.toDictionary))
+                var posts: [PostData] = []
+                
+                return .LinkListing(posts: posts)
             case .More:
                 return .More(more: MoreReplies(json: self.toJsonDictionary.toDictionary))
             default:
