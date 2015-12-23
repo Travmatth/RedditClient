@@ -10,23 +10,24 @@ import Foundation
 
 extension Session {
     
-    func getSubredditPosts(name: String!, onCompletion: (Any) ->  ()) {
+    func getSubredditPosts(name: String!, onCompletion: (LinkListing?) ->  Void) {
         let mySubreddit = RequestProperties(path: "/r/\(name)", httpMethod: .Get, params: nil, paramsList: nil)
-        
-        guard self.user?.oauthToken != nil else { return }
+ 
+        guard self.user?.oauthToken != nil else {
+            return
+        }
         
         if let request: NSMutableURLRequest = oauthAuthenticatedRequest(mySubreddit) {
             let task = session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                 let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError: error)
                              .flatMap(acceptableStatusCode)
-                             .flatMap(fromDataToJSON)
-                             .flatMap(fromJSONToSubreddit)
                 
                 switch result {
                     
-                case .Success(let val):
+                case .Success(let jsonData):
+                    let linkListing = LinkListing(fromData: jsonData)
                     dispatch_async(dispatch_get_main_queue()) {
-                        onCompletion(val)
+                        onCompletion(linkListing)
                     }
                 case .Failure(let error):
                     NSLog("\(error)")
@@ -36,3 +37,8 @@ extension Session {
         }
     }
 }
+
+/*$ find . "(" -name "*.swift"  ")" -print0 | xargs -0 wc -l
+ * count number of lines in project
+ *
+ */

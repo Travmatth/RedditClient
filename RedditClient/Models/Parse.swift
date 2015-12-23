@@ -79,9 +79,9 @@ enum Parse {
                 
                 return .Comment(comment: data, replies: replies)
             case .Link:
-                var posts: [PostData] = []
+                fatalError("Is this supposed to be reached?")
                 
-                return .LinkListing(posts: posts)
+                return .LinkListing(posts: [])
             case .More:
                 return .More(more: MoreReplies(json: self.toJsonDictionary.toDictionary))
             default:

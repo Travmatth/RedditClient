@@ -71,7 +71,7 @@ extension Session: OAuthFlow {
                 .flatMap(acceptableStatusCode)
                 .flatMap(fromDataToJSON)
                 .flatMap({ (json: Any) -> Result<Any> in
-                    if let json = json as? Dictionary<String, AnyObject> { return Result(value: json) }
+                    if let json = json as? [String: AnyObject] { return Result(value: json) }
                     else { return .Failure(RedditClientError.NetworkError.FailedAccessTokenRequest) }
                 })
             
