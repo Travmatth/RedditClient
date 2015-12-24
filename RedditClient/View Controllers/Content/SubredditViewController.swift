@@ -14,7 +14,7 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
     var name: String!
     weak var session: Session!
     var linkListing: LinkListing?
-    var posts: [PostData]?
+    //var posts: [PostData]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +62,7 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let nextViewController = RedditPostViewController()
+        nextViewController.postData = linkListing?.listing[indexPath.row]
         self.navigationController?.pushViewController(nextViewController, animated: true)
     }
 }

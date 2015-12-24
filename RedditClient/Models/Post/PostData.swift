@@ -25,8 +25,9 @@ class PostDataFromJson {
     init?(fromLinkListing json: [String: AnyObject]) {
         if let type = json["kind"] as? String {
             if type == "t3" {
-                if let data = json["children"] as? [String: AnyObject] {
+                if let data = json["data"] as? [String: AnyObject] {
                     self.member = data
+                    return
                 }
             }
         }
@@ -53,9 +54,11 @@ class PostDataFromJson {
             type = json["kind"] as? String {
                 if type == "Listing"  {
                     self.init(fromRedditPost: json)
+                    return
                 }
                 else if type == "t3" {
                     self.init(fromLinkListing: json)
+                    return
                 }
         }
         return nil

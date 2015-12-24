@@ -10,19 +10,36 @@ import UIKit
 
 class RedditPostViewController: UIViewController {
 
-    var mainView: UITableView?
+    var postData: PostData?
+    var redditPost: RedditPost?
+    var commentTableView: UITableView?
+    var commentTableModel: CommentTableModel?
     
+    //MARK: Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        mainView?.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        redditPost = RedditPost(fromPostData: postData) { redditPost in
+            if redditPost == nil { fatalError("redditPost failed init") }
+            self.redditPost = redditPost
+            self.commentTableModel = CommentTableModel(fromCommentTree: redditPost?.comments)
+            if self.commentTableModel == nil { fatalError("redditPost failed init") }
+            self.commentTableView?.reloadData()
+        }
+        
+        /*
+        guard let commentTableModel = commentTableModel else {
+            return
+        }*/
+        
+        commentTableView = UITableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        commentTableView?.dataSource = commentTableModel
+        commentTableView?.delegate = commentTableModel
+        commentTableView?.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
 
-        mainView = UITableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
-        mainView?.dataSource = self
-        mainView?.delegate = self
-
-        view.addSubview(mainView!)
+        //NEED TO LOOK AT AUTOLAYOUT
+        view.addSubview(commentTableView!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,7 +48,15 @@ class RedditPostViewController: UIViewController {
     }
 }
 
-extension RedditPostViewController: UITableViewDataSource {
+class CommentTableModel: NSObject {
+    var tree: CommentTree?
+    init?(fromCommentTree tree: CommentTree?) {
+        self.tree = tree
+        return
+    }
+}
+
+extension CommentTableModel: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as? RedditPostCommentTableViewCell
         cell?.frame = CGRect(x: 0, y: 0, width: 320, height: 44)
@@ -50,7 +75,7 @@ extension RedditPostViewController: UITableViewDataSource {
     
 }
 
-extension RedditPostViewController: UITableViewDelegate {
+extension CommentTableModel: UITableViewDelegate {
     /*
     func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
         fataError("Not Implemented Yet")
