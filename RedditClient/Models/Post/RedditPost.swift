@@ -18,7 +18,6 @@ class RedditPost: NetworkCommunication {
     init?(dataFromNetworking data: NSData) {
         var json: Array<AnyObject>
         //var head: [String: AnyObject]
-        
         do {
             json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! [AnyObject]
         }
@@ -28,33 +27,7 @@ class RedditPost: NetworkCommunication {
             comments = nil
             return nil
         }
-        
         post = PostData(withJson: json[0] as? [String: AnyObject] ?? [:])
         comments = CommentTree(json: json[1] as? [String: AnyObject] ?? [:])
-    }
-    
-    init?(fromPostData postData: PostData?, completion: (RedditPost?) -> Void) {
-        guard let postData = postData else {
-            return nil
-        }
-        
-        session.getRedditPost(postData) { (data) in
-            var json: Array<AnyObject>
-            //var head: [String: AnyObject]
-        
-            do {
-                json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! [AnyObject]
-            }
-            catch let error {
-                NSLog("\(error)")
-                self.post = nil
-                self.comments = nil
-                return
-            }
-            
-            self.post = PostData(withJson: json[0] as? [String: AnyObject] ?? [:])
-            self.comments = CommentTree(json: json[1] as? [String: AnyObject] ?? [:])
-            }
-        
     }
 }

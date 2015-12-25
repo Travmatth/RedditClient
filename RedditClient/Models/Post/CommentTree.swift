@@ -10,6 +10,9 @@ import Foundation
 
 class CommentTree {
     var tree: Tree<CommentData>?
+    var flatten: [CommentData]? {
+        return tree?.flatten
+    }
     
     init?(json: [String: AnyObject]) {
         if let tree = initTreeWithJson(json) {

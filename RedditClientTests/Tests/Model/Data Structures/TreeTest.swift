@@ -92,7 +92,6 @@ class TreeTest: XCTestCase {
     
     func testDescendantCount() {
         let mut: Tree<String> = treeWithNodesPreInserted()
-        print("\(mut.flatten)")
         XCTAssertEqual(mut.descendantCount, 7, "should correctly calculate descendants")
     }
     
