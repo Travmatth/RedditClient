@@ -31,6 +31,8 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
             self.linkListing = linkListing
             self.tableView.reloadData()
         }
+        
+        //self.tableView.registerClass(UITableViewCellStyle.Subtitle.self, forCellReuseIdentifier: "Cell")
     }
 
     override func didReceiveMemoryWarning() {
