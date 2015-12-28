@@ -10,8 +10,13 @@ import Foundation
 
 extension Session {
     
-    func getSubredditPosts(name: String!, onCompletion: (LinkListing?) ->  Void) {
-        let mySubreddit = RequestProperties(path: "/r/\(name)", httpMethod: .Get, params: nil, paramsList: nil)
+    func getSubredditPosts(path: String?, onCompletion: (LinkListing?) ->  Void) {
+        let mySubreddit: RequestProperties
+        if let path = path {
+            mySubreddit = RequestProperties(path: "/r/" + path, httpMethod: .Get, params: nil, paramsList: nil)
+        } else {
+            mySubreddit = RequestProperties(path: "", httpMethod: .Get, params: nil, paramsList: nil)
+        }
  
         guard self.user?.oauthToken != nil else {
             return

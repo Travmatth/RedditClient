@@ -75,6 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         multiRedditsViewController.session = session
         exploreRedditsViewController.session = session
         frontRedditsViewController.session = session
+        //frontRedditsViewController.name = "front"
         
         // Root nav controllers
         let exploreNavController = UINavigationController.init(rootViewController: exploreRedditsViewController)

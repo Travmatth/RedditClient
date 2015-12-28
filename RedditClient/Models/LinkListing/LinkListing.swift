@@ -9,7 +9,7 @@
 import Foundation
 
 struct LinkListing {
-    let listing: [PostData]
+    private let listing: [PostData]
     let before: String?
     let after: String?
     
@@ -31,6 +31,14 @@ struct LinkListing {
         listing = linkListing.posts
         before = linkListing.before
         after = linkListing.after
+    }
+    
+    subscript(index: Int) -> PostData {
+        return listing[index]
+    }
+    
+    var count: Int {
+        return listing.count
     }
 }
 

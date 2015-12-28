@@ -13,6 +13,7 @@ class CommentTableView: UITableView {
     
     //MARK: UITableViewDataSource
     var tree: CommentTree?
+    var post: PostData!
     
     func configure() {
         self.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
@@ -51,6 +52,12 @@ class CommentTableView: UITableView {
 }
 
 extension CommentTableView: UITableViewDataSource {
+    /*
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return PostViewManager.configurePostViewWithData(post, inViewController: self)
+    }
+    */
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as? RedditPostCommentTableViewCell
         

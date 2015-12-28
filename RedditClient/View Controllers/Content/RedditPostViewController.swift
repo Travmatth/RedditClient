@@ -7,15 +7,25 @@
 //
 
 import UIKit
+import SafariServices
 
 class RedditPostViewController: UIViewController, NetworkCommunication {
 
+    var scrollView: UIScrollView?
+    
     var postData: PostData?
+    var postView: UIView?
     var redditPost: RedditPost?
     var commentTableView: CommentTableView?
-    var postView: PostView?
     
     weak var session: Session! = Session.sharedInstance
+    
+    func launchLink(sender: UIButton) {
+        if let post = postData, url = NSURL(string: post.url) {
+            let nextViewController = SFSafariViewController(URL: url)
+            self.navigationController?.presentViewController(nextViewController, animated: true, completion: nil)
+        }
+    }
     
     //MARK: Lifecycle Methods
     override func viewDidLoad() {
@@ -28,13 +38,36 @@ class RedditPostViewController: UIViewController, NetworkCommunication {
         }
         
         //Configure post view
-        postView = PostView()
-        postView?.configurePostWithData(postData)
+        postView = PostViewManager.configurePostViewWithData(postData, inViewController: self)
+        scrollView = UIScrollView()
+        scrollView?.addSubview(postView!)
+        scrollView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postView]|", options: [], metrics: nil, views: ["postView": postView!]))
+        scrollView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[postView]|", options: [], metrics: nil, views: ["postView": postView!]))
+        
+        scrollView?.backgroundColor = UIColor.whiteColor()
         
         //Configure comment table
-        commentTableView = CommentTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        commentTableView = CommentTableView()
         commentTableView?.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        
+        postView?.translatesAutoresizingMaskIntoConstraints = false
+        commentTableView?.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(scrollView!)
         view.addSubview(commentTableView!)
+        
+        let topGuide = self.topLayoutGuide
+        let views: [String: AnyObject] = ["post": postView!, "comments": commentTableView!, "top": topGuide]
+        
+        var allConstraints = [NSLayoutConstraint]()
+        
+        let verticalConstraint = NSLayoutConstraint.constraintsWithVisualFormat("V:|[top][post][comments]|", options: [], metrics: nil, views: views)
+        let horizontalConstraintTop = NSLayoutConstraint.constraintsWithVisualFormat("H:|[post]|", options: [], metrics: nil, views: views)
+        let horizontalConstraintBottom = NSLayoutConstraint.constraintsWithVisualFormat("H:|[comments]|", options: [], metrics: nil, views: views)
+
+        allConstraints += verticalConstraint + horizontalConstraintTop + horizontalConstraintBottom
+        NSLayoutConstraint.activateConstraints(allConstraints)
+        self.view.addConstraints(allConstraints)
         
         session.getRedditPost(postData) { (post) in
             self.redditPost = post
@@ -43,7 +76,12 @@ class RedditPostViewController: UIViewController, NetworkCommunication {
             self.commentTableView?.delegate = self.commentTableView
             self.commentTableView?.tree = post?.comments
             self.commentTableView?.reloadData()
+
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        print("\(self.postView!.frame)")
     }
 
     override func didReceiveMemoryWarning() {

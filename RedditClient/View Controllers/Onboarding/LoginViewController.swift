@@ -36,7 +36,7 @@ class LoginViewController: UIViewController, NetworkCommunication {
         // Do any additional setup after loading the view.
         
         stackView = UIStackView(frame: self.view.bounds)
-        
+
         stackView.axis = .Vertical
         stackView.alignment = .Center
         stackView.distribution = .FillEqually
