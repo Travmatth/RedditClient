@@ -9,83 +9,145 @@
 import UIKit
 import SafariServices
 
-class RedditPostViewController: UIViewController, NetworkCommunication {
-
-    var scrollView: UIScrollView?
+class RedditPostViewController: UITableViewController, CustomRefreshControl, NetworkCommunication, SubViewLaunchLinkManager {
     
-    var postData: PostData?
-    var postView: UIView?
-    var redditPost: RedditPost?
-    var commentTableView: CommentTableView?
-    
+    var post: PostData?
+    var comments: CommentTree?
     weak var session: Session! = Session.sharedInstance
     
-    func launchLink(sender: UIButton) {
-        if let post = postData, url = NSURL(string: post.url) {
-            let nextViewController = SFSafariViewController(URL: url)
-            self.navigationController?.presentViewController(nextViewController, animated: true, completion: nil)
-        }
-    }
+    //CustomRefreshControl conformance
+    var isAnimating = false
+    var currentColorIndex = 0
+    var currentLabelIndex = 0
+    var refreshView: RefreshView?
+    var refreshViewLabels: [UILabel] = []
     
-    //MARK: Lifecycle Methods
+    //MARK: UIViewController Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Get post info from api
-        guard let postData = postData else {
-            print("postData nil, returning")
-            return
-        }
-        
-        //Configure post view
-        postView = PostViewManager.configurePostViewWithData(postData, inViewController: self)
-        scrollView = UIScrollView()
-        scrollView?.addSubview(postView!)
-        scrollView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postView]|", options: [], metrics: nil, views: ["postView": postView!]))
-        scrollView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[postView]|", options: [], metrics: nil, views: ["postView": postView!]))
-        
-        scrollView?.backgroundColor = UIColor.whiteColor()
+        guard let post = post else { return }
         
         //Configure comment table
-        commentTableView = CommentTableView()
-        commentTableView?.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        tableView.registerClass(RedditPostCommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        let tableHeader = PostView(withPost: post, inViewController: self)
         
-        postView?.translatesAutoresizingMaskIntoConstraints = false
-        commentTableView?.translatesAutoresizingMaskIntoConstraints = false
+        //TODO: Uncommenting this line will break the layout of my view; but will also clear the NSLayoutConstraint warning?
+        //tableHeader.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = tableHeader
+       
+        session.getRedditPost(post) { (listing) in
+            self.post = listing?.post
+            self.comments = listing?.comments
+            self.tableView.reloadData()
+        }
         
-        view.addSubview(scrollView!)
-        view.addSubview(commentTableView!)
+        let recognizeLeft = UISwipeGestureRecognizer.init(target: self, action: "handleSwipeLeft:")
+        let recognizeRight = UISwipeGestureRecognizer.init(target: self, action: "handleSwipeRight:")
         
-        let topGuide = self.topLayoutGuide
-        let views: [String: AnyObject] = ["post": postView!, "comments": commentTableView!, "top": topGuide]
+        recognizeLeft.direction = .Left
+        recognizeLeft.direction = .Right
         
-        var allConstraints = [NSLayoutConstraint]()
+        tableView.addGestureRecognizer(recognizeLeft)
+        tableView.addGestureRecognizer(recognizeRight)
         
-        let verticalConstraint = NSLayoutConstraint.constraintsWithVisualFormat("V:|[top][post][comments]|", options: [], metrics: nil, views: views)
-        let horizontalConstraintTop = NSLayoutConstraint.constraintsWithVisualFormat("H:|[post]|", options: [], metrics: nil, views: views)
-        let horizontalConstraintBottom = NSLayoutConstraint.constraintsWithVisualFormat("H:|[comments]|", options: [], metrics: nil, views: views)
-
-        allConstraints += verticalConstraint + horizontalConstraintTop + horizontalConstraintBottom
-        NSLayoutConstraint.activateConstraints(allConstraints)
-        self.view.addConstraints(allConstraints)
+        //Pull-to-refresh
+        refreshControl = UIRefreshControl()
+        refreshControl?.tintColor = .clearColor()
+        refreshControl?.backgroundColor = .clearColor()
+        refreshControl?.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl!)
+        tableView.sendSubviewToBack(refreshControl!)
+        loadCustomRefreshContents()
+        refresh()
+    }
+    
+    //Dynamically determine the height of the tableHeaderView -> this code was the result of much effort.
+    //http://collindonnell.com/2015/09/29/dynamically-sized-table-view-header-or-footer-using-auto-layout/
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
-        session.getRedditPost(postData) { (post) in
-            self.redditPost = post
-            //self.commentTableModel = CommentTableModel(fromCommentTree: post?.comments)
-            self.commentTableView?.dataSource = self.commentTableView
-            self.commentTableView?.delegate = self.commentTableView
-            self.commentTableView?.tree = post?.comments
-            self.commentTableView?.reloadData()
-
+        if let headerView = tableView.tableHeaderView {
+            let height = headerView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
+            var headerFrame = headerView.frame
+            
+            //Comparison necessary to avoid infinite loop
+            if height != headerFrame.size.height {
+                headerFrame.size.height = height
+                headerView.frame = headerFrame
+                tableView.tableHeaderView = headerView
+            }
+        }
+    }
+    
+    
+    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        print("scrollViewDidEndDecelerating called")
+        if refreshControl?.refreshing == true {
+            if !isAnimating {
+                animateRefreshStep1()
+            }
         }
     }
     
     override func viewWillAppear(animated: Bool) {
-        print("\(self.postView!.frame)")
+        refresh()
+    }
+    
+    //MARK: UITableViewDataSource
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as? RedditPostCommentTableViewCell
+        
+        cell?.configureCell(fromComment: comments?.flatten?[indexPath.row])
+        cell?.layoutIfNeeded()
+        
+        return cell!
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return comments?.flatten?.count ?? 0 }
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
+    
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as? RedditPostCommentTableViewCell
+        cell?.configureCell(fromComment: comments?.flatten?[indexPath.row])
+        let size = cell?.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+        return size?.height ?? 100.0
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    //MARK: Accessory Functions
+    func refresh(refreshControl: UIRefreshControl? = nil) {
+        guard let post = self.post else { return }
+        refreshControl?.beginRefreshing()
+        session.getRedditPost(post) { (post) in
+            self.post = post?.post
+            self.comments = post?.comments
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    func launchLink(sender: UIButton) {
+        if let address = post?.url, url = NSURL(string: address) {
+            let browser = SFSafariViewController(URL: url)
+            navigationController?.presentViewController(browser, animated: true, completion: nil)
+        }
+    }
+    
+    func handleSwipeLeft(gestureRecognizer: UISwipeGestureRecognizer) {
+        let location: CGPoint = gestureRecognizer.locationInView(self.tableView)
+        
+        //Corresponding indexPath of swipe 
+        if let indexPath: NSIndexPath = self.tableView.indexPathForRowAtPoint(location),
+               _ = tableView.cellForRowAtIndexPath(indexPath) as? RedditPostCommentTableViewCell { }
+    }
+    
+    func handleSwipeRight(gestureRecognizer: UISwipeGestureRecognizer) {
+        let location: CGPoint = gestureRecognizer.locationInView(self.tableView)
+        
+        //Corresponding indexPath of swipe 
+        if let indexPath: NSIndexPath = self.tableView.indexPathForRowAtPoint(location),
+               _ = tableView.cellForRowAtIndexPath(indexPath) as? RedditPostCommentTableViewCell { }
     }
 }

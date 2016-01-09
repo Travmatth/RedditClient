@@ -78,7 +78,6 @@ class RedditPostCommentTableViewCell: UITableViewCell {
         userLabel?.text = commentData?.author
         upsLabel?.text = "\(commentData?.ups ?? 0)"
         downsLabel?.text = "\(commentData?.downs ?? 0)"
-        
         self.layoutIfNeeded()
     }
     

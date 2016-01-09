@@ -8,7 +8,16 @@
 
 import UIKit
 
-
-protocol NetworkCommunication {
-    weak var session: Session! { get }
+protocol NetworkCommunication { }
+extension NetworkCommunication {
+    struct Networking {
+        static var session: Session! {
+    }
+        
+    var session: Session! {
+        get {
+            return objc_getAssociatedObject(self, &Networking.session)
+        }
+    }
 }
+

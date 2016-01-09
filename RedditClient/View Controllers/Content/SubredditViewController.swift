@@ -12,13 +12,10 @@ import SafariServices
 
 class SubredditViewController: UITableViewController, NetworkCommunication {
 
-    //
     var name: String!
     weak var session: Session!
     var linkListing: LinkListing?
     var linkButtons: [UIButton] = []
-    
-    //var posts: [PostData]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,34 +37,23 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
         self.tableView.registerClass(ExternalPostCell.self, forCellReuseIdentifier: "ExternalPostCell")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
     
     //MARK: - Access viewController properties
-    func dequeueCell(id: String) -> UITableViewCell? {
-        return self.tableView.dequeueReusableCellWithIdentifier(id)
-    }
-    
-    func addButton(button: UIButton) {
-        linkButtons.append(button)
-    }
+    func addButton(button: UIButton) { linkButtons.append(button) }
     
     func launchLink(sender: UIButton) {
-        if let
-            address = linkListing?[sender.tag].url,
-            link = NSURL(string: address) {
-                let browser = SFSafariViewController(URL: link)
-                self.navigationController?.presentViewController(browser, animated: true, completion: nil)
+        if let address = linkListing?[sender.tag].url, link = NSURL(string: address) {
+            let browser = SFSafariViewController(URL: link)
+            self.navigationController?.presentViewController(browser, animated: true, completion: nil)
         }
     }
+    
+    func dequeueCell(id: String) -> UITableViewCell? { return self.tableView.dequeueReusableCellWithIdentifier(id) }
     
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let linkListing = linkListing else {
-            return 0
-        }
+        guard let linkListing = linkListing else { return 0 }
         return linkListing.count
     }
 
@@ -76,16 +62,11 @@ class SubredditViewController: UITableViewController, NetworkCommunication {
         return SubredditPostManager.createCellForSubredditListing(self, fromPost: post, atIndexPath: indexPath.row)
     }
     
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        //let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell")
-        //cell?.configureCell(fromComment: tree?.flatten?[indexPath.row])
-        //let size = cell?.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-        return /*size?.height ??*/ 100.0
-    }
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat { return 100.0 }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let nextViewController = RedditPostViewController()
-        nextViewController.postData = linkListing?[indexPath.row]
+        nextViewController.post = linkListing?[indexPath.row]
         self.navigationController?.pushViewController(nextViewController, animated: true)
     }
 }

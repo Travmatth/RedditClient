@@ -21,10 +21,9 @@ class Session {
     private init() {}
     
     // MARK: Essential Functions of Session
-    var user: User?
-    var apiUse: APIUsage?
-    
     let session = NSURLSession.sharedSession()
+    var apiUse: APIUsage?
+    var user: User?
     
     // MARK: Constants to pull out?
     let redirectURI = "travMatth://RedditClient"
@@ -33,14 +32,11 @@ class Session {
     
     // MARK: API Calls
     func oauthAuthenticatedRequest(target: RequestProperties) -> NSMutableURLRequest? {
-        guard user != nil else { return nil }
-        guard user!.oauthToken != nil else { return nil }
+        guard user != nil && user!.oauthToken != nil else { return nil }
         
         let fullUrl: NSURL = NSURL(string: oauthAuthenticatedRequestUrl + target.path)!
         let request = NSMutableURLRequest(URL: fullUrl)
-        
         if target.params != nil { request.HTTPBody = target.httpParams }
-        
         request.setValue("Bearer \(user!.oauthToken!.accessToken)", forHTTPHeaderField: "Authorization")
         
         return request

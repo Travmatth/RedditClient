@@ -8,7 +8,6 @@
 
 import Foundation
 
-//https://developer.apple.com/library/prerelease/ios/referencelibrary/GettingStarted/DevelopiOSAppsSwift/Lesson10.html 
 class OAuthToken {
     
     let defaults = NSUserDefaults.standardUserDefaults()

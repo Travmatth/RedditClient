@@ -26,7 +26,6 @@ class Tree<T: Equatable>: Hashable  {
     init(withValue val: T) { self.value = val }
     
     // MARK: Lifecycle Methods + Hashable Conformance; Needed so that self may be added to a set
-    /**/
     var uid: Int?
     var hashableName: String?
     
@@ -78,22 +77,6 @@ class Tree<T: Equatable>: Hashable  {
         return (self.children.count > 0)
     }
     
-    /* not being accessed? */
-    var description: String {
-        NSLog("Description accessed")
-        var _location: [String] = []
-        if let value = value as? String { return value }
-        else {
-            var next = self
-            while !next.isRoot {
-                _location.append("depth: \(self.depth) index: \(self.indexInChildren)")
-                next = next.parent!
-            }
-            _location.append("root")
-        }
-        return _location.reverse().joinWithSeparator(" ")
-    }
-    
     // MARK: Functions; add / remove / flush / etc
     func flushCache() { flattenTreeWithCache(toBeFlushed: true) }
     
@@ -128,22 +111,18 @@ class Tree<T: Equatable>: Hashable  {
                 allTrees.append(child)
                 allTrees += child.flattenTreeWithCache(toBeFlushed: flushing)
             }
-            
             flattenedTreeCache = allTrees
         }
-        
         return flattenedTreeCache!
     }
     
     func isEquatable(to val: T) -> Bool {
-        guard (self.value != nil) else {
-            return false
-        }
+        guard (self.value != nil) else { return false }
         return self.value! == val
     }
+    
     /* Iterates over children in a breadth-first fashion until childNode found, retrieves
        Throws .TreeWithIdentifierNotFound if no suitable tree found
-    
     */
     func retrieveNodeWithIdentifier(id: T) throws -> Tree  {
         if self.isEquatable(to: id) { return self }
@@ -161,9 +140,7 @@ class Tree<T: Equatable>: Hashable  {
                     
                     closed.insert(child)
                     
-                    if id == child.value {
-                        return child
-                    }
+                    if id == child.value { return child }
                     
                     for next in child.children {
                         if !closed.contains(next) { open.dequeueOntoBottom(next) }
@@ -171,12 +148,11 @@ class Tree<T: Equatable>: Hashable  {
                 }
             }
         }
-        
         throw RedditClientError.ListingError.TreeWithIdentifierNotFound
     }
+    
     /* Iterates over children in a breadth-first fashion until childNode found, inserts at position
        Throws .TreeWithIdentifierNotFound if no suitable tree foujnd
-    
     */
     func insertAfterNodeWithIdentifier(id: T, withTree tree: Tree, atIndex index: Int = 0) throws {
         if self.isEquatable(to: id) { self.addChild(tree) }
@@ -207,7 +183,6 @@ class Tree<T: Equatable>: Hashable  {
                 }
             }
         }
-        
         if !found { throw RedditClientError.ListingError.TreeWithIdentifierNotFound }
     }
     
@@ -244,7 +219,6 @@ class Tree<T: Equatable>: Hashable  {
                 }
             }
         }
-        
         if !found { throw RedditClientError.ListingError.TreeWithIdentifierNotFound }
     }
 }

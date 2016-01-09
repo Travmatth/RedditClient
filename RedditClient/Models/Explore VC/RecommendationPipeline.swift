@@ -35,7 +35,7 @@ protocol RecommendationAPI {
 typealias Seed = String
 typealias Recommendation = String
 
-class RecommendationEngine: NSObject, Recommender, NetworkCommunication {
+class RecommendationEngine: NSObject, NetworkCommunication {
     
     // .postNotificationName chain: login -> create seeds -> consume seeds into recommendation
     private let threshold: Int = 20 //How many recommendations should I keep on hand?

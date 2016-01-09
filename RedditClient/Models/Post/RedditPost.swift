@@ -8,11 +8,10 @@
 
 import Foundation
 
-class RedditPost: NetworkCommunication {
+class RedditPost {
     //MARK: Class variables
     var post: PostData?
     var comments: CommentTree?
-    weak var session: Session! = Session.sharedInstance
     
     //MARK: Class lifecycle
     init?(dataFromNetworking data: NSData) {

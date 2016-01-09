@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class LoginViewController: UIViewController, NetworkCommunication {
+class LoginViewController: UIViewController {
     // TODO: separate vars and methods into areas of responsibility & extensions
     weak var session: Session!
     var loginPrompt: UIButton!

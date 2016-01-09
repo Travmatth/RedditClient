@@ -54,6 +54,8 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dataReady:", name: "NewRecommendations", object: nil)
         
         //Add swiping capability to cells
@@ -67,30 +69,11 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
         self.tableView.addGestureRecognizer(recognizeRight)
         
         refreshTableData()
-        
-        //fatalError("See Todo")
-        //TODO: Current situation:
-        /*
-        - oauth login flow posts token retrieval
-        - recommendation pipeline is notified, begins retrieving seeds
-        - seeds pushed onto intelligent stack, which then notifies when loaded
-        - recommendation pipeline catches notification, begins retrieving recommendations and posts newrecommendation notices
-        - viewcontroller is created, pulls recommendations from model, will update itself on future recommendations
-        
-        improved flow?: 
-        - move oauthtoken flow to user
-        - move karmabreakdown to user; pass info as needed to recommendation pipeline?
-        - recommendation pipeline should rely on user, not on login flow to start
-        */
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.tableView!.reloadData()
-    }
+    override func viewWillAppear(animated: Bool) { self.tableView!.reloadData() }
     
-    func dataReady(_: NSNotification) {
-        refreshTableData()
-    }
+    func dataReady(_: NSNotification) { refreshTableData() }
     
     func refreshTableData() {
         //Add reddits to recommendations
@@ -107,31 +90,16 @@ class ExploreRedditsViewController: UITableViewController, NetworkCommunication 
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        // Find retain cycles!
-        NSLog("LoginViewController.deinit")
     }
     
     // MARK: - Table view data source
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
-    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 15 }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("Cell")
-        
-        if cell == nil {
-            cell = UITableViewCell.init(style: .Subtitle, reuseIdentifier: "Cell")
-        }
-        
-        if !reddits.isEmpty {
-            cell!.textLabel!.text = reddits[indexPath.row]
-        }
-        //cell!.detailTextLabel!.text = posts[indexPath.row].author
+        let cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("Cell")
+        if !reddits.isEmpty { cell!.textLabel!.text = reddits[indexPath.row] }
         
         return cell!
     }

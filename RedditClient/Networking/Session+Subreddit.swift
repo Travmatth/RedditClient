@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol NetworkCommunication {
+    weak var session: Session! { get }
+}
+
 extension Session {
     
     func getSubredditPosts(path: String?, onCompletion: (LinkListing?) ->  Void) {
