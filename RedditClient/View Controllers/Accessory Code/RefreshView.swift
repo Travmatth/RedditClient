@@ -34,6 +34,10 @@ class RefreshView: UIView {
         fatalError("init with coder not implemented")
     }
     
+    override func layoutSubviews() {
+        print("RefreshView.layoutSubview()")
+        super.layoutSubviews()
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         

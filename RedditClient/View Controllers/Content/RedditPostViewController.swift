@@ -86,6 +86,8 @@ class RedditPostViewController: UITableViewController, CustomRefreshControl, Net
         print("scrollViewDidEndDecelerating called")
         if refreshControl?.refreshing == true {
             if !isAnimating {
+                refreshView?.setNeedsLayout()
+                refreshView?.layoutIfNeeded()
                 animateRefreshStep1()
             }
         }

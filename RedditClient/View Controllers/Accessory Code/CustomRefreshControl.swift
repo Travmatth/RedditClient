@@ -10,21 +10,39 @@ import UIKit
 import Foundation
 
 protocol CustomRefreshControl: class {
+    
     var isAnimating: Bool { get set }
     var currentColorIndex: Int { get set }
     var currentLabelIndex: Int { get set }
     var refreshView: RefreshView? { get set }
     var refreshViewLabels: [UILabel] { get set }
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) -> Void
+    
 }
 
 extension CustomRefreshControl where Self: UITableViewController {
+    
+    func loadCustomRefreshContents() {
+        print("loadCustomRefreshContents called")
+        let refreshView = RefreshView(frame: refreshControl!.bounds)
+        refreshView.backgroundColor = UIColor.redColor()
+        print("refreshControl: \(refreshControl?.bounds)")
+        refreshView.translatesAutoresizingMaskIntoConstraints = false
+        print("refreshView: \(refreshView.bounds)")
+        //refreshView.translatesAutoresizingMaskIntoConstraints = false
+        for index in 0 ..< refreshView.subviews.count {
+            if let view: UILabel = refreshView.viewWithTag(index) as? UILabel {
+                refreshViewLabels.append(view)
+            }
+        }
+        refreshControl?.addSubview(refreshView)
+    }
     
     func animateRefreshStep1() {
         print("animateRefreshStep1 called")
         print("\(self.refreshView?.frame)")
         self.isAnimating = true
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: {() -> Void in
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { () -> Void in
             self.refreshViewLabels[self.currentLabelIndex].transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
             self.refreshViewLabels[self.currentLabelIndex].textColor = self.getNextColor()
             }, completion: { (finished) -> Void in
@@ -64,21 +82,6 @@ extension CustomRefreshControl where Self: UITableViewController {
                 }
             })
         })
-    }
-    
-    func loadCustomRefreshContents() {
-        print("loadCustomRefreshContents called")
-        let refreshView = UIView()//RefreshView(frame: refreshControl!.bounds)
-        print("refreshControl: \(refreshControl?.bounds)")
-        refreshView.translatesAutoresizingMaskIntoConstraints = false
-        print("refreshView: \(refreshView.bounds)")
-        //refreshView.translatesAutoresizingMaskIntoConstraints = false
-        for index in 0 ..< refreshView.subviews.count {
-            if let view: UILabel = refreshView.viewWithTag(index) as? UILabel {
-                refreshViewLabels.append(view)
-            }
-        }
-        refreshControl?.addSubview(refreshView)
     }
     
     func getNextColor() -> UIColor {
